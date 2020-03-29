@@ -243,7 +243,7 @@ Error message and password prompt
 
 <li>CreateProcessWStubTimeline</li>
 
-<li>Draft of 'cpwst:intro'</li>
+<li>Draft of 'cpwst:environmental_description'</li>
 
 <li>explorer data</li>
 
@@ -9919,21 +9919,35 @@ Notes for tomorrow:
 
 &lt;&lt;ximg &quot;img note deleteme.png&quot;&gt;&gt;</pre>
 </div>
-<div created="20200329195709525" modified="20200329200105595" tags="CreateProcessWStubTimeline" title="cpwst:intro" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>These notes are the process of my discovery of what happens when a program is launched. 
+<div created="20200329195709525" modified="20200329200921134" tags="CreateProcessWStubTimeline" title="cpwst:intro" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>These notes are about my discovery of what happens when a program is launched. 
 
 More specifically, this is a collection of notes that investigates what happens between two events:
 
 * An executable file being double clicked/opened
-* The executable draws its window and has control of its own process
+* The executable is open
+
+Open in this case means that the process has taken control of itself and it is not being boot strapped by the kernel (think: BaseThreadInitThunk).
 
 The sequence of events can be described as:
 
-* User wants program to run and double clicks on it
+* User wants program to run, so she double clicks on it
 * ???
 * Program is now running
 
-These notes will be about exploring and documenting the unknown area
+These notes will be about exploring and documenting the ??? area
+
+---
+
+To begin, I already know one of the first hidden steps in the sequence of events: CreateProcess. Pretty much all new processes are spawned as a result of CreateProcess -- even processes created by Window's apps. So the sequence of events is this:
+
+* User double clicks an exe file
+* ???
+* CreateProcess is called with a path to the exe file
+* ???
+* Program is now running
+
+I'll start the discovery process by examining CreateProcess and tracing backwards.
 </pre>
 </div>
 <div created="20200325031833422" modified="20200325214837015" tags="" title="CreateProcessWStub Callstack" type="text/vnd.tiddlywiki" revision="0" bag="default">
@@ -9990,34 +10004,17 @@ KERNEL32!CreateProcessWStub:
 
 </pre>
 </div>
-<div created="20200329195709525" draft.of="cpwst:intro" draft.title="cpwst:intro" modified="20200329200448862" tags="CreateProcessWStubTimeline" title="Draft of 'cpwst:intro'" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>These notes are the process of my discovery of what happens when a program is launched. 
+<div created="20200326204823702" creator="Lyxica" draft.of="cpwst:environmental_description" draft.title="cpwst:environmental_description" modified="20200329200959913" modifier="Lyxica" tags="CreateProcessWStubTimeline" title="Draft of 'cpwst:environmental_description'" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>Before 
 
-More specifically, this is a collection of notes that investigates what happens between two events:
+Environmental description:
 
-* An executable file being double clicked/opened
-* The executable draws its window and has control of its own process
+I had two VM's running:
 
-The sequence of events can be described as:
+* Primary VM which contains all my RE tools - including WinDBG
+* Debugging VM running Windows 10. The VM was setup to allow for kernel debugging through TCP
 
-* User wants program to run and double clicks on it
-* ???
-* Program is now running
-
-These notes will be about exploring and documenting the unknown area
-
----
-
-To begin, I already know one of the first hidden steps in the sequence of events: CreateProcess. From my experience in RE, I know that pretty much all new processes are spawned as a result of CreateProcess -- even processes created by Window's apps. So the sequence of events is this:
-
-* User double clicks an exe file
-* ???
-* CreateProcess is called with a path to the exe file
-* ???
-* Program is now running
-
-I'll start the discovery process by 
-</pre>
+WinDBG was attached to the VM, and the VM was reset. Upon restarting, WinDBG gained control over the VM; the VM was allowed to continue. Upon reaching the desktop, WinDBG broke into &quot;the process?&quot;. WinDBG was then instructred to switch its context to the process context of explorer.</pre>
 </div>
 <div created="20200324231508673" modified="20200325030817212" title="explorer data" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>```
