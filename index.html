@@ -211,6 +211,10 @@ Error message and password prompt
 
 <li>$:/themes/tiddlywiki/vanilla</li>
 
+<li>$:/themes/tiddlywiki/vanilla/metrics/storywidth</li>
+
+<li>$:/themes/tiddlywiki/vanilla/metrics/tiddlerwidth</li>
+
 <li>$:/themes/tiddlywiki/vanilla/options/stickytitles</li>
 
 <li>$:/view</li>
@@ -228,8 +232,6 @@ Error message and password prompt
 <li>CreateProcessWStub Callstack</li>
 
 <li>CreateProcessWStubTimeline</li>
-
-<li>Draft of 'cpwst:finding_the_origin'</li>
 
 <li>explorer data</li>
 
@@ -9783,6 +9785,12 @@ Error message and password prompt
     }
 }</pre>
 </div>
+<div created="20200329021433274" modified="20200329021437118" title="$:/themes/tiddlywiki/vanilla/metrics/storywidth" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>850px</pre>
+</div>
+<div created="20200329021342936" modified="20200329021458399" title="$:/themes/tiddlywiki/vanilla/metrics/tiddlerwidth" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>1000px</pre>
+</div>
 <div created="20200325212139954" modified="20200325212140345" title="$:/themes/tiddlywiki/vanilla/options/stickytitles" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>yes</pre>
 </div>
@@ -9840,7 +9848,7 @@ start             end                 module name
 
 With this I'm able to open the correct version of comctl32 in Ghidra. </pre>
 </div>
-<div created="20200326205846662" modified="20200326221045907" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_origin" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200326205846662" modified="20200329021038573" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_origin" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>First step involved determining what was responsible for calling CreateProcess. To find out, I added the following symbolic breakpoint:
 
 ```
@@ -9859,12 +9867,12 @@ With these breakpoints in place, the VM was allowed to continue execution. Next,
 
 With this call stack I am/was able to trace backwards to find the &quot;origin&quot; point of the CreateProcess request. Searching for the origin point brings me to shcore!_WrapperThreadProc. Looking at this proc in Ghidra reveals a message pump:
 
-[img[image.png]]</pre>
+&lt;&lt;ximg image.png&gt;&gt;</pre>
 </div>
-<div created="20200326221021076" modified="20200327062202131" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_subclass" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200326221021076" modified="20200329021144290" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_subclass" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>Navigating to comctl32!MasterSubclassProc reveals this code.
 
-[img[MasterSubclassProc.png]]
+&lt;&lt;ximg MasterSubclassProc.png&gt;&gt;
 
 Unfortunately this doesn't appear to be too helpful. Based purely on the &quot;CallNextSubclassProc&quot; it appears as if this procedure might just be in essence another dispatcher. I could spend some time and look to see if I can find the next chain in the link using dynamic analysis, but there's no guarantee that finding the next callback would be simple. Rather than spending time looking at MasterSubclassProc, I instead take another look at Spy++. I notice that under the class tab it lists a different window procedure. When I query the address in windbg I get the symbol comctl32!CListView::s_WndProc. Looking at this symbol in Ghidra, it looks like a massive switch statement that is checking what type of message is being received. A good step!
 
@@ -9884,7 +9892,7 @@ Notes for tomorrow:
 
 Today wasn't productive [at all!] BUT you've been doing a good job lately so don't let that hold you down tomorrow. Today was a &quot;relaxed&quot; day (even though it was mostly looking at corona news). Own it tomorrow!
 
-[img[img note deleteme.png]]</pre>
+&lt;&lt;ximg &quot;img note deleteme.png&quot;&gt;&gt;</pre>
 </div>
 <div created="20200325031833422" modified="20200325214837015" tags="" title="CreateProcessWStub Callstack" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>
@@ -9937,27 +9945,6 @@ KERNEL32!CreateProcessWStub:
 {{cpwst:finding_MasterSubclassProc}}
 
 {{cpwst:finding_the_subclass}}</pre>
-</div>
-<div created="20200326205846662" draft.of="cpwst:finding_the_origin" draft.title="cpwst:finding_the_origin" modified="20200329020947393" tags="CreateProcessWStubTimeline" title="Draft of 'cpwst:finding_the_origin'" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>First step involved determining what was responsible for calling CreateProcess. To find out, I added the following symbolic breakpoint:
-
-```
-0: kd&gt; bm kernel32!CreateProcess*
-  1: 00007fff`6d30c950 @!&quot;KERNEL32!CreateProcessAsUserWStub&quot;
-  2: 00007fff`6d30be40 @!&quot;KERNEL32!CreateProcessWStub&quot;
-  3: 00007fff`6d325800 @!&quot;KERNEL32!CreateProcessAsUserAStub&quot;
-  4: 00007fff`6d30b660 @!&quot;KERNEL32!CreateProcessAStub&quot;
-  5: 00007fff`6d325870 @!&quot;KERNEL32!CreateProcessInternalAStub&quot;
-  6: 00007fff`6d3258f0 @!&quot;KERNEL32!CreateProcessInternalWStub&quot;
-```
-
-With these breakpoints in place, the VM was allowed to continue execution. Next, kdnet.exe was selected with mouse1 and then VK_ENTER was pressed. This led to a debug breakin on KERNEL32!CreateProcessWStub. Register RCX was examined to confirm the correct CreateProcess request was interrupted.
-
-{{CreateProcessWStub Callstack}}
-
-With this call stack I am/was able to trace backwards to find the &quot;origin&quot; point of the CreateProcess request. Searching for the origin point brings me to shcore!_WrapperThreadProc. Looking at this proc in Ghidra reveals a message pump:
-
-[img[image.png]]</pre>
 </div>
 <div created="20200324231508673" modified="20200325030817212" title="explorer data" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>```
