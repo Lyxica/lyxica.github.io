@@ -183,6 +183,8 @@ Error message and password prompt
 
 <li>$:/macros/file</li>
 
+<li>$:/macros/pdf</li>
+
 <li>$:/macros/ximg</li>
 
 <li>$:/plugins/tiddlywiki/highlight</li>
@@ -214,10 +216,6 @@ Error message and password prompt
 <li>CreateProcessWStub Callstack</li>
 
 <li>CreateProcessWStubTimeline</li>
-
-<li>Draft of '$:/macros/file'</li>
-
-<li>Draft of 'New Tiddler'</li>
 
 <li>explorer data</li>
 
@@ -9504,6 +9502,12 @@ Error message and password prompt
     [[$text$|https://lyxica.github.io/$fn$]]
 \end</pre>
 </div>
+<div created="20200329014428767" modified="20200329014957677" tags="$:/tags/Macro" title="$:/macros/pdf" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>\define pdf(text, fn)
+    &lt;$macrocall $name=&quot;file&quot; text=&quot;$text$&quot; fn=&quot;$fn$&quot;/&gt;
+    [img width=24 [https://lyxica.github.io/icons/pdf.png]]
+\end</pre>
+</div>
 <div created="20200329005718982" modified="20200329011120142" tags="$:/tags/Macro" title="$:/macros/ximg" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>\define ximg(name)
     &lt;a href=&quot;https://lyxica.github.io/images/$name$&quot;&gt;
@@ -9864,16 +9868,6 @@ KERNEL32!CreateProcessWStub:
 
 {{cpwst:finding_the_subclass}}</pre>
 </div>
-<div created="20200329013229706" draft.of="$:/macros/file" draft.title="$:/macros/file" modified="20200329014423866" tags="$:/tags/Macro" title="Draft of '$:/macros/file'" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>\define file(text, fn)
-    [[$text$|https://lyxica.github.io/$fn$]]
-\end</pre>
-</div>
-<div created="20200329014428767" draft.of="New Tiddler" draft.title="$:/macros/pdf" modified="20200329014441108" tags="$:/tags/Macro" title="Draft of 'New Tiddler'" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>\define pdf(text, fn)
-    [[$text$|https://lyxica.github.io/$fn$]]
-\end</pre>
-</div>
 <div created="20200324231508673" modified="20200325030817212" title="explorer data" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>```
 0: kd&gt; !process 0 0 explorer.exe
@@ -9913,7 +9907,7 @@ The first condition is most the most likely situation. Running spy++ on explorer
 As the first situation is most likely, what is probably happening is: WM_KEYDOWN triggers a callback handler that examines what the active item is, if any. For example, if nothing is selected then nothing would happen. If a folder was selected then that folder would be entered. If the item selected is anything else then it will attempt to open it by, presumably, querying the class list in the registry and finding a matching file extension.
 </pre>
 </div>
-<div created="20200325212507426" modified="20200329014410565" tags="" title="Main" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200325212507426" modified="20200329014844349" tags="" title="Main" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>!! Articles
 
 * &lt;&lt;pdf &quot;In-depth examination of the ESET 2015 Crackme&quot; ESET.pdf&gt;&gt;
