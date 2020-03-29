@@ -9919,7 +9919,7 @@ Notes for tomorrow:
 
 &lt;&lt;ximg &quot;img note deleteme.png&quot;&gt;&gt;</pre>
 </div>
-<div created="20200329195709525" modified="20200329195832558" tags="CreateProcessWStubTimeline" title="cpwst:intro" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200329195709525" modified="20200329200105595" tags="CreateProcessWStubTimeline" title="cpwst:intro" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>These notes are the process of my discovery of what happens when a program is launched. 
 
 More specifically, this is a collection of notes that investigates what happens between two events:
@@ -9927,6 +9927,13 @@ More specifically, this is a collection of notes that investigates what happens 
 * An executable file being double clicked/opened
 * The executable draws its window and has control of its own process
 
+The sequence of events can be described as:
+
+* User wants program to run and double clicks on it
+* ???
+* Program is now running
+
+These notes will be about exploring and documenting the unknown area
 </pre>
 </div>
 <div created="20200325031833422" modified="20200325214837015" tags="" title="CreateProcessWStub Callstack" type="text/vnd.tiddlywiki" revision="0" bag="default">
@@ -9983,7 +9990,7 @@ KERNEL32!CreateProcessWStub:
 
 </pre>
 </div>
-<div created="20200329195709525" draft.of="cpwst:intro" draft.title="cpwst:intro" modified="20200329195954495" tags="CreateProcessWStubTimeline" title="Draft of 'cpwst:intro'" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200329195709525" draft.of="cpwst:intro" draft.title="cpwst:intro" modified="20200329200448862" tags="CreateProcessWStubTimeline" title="Draft of 'cpwst:intro'" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>These notes are the process of my discovery of what happens when a program is launched. 
 
 More specifically, this is a collection of notes that investigates what happens between two events:
@@ -9993,8 +10000,23 @@ More specifically, this is a collection of notes that investigates what happens 
 
 The sequence of events can be described as:
 
-* 
+* User wants program to run and double clicks on it
+* ???
+* Program is now running
 
+These notes will be about exploring and documenting the unknown area
+
+---
+
+To begin, I already know one of the first hidden steps in the sequence of events: CreateProcess. From my experience in RE, I know that pretty much all new processes are spawned as a result of CreateProcess -- even processes created by Window's apps. So the sequence of events is this:
+
+* User double clicks an exe file
+* ???
+* CreateProcess is called with a path to the exe file
+* ???
+* Program is now running
+
+I'll start the discovery process by 
 </pre>
 </div>
 <div created="20200324231508673" modified="20200325030817212" title="explorer data" type="text/vnd.tiddlywiki" revision="0" bag="default">
