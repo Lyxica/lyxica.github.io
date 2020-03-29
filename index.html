@@ -235,7 +235,7 @@ Error message and password prompt
 
 <li>Speculated event chain</li>
 
-<li>What happens when you start a program</li>
+<li>What happens when you start a program?</li>
 
 </ul>
 </p>
@@ -9502,10 +9502,10 @@ Error message and password prompt
     [[$text$|https://lyxica.github.io/$fn$]]
 \end</pre>
 </div>
-<div created="20200329014428767" modified="20200329014957677" tags="$:/tags/Macro" title="$:/macros/pdf" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200329014428767" modified="20200329015127006" tags="$:/tags/Macro" title="$:/macros/pdf" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>\define pdf(text, fn)
-    &lt;$macrocall $name=&quot;file&quot; text=&quot;$text$&quot; fn=&quot;$fn$&quot;/&gt;
-    [img width=24 [https://lyxica.github.io/icons/pdf.png]]
+     &lt;$macrocall $name=&quot;file&quot; text=&quot;$text$&quot; fn=&quot;$fn$&quot;/&gt; [img width=16 [https://lyxica.github.io/icons/pdf.png]]
+    
 \end</pre>
 </div>
 <div created="20200329005718982" modified="20200329011120142" tags="$:/tags/Macro" title="$:/macros/ximg" type="text/vnd.tiddlywiki" revision="0" bag="default">
@@ -9884,7 +9884,7 @@ PROCESS ffffab88f9a10300
 <div created="20200325162101956" modified="20200325211933807" tags="" title="Finding the window procedure responsible" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre></pre>
 </div>
-<div created="20200325213603920" modified="20200325213642474" tags="[[What happens when you start a program]]" title="Journal" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200325213603920" modified="20200329015333176" tags="[[What happens when you start a program?]]" title="Journal" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>Assuming a message pump is utilized
 It seems that shell32 is mostly responsible for handling the double click. Based on the call stack when placing a breakpoint on CreateProcessWStub
 
@@ -9907,14 +9907,14 @@ The first condition is most the most likely situation. Running spy++ on explorer
 As the first situation is most likely, what is probably happening is: WM_KEYDOWN triggers a callback handler that examines what the active item is, if any. For example, if nothing is selected then nothing would happen. If a folder was selected then that folder would be entered. If the item selected is anything else then it will attempt to open it by, presumably, querying the class list in the registry and finding a matching file extension.
 </pre>
 </div>
-<div created="20200325212507426" modified="20200329014844349" tags="" title="Main" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200325212507426" modified="20200329015336375" tags="" title="Main" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>!! Articles
 
 * &lt;&lt;pdf &quot;In-depth examination of the ESET 2015 Crackme&quot; ESET.pdf&gt;&gt;
 
 !! WIP
 
-* [[What happens when you start a program]]
+* [[What happens when you start a program?]]
 * [[Windows has a security feature called Control Flow Guard. What does it do?]]</pre>
 </div>
 <div created="20200327071850629" modified="20200327214802892" title="Mandarin!" type="text/vnd.tiddlywiki" revision="0" bag="default">
@@ -9941,7 +9941,7 @@ https://i.imgur.com/9KShfP3.png</pre>
 * ... thread created ... base init thunk
 * Program started</pre>
 </div>
-<div created="20200325213706340" modified="20200325214133628" tags="[[What happens when you start a program]]" title="Speculated event chain" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200325213706340" modified="20200329015333169" tags="[[What happens when you start a program?]]" title="Speculated event chain" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>Pseudo timeline – Most of these points are assumed using educated guesses on the underlying mechanisms responsible for loading and launching a program. The underlying assumptions may be wrong, but the gist is likely correct. This will allow me to both categorize and test assumptions, as I can test if say, the explorer CreateProcess path is correct or not but that is separated from the assumptions on how CreateProcess itself is used.
 
 * Double click .exe file
@@ -9978,7 +9978,7 @@ Assuming a message pump is utilized - Series of events so far:
 * …
 * KERNEL32!CreateProcessWStub</pre>
 </div>
-<div created="20200325212644422" modified="20200326010855427" title="What happens when you start a program" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200325212644422" modified="20200329015333185" title="What happens when you start a program?" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>[[Journal]]
 
 [[Speculated event chain]]
