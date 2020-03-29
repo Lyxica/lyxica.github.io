@@ -243,8 +243,6 @@ Error message and password prompt
 
 <li>CreateProcessWStubTimeline</li>
 
-<li>Draft of 'cpwst:environmental_description'</li>
-
 <li>explorer data</li>
 
 <li>Finding the window procedure responsible</li>
@@ -9830,8 +9828,8 @@ Error message and password prompt
 * Tone 4 - highest to lowest, authorative/assertive https://courses.mandarinblueprint.com/products/pronunciation-mastery/categories/598996/posts/1941094
 * Tone 5 - Contrary of 1 or 3 https://courses.mandarinblueprint.com/products/pronunciation-mastery/categories/598996/posts/1941095</pre>
 </div>
-<div created="20200326204823702" creator="Lyxica" modified="20200329015924940" modifier="Lyxica" tags="CreateProcessWStubTimeline" title="cpwst:environmental_description" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>Environmental description:
+<div created="20200326204823702" creator="Lyxica" modified="20200329201015196" modifier="Lyxica" tags="CreateProcessWStubTimeline" title="cpwst:environmental_description" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>!! Quick explanation of the debugging setup
 
 I had two VM's running:
 
@@ -10003,18 +10001,6 @@ KERNEL32!CreateProcessWStub:
 {{cpwst:finding_the_origin}}
 
 </pre>
-</div>
-<div created="20200326204823702" creator="Lyxica" draft.of="cpwst:environmental_description" draft.title="cpwst:environmental_description" modified="20200329200959913" modifier="Lyxica" tags="CreateProcessWStubTimeline" title="Draft of 'cpwst:environmental_description'" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>Before 
-
-Environmental description:
-
-I had two VM's running:
-
-* Primary VM which contains all my RE tools - including WinDBG
-* Debugging VM running Windows 10. The VM was setup to allow for kernel debugging through TCP
-
-WinDBG was attached to the VM, and the VM was reset. Upon restarting, WinDBG gained control over the VM; the VM was allowed to continue. Upon reaching the desktop, WinDBG broke into &quot;the process?&quot;. WinDBG was then instructred to switch its context to the process context of explorer.</pre>
 </div>
 <div created="20200324231508673" modified="20200325030817212" title="explorer data" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>```
