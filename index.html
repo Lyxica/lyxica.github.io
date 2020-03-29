@@ -189,6 +189,8 @@ Error message and password prompt
 
 <li>$:/isEncrypted</li>
 
+<li>$:/language/DefaultNewTiddlerTitle</li>
+
 <li>$:/macros/file</li>
 
 <li>$:/macros/pdf</li>
@@ -235,9 +237,13 @@ Error message and password prompt
 
 <li>cpwst:finding_the_subclass</li>
 
+<li>cpwst:intro</li>
+
 <li>CreateProcessWStub Callstack</li>
 
 <li>CreateProcessWStubTimeline</li>
+
+<li>Draft of 'cpwst:intro'</li>
 
 <li>explorer data</li>
 
@@ -9531,6 +9537,9 @@ Error message and password prompt
 <div title="$:/isEncrypted" revision="0" bag="default">
 <pre>no</pre>
 </div>
+<div created="20200329195856057" modified="20200329195855801" title="$:/language/DefaultNewTiddlerTitle" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre></pre>
+</div>
 <div created="20200329013229706" modified="20200329013655533" tags="$:/tags/Macro" title="$:/macros/file" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>\define file(text, fn)
     [[$text$|https://lyxica.github.io/$fn$]]
@@ -9910,6 +9919,16 @@ Notes for tomorrow:
 
 &lt;&lt;ximg &quot;img note deleteme.png&quot;&gt;&gt;</pre>
 </div>
+<div created="20200329195709525" modified="20200329195832558" tags="CreateProcessWStubTimeline" title="cpwst:intro" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>These notes are the process of my discovery of what happens when a program is launched. 
+
+More specifically, this is a collection of notes that investigates what happens between two events:
+
+* An executable file being double clicked/opened
+* The executable draws its window and has control of its own process
+
+</pre>
+</div>
 <div created="20200325031833422" modified="20200325214837015" tags="" title="CreateProcessWStub Callstack" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>
 ```
@@ -9951,12 +9970,30 @@ KERNEL32!CreateProcessWStub:
 ```
 </pre>
 </div>
-<div created="20200326011300237" creator="Lyxica" modified="20200329194540360" modifier="Lyxica" tags="CreateProcessWStubTimeline" title="CreateProcessWStubTimeline" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>{{cpwst:environmental_description}}
+<div created="20200326011300237" creator="Lyxica" modified="20200329195845257" modifier="Lyxica" tags="CreateProcessWStubTimeline" title="CreateProcessWStubTimeline" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>{{cpwst:intro}}
+
+---
+
+{{cpwst:environmental_description}}
 
 ---
 
 {{cpwst:finding_the_origin}}
+
+</pre>
+</div>
+<div created="20200329195709525" draft.of="cpwst:intro" draft.title="cpwst:intro" modified="20200329195954495" tags="CreateProcessWStubTimeline" title="Draft of 'cpwst:intro'" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>These notes are the process of my discovery of what happens when a program is launched. 
+
+More specifically, this is a collection of notes that investigates what happens between two events:
+
+* An executable file being double clicked/opened
+* The executable draws its window and has control of its own process
+
+The sequence of events can be described as:
+
+* 
 
 </pre>
 </div>
