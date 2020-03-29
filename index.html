@@ -161,9 +161,13 @@ Error message and password prompt
 
 <li>$:/config/RelinkOnRename</li>
 
+<li>$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/edit</li>
+
 <li>$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/fold</li>
 
 <li>$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/fold-bar</li>
+
+<li>$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/more-tiddler-actions</li>
 
 <li>$:/config/WikiParserRules/Inline/wikilink</li>
 
@@ -214,6 +218,8 @@ Error message and password prompt
 <li>$:/themes/tiddlywiki/vanilla/metrics/storywidth</li>
 
 <li>$:/themes/tiddlywiki/vanilla/metrics/tiddlerwidth</li>
+
+<li>$:/themes/tiddlywiki/vanilla/options/sidebarlayout</li>
 
 <li>$:/themes/tiddlywiki/vanilla/options/stickytitles</li>
 
@@ -293,10 +299,16 @@ Error message and password prompt
 <div created="20200324225803360" modified="20200324225804255" title="$:/config/RelinkOnRename" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>yes</pre>
 </div>
-<div created="20200324231949692" modified="20200324231950205" title="$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/fold" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200329021942579" modified="20200329021945802" title="$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/edit" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>show</pre>
 </div>
-<div created="20200324231952311" modified="20200324231952815" title="$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/fold-bar" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200324231949692" modified="20200329021934487" title="$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/fold" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>show</pre>
+</div>
+<div created="20200324231952311" modified="20200329021933300" title="$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/fold-bar" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>hide</pre>
+</div>
+<div created="20200329021918226" modified="20200329021949780" title="$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/more-tiddler-actions" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>show</pre>
 </div>
 <div created="20200325213404284" modified="20200325213404648" title="$:/config/WikiParserRules/Inline/wikilink" type="text/vnd.tiddlywiki" revision="0" bag="default">
@@ -9788,8 +9800,11 @@ Error message and password prompt
 <div created="20200329021433274" modified="20200329021437118" title="$:/themes/tiddlywiki/vanilla/metrics/storywidth" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>850px</pre>
 </div>
-<div created="20200329021342936" modified="20200329021458399" title="$:/themes/tiddlywiki/vanilla/metrics/tiddlerwidth" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>1000px</pre>
+<div created="20200329021342936" modified="20200329021526173" title="$:/themes/tiddlywiki/vanilla/metrics/tiddlerwidth" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>770px</pre>
+</div>
+<div created="20200329021511477" modified="20200329021512514" title="$:/themes/tiddlywiki/vanilla/options/sidebarlayout" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>fluid-fixed</pre>
 </div>
 <div created="20200325212139954" modified="20200325212140345" title="$:/themes/tiddlywiki/vanilla/options/stickytitles" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>yes</pre>
@@ -9985,10 +10000,12 @@ The first condition is most the most likely situation. Running spy++ on explorer
 As the first situation is most likely, what is probably happening is: WM_KEYDOWN triggers a callback handler that examines what the active item is, if any. For example, if nothing is selected then nothing would happen. If a folder was selected then that folder would be entered. If the item selected is anything else then it will attempt to open it by, presumably, querying the class list in the registry and finding a matching file extension.
 </pre>
 </div>
-<div created="20200325212507426" modified="20200329015336375" tags="" title="Main" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200325212507426" modified="20200329021611223" tags="" title="Main" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>!! Articles
 
 * &lt;&lt;pdf &quot;In-depth examination of the ESET 2015 Crackme&quot; ESET.pdf&gt;&gt;
+
+&lt;br&gt;
 
 !! WIP
 
