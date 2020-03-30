@@ -10240,8 +10240,14 @@ Clear breakpoint 2
 ```
 </pre>
 </div>
-<div created="20200330173440200" draft.of="" draft.title="windbg" modified="20200330173446433" tags="" title="Draft of ''" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>? $spat(&quot;heh&quot;, &quot;shcore!_WrapperThreadProc&quot;) == 1</pre>
+<div created="20200330173440200" draft.of="" draft.title="windbg" modified="20200330173934330" tags="" title="Draft of ''" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>? $spat(&quot;heh&quot;, &quot;shcore!_WrapperThreadProc&quot;) == 1
+
+r $t0 =0 ;.foreach (token { kb } ) { r $t0 = @$t0+1 ; .printf &quot;\&quot;token\&quot; %2d  ${token}\n&quot; , @$t0 }
+
+.foreach ( token { ln @r8} ) { .printf &quot;${token}\n&quot; }
+
+.foreach ( token { ln @r8} ) { .if ($spat($token, &quot;shcore!_WrapperThreadProc&quot;)) {.break} .else { g } }</pre>
 </div>
 <div created="20200324231508673" modified="20200325030817212" title="explorer data" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>```
