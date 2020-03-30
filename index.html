@@ -10011,7 +10011,7 @@ KERNEL32!CreateProcessWStub:
 
 </pre>
 </div>
-<div created="20200326205846662" draft.of="cpwst:finding_the_origin" draft.title="cpwst:finding_the_origin" modified="20200330181500200" tags="CreateProcessWStubTimeline" title="Draft of 'cpwst:finding_the_origin'" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200326205846662" draft.of="cpwst:finding_the_origin" draft.title="cpwst:finding_the_origin" modified="20200330181959958" tags="CreateProcessWStubTimeline" title="Draft of 'cpwst:finding_the_origin'" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>First step involved determining what was responsible for calling CreateProcess. To find out, I added the following symbolic breakpoint:
 
 ```
@@ -10028,8 +10028,7 @@ With these breakpoints in place, the VM was allowed to continue execution. Next,
 
 {{CreateProcessWStub Callstack}}
 
-Here we can see that the CreateProcess
-
+Here we can see that the originator of the CreateProcess call resides in shcore!_WrapperThreadProc. This procedure calls a series of SHELL32 functions that are related to verb based command processing (example of a verb is when you press WinKey + R and then type an app into the field. The result is that the the runas verb is sent with the desired app 
 CreateProcess is the end of the journey for this part of the start up process. What I need to find out next is the beginning of that journey; this begs the question: What causes _WrapperProc to be executed at all? 
 
 </pre>
