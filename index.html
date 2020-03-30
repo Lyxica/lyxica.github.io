@@ -247,9 +247,7 @@ Error message and password prompt
 
 <li>CreateProcessWStubTimeline</li>
 
-<li>cwpst:_wrapperProcLog</li>
-
-<li>Draft of ''</li>
+<li>Draft of 'CreateProcessWStubTimeline'</li>
 
 <li>explorer data</li>
 
@@ -9884,7 +9882,7 @@ start             end                 module name
 
 With this I'm able to open the correct version of comctl32 in Ghidra. </pre>
 </div>
-<div created="20200326205846662" modified="20200330165759816" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_origin" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200326205846662" modified="20200330180811326" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_origin" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>First step involved determining what was responsible for calling CreateProcess. To find out, I added the following symbolic breakpoint:
 
 ```
@@ -9901,10 +9899,7 @@ With these breakpoints in place, the VM was allowed to continue execution. Next,
 
 {{CreateProcessWStub Callstack}}
 
-CreateProcess is the end of the journey for this part of the start up process. What I need to find out next is the beginning of that journey; this begs the following questions:
-
-* [[What other things cause _WrapperProc to execute?||cwpst:_wrapperProcLog]]
-* What causes _WrapperProc to be executed at all? 
+CreateProcess is the end of the journey for this part of the start up process. What I need to find out next is the beginning of that journey; this begs the question: What causes _WrapperProc to be executed at all? 
 
 </pre>
 </div>
@@ -10016,238 +10011,21 @@ KERNEL32!CreateProcessWStub:
 
 </pre>
 </div>
-<div created="20200330165820176" modified="20200330165834599" title="cwpst:_wrapperProcLog" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>
-```
-(00007ffd`0c3e5810)   SHELL32!CMountPoint::_EventProc   |  (00007ffd`0c3e58e8)   SHELL32!FileExplorerTelemetry::HardwareEvent&lt;unsigned long &amp; __ptr64&gt;
-Exact matches:
-    SHELL32!CMountPoint::_EventProc (void)
-Browse module
-Set bu breakpoint
+<div created="20200326011300237" creator="Lyxica" draft.of="CreateProcessWStubTimeline" draft.title="CreateProcessWStubTimeline" modified="20200330180944186" modifier="Lyxica" tags="CreateProcessWStubTimeline" title="Draft of 'CreateProcessWStubTimeline'" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>{{cpwst:intro}}
 
-(00007ffd`0c3e5810)   SHELL32!CMountPoint::_EventProc   |  (00007ffd`0c3e58e8)   SHELL32!FileExplorerTelemetry::HardwareEvent&lt;unsigned long &amp; __ptr64&gt;
-Exact matches:
-    SHELL32!CMountPoint::_EventProc (void)
-Browse module
-Set bu breakpoint
+---
 
-(00007ffd`0c3e5810)   SHELL32!CMountPoint::_EventProc   |  (00007ffd`0c3e58e8)   SHELL32!FileExplorerTelemetry::HardwareEvent&lt;unsigned long &amp; __ptr64&gt;
-Exact matches:
-    SHELL32!CMountPoint::_EventProc (void)
-Browse module
-Set bu breakpoint
+{{cpwst:environmental_description}}
 
-(00007ffd`0c3e5810)   SHELL32!CMountPoint::_EventProc   |  (00007ffd`0c3e58e8)   SHELL32!FileExplorerTelemetry::HardwareEvent&lt;unsigned long &amp; __ptr64&gt;
-Exact matches:
-    SHELL32!CMountPoint::_EventProc (void)
-Browse module
-Set bu breakpoint
+---
 
-Browse module
-Set bu breakpoint
+{{cpwst:finding_the_origin}}
 
-(00007ffd`0c3e5810)   SHELL32!CMountPoint::_EventProc   |  (00007ffd`0c3e58e8)   SHELL32!FileExplorerTelemetry::HardwareEvent&lt;unsigned long &amp; __ptr64&gt;
-Exact matches:
-    SHELL32!CMountPoint::_EventProc (void)
-Browse module
-Set bu breakpoint
+!! Finding the origin of shcore!_WrapperThreadProc
 
-(00007ffd`0c3e5810)   SHELL32!CMountPoint::_EventProc   |  (00007ffd`0c3e58e8)   SHELL32!FileExplorerTelemetry::HardwareEvent&lt;unsigned long &amp; __ptr64&gt;
-Exact matches:
-    SHELL32!CMountPoint::_EventProc (void)
-Browse module
-Set bu breakpoint
 
-(00007ffd`0c3e5810)   SHELL32!CMountPoint::_EventProc   |  (00007ffd`0c3e58e8)   SHELL32!FileExplorerTelemetry::HardwareEvent&lt;unsigned long &amp; __ptr64&gt;
-Exact matches:
-    SHELL32!CMountPoint::_EventProc (void)
-Browse module
-Set bu breakpoint
-
-(00007ffd`0c3e5810)   SHELL32!CMountPoint::_EventProc   |  (00007ffd`0c3e58e8)   SHELL32!FileExplorerTelemetry::HardwareEvent&lt;unsigned long &amp; __ptr64&gt;
-Exact matches:
-    SHELL32!CMountPoint::_EventProc (void)
-Browse module
-Set bu breakpoint
-
-(00007ffd`0c3e5810)   SHELL32!CMountPoint::_EventProc   |  (00007ffd`0c3e58e8)   SHELL32!FileExplorerTelemetry::HardwareEvent&lt;unsigned long &amp; __ptr64&gt;
-Exact matches:
-    SHELL32!CMountPoint::_EventProc (void)
-Browse module
-Set bu breakpoint
-
-(00007ffd`0c3e5810)   SHELL32!CMountPoint::_EventProc   |  (00007ffd`0c3e58e8)   SHELL32!FileExplorerTelemetry::HardwareEvent&lt;unsigned long &amp; __ptr64&gt;
-Exact matches:
-    SHELL32!CMountPoint::_EventProc (void)
-Browse module
-Set bu breakpoint
-
-(00007ffd`0c3e5810)   SHELL32!CMountPoint::_EventProc   |  (00007ffd`0c3e58e8)   SHELL32!FileExplorerTelemetry::HardwareEvent&lt;unsigned long &amp; __ptr64&gt;
-Exact matches:
-    SHELL32!CMountPoint::_EventProc (void)
-Browse module
-Set bu breakpoint
-
-(00007ffd`0c3e5810)   SHELL32!CMountPoint::_EventProc   |  (00007ffd`0c3e58e8)   SHELL32!FileExplorerTelemetry::HardwareEvent&lt;unsigned long &amp; __ptr64&gt;
-Exact matches:
-    SHELL32!CMountPoint::_EventProc (void)
-Browse module
-Set bu breakpoint
-
-(00007ffd`09ddf590)   windows_storage!&lt;lambda_469cb8603dcf52f8cda9d5d6a8068e20&gt;::&lt;lambda_invoker_cdecl&gt;   |  (00007ffd`09ddf5b8)   windows_storage!CLinkResolver::_InvokeSearchMethods
-Exact matches:
-    windows_storage!&lt;lambda_469cb8603dcf52f8cda9d5d6a8068e20&gt;::&lt;lambda_invoker_cdecl&gt; (void)
-    windows_storage!&lt;lambda_35cf99c347ca8e13d63bf61283a2b84b&gt;::&lt;lambda_invoker_cdecl&gt; (void)
-Browse module
-Set bu breakpoint
-
-(00007ffd`09ddf590)   windows_storage!&lt;lambda_469cb8603dcf52f8cda9d5d6a8068e20&gt;::&lt;lambda_invoker_cdecl&gt;   |  (00007ffd`09ddf5b8)   windows_storage!CLinkResolver::_InvokeSearchMethods
-Exact matches:
-    windows_storage!&lt;lambda_469cb8603dcf52f8cda9d5d6a8068e20&gt;::&lt;lambda_invoker_cdecl&gt; (void)
-    windows_storage!&lt;lambda_35cf99c347ca8e13d63bf61283a2b84b&gt;::&lt;lambda_invoker_cdecl&gt; (void)
-Browse module
-Set bu breakpoint
-
-(00007ffc`f2306d70)   ApplicationFrame!&lt;lambda_5067ad6e4661066f80b32d4449689e56&gt;::&lt;lambda_invoker_cdecl&gt;   |  (00007ffc`f2306dd0)   ApplicationFrame!CTitleBarElementBase::OnRectChanged
-Exact matches:
-    ApplicationFrame!&lt;lambda_5067ad6e4661066f80b32d4449689e56&gt;::&lt;lambda_invoker_cdecl&gt; (void)
-Browse module
-Set bu breakpoint
-
-(00007ffc`ebbae8d0)   windows_storage_search!CLocationResultSet::AddFilterListSets   |  (00007ffc`ebbae8e0)   windows_storage_search!CEnumerableObjectCollection::Reset
-Exact matches:
-Browse module
-Set bu breakpoint
-
-Browse module
-Set bu breakpoint
-
-(00007ffd`0c3e5810)   SHELL32!CMountPoint::_EventProc   |  (00007ffd`0c3e58e8)   SHELL32!FileExplorerTelemetry::HardwareEvent&lt;unsigned long &amp; __ptr64&gt;
-Exact matches:
-    SHELL32!CMountPoint::_EventProc (void)
-Browse module
-Set bu breakpoint
-
-(00007ffd`0c3e5810)   SHELL32!CMountPoint::_EventProc   |  (00007ffd`0c3e58e8)   SHELL32!FileExplorerTelemetry::HardwareEvent&lt;unsigned long &amp; __ptr64&gt;
-Exact matches:
-    SHELL32!CMountPoint::_EventProc (void)
-Browse module
-Set bu breakpoint
-
-(00007ffd`0c3e5810)   SHELL32!CMountPoint::_EventProc   |  (00007ffd`0c3e58e8)   SHELL32!FileExplorerTelemetry::HardwareEvent&lt;unsigned long &amp; __ptr64&gt;
-Exact matches:
-    SHELL32!CMountPoint::_EventProc (void)
-Browse module
-Set bu breakpoint
-
-(00007ffd`0c3e5810)   SHELL32!CMountPoint::_EventProc   |  (00007ffd`0c3e58e8)   SHELL32!FileExplorerTelemetry::HardwareEvent&lt;unsigned long &amp; __ptr64&gt;
-Exact matches:
-    SHELL32!CMountPoint::_EventProc (void)
-Browse module
-Set bu breakpoint
-
-Browse module
-Set bu breakpoint
-
-(00007ffd`0c3e5810)   SHELL32!CMountPoint::_EventProc   |  (00007ffd`0c3e58e8)   SHELL32!FileExplorerTelemetry::HardwareEvent&lt;unsigned long &amp; __ptr64&gt;
-Exact matches:
-    SHELL32!CMountPoint::_EventProc (void)
-Browse module
-Set bu breakpoint
-
-(00007ffd`0c3e5810)   SHELL32!CMountPoint::_EventProc   |  (00007ffd`0c3e58e8)   SHELL32!FileExplorerTelemetry::HardwareEvent&lt;unsigned long &amp; __ptr64&gt;
-Exact matches:
-    SHELL32!CMountPoint::_EventProc (void)
-Browse module
-Set bu breakpoint
-
-(00007ffd`0c3e5810)   SHELL32!CMountPoint::_EventProc   |  (00007ffd`0c3e58e8)   SHELL32!FileExplorerTelemetry::HardwareEvent&lt;unsigned long &amp; __ptr64&gt;
-Exact matches:
-    SHELL32!CMountPoint::_EventProc (void)
-Browse module
-Set bu breakpoint
-
-(00007ffc`f2306d70)   ApplicationFrame!&lt;lambda_5067ad6e4661066f80b32d4449689e56&gt;::&lt;lambda_invoker_cdecl&gt;   |  (00007ffc`f2306dd0)   ApplicationFrame!CTitleBarElementBase::OnRectChanged
-Exact matches:
-    ApplicationFrame!&lt;lambda_5067ad6e4661066f80b32d4449689e56&gt;::&lt;lambda_invoker_cdecl&gt; (void)
-Browse module
-Set bu breakpoint
-
-(00007ffd`0c3e5810)   SHELL32!CMountPoint::_EventProc   |  (00007ffd`0c3e58e8)   SHELL32!FileExplorerTelemetry::HardwareEvent&lt;unsigned long &amp; __ptr64&gt;
-Exact matches:
-    SHELL32!CMountPoint::_EventProc (void)
-Browse module
-Set bu breakpoint
-
-(00007ffd`0c3e5810)   SHELL32!CMountPoint::_EventProc   |  (00007ffd`0c3e58e8)   SHELL32!FileExplorerTelemetry::HardwareEvent&lt;unsigned long &amp; __ptr64&gt;
-Exact matches:
-    SHELL32!CMountPoint::_EventProc (void)
-Browse module
-Set bu breakpoint
-
-(00007ffd`09dbeb70)   windows_storage!CEnumThread::s_EnumThreadProc   |  (00007ffd`09dbebc0)   windows_storage!CEnumThread::InternalResumeRT
-Exact matches:
-    windows_storage!CEnumThread::s_EnumThreadProc (void)
-Browse module
-Set bu breakpoint
-
-(00007ffd`0c3e5810)   SHELL32!CMountPoint::_EventProc   |  (00007ffd`0c3e58e8)   SHELL32!FileExplorerTelemetry::HardwareEvent&lt;unsigned long &amp; __ptr64&gt;
-Exact matches:
-    SHELL32!CMountPoint::_EventProc (void)
-Browse module
-Set bu breakpoint
-
-(00007ffd`09dbeb70)   windows_storage!CEnumThread::s_EnumThreadProc   |  (00007ffd`09dbebc0)   windows_storage!CEnumThread::InternalResumeRT
-Exact matches:
-    windows_storage!CEnumThread::s_EnumThreadProc (void)
-Browse module
-Set bu breakpoint
-
-(00007ffd`0c3e5810)   SHELL32!CMountPoint::_EventProc   |  (00007ffd`0c3e58e8)   SHELL32!FileExplorerTelemetry::HardwareEvent&lt;unsigned long &amp; __ptr64&gt;
-Exact matches:
-    SHELL32!CMountPoint::_EventProc (void)
-Browse module
-Set bu breakpoint
-
-(00007ffd`09dbeb70)   windows_storage!CEnumThread::s_EnumThreadProc   |  (00007ffd`09dbebc0)   windows_storage!CEnumThread::InternalResumeRT
-Exact matches:
-    windows_storage!CEnumThread::s_EnumThreadProc (void)
-Browse module
-Set bu breakpoint
-
-(00007ffd`09dbeb70)   windows_storage!CEnumThread::s_EnumThreadProc   |  (00007ffd`09dbebc0)   windows_storage!CEnumThread::InternalResumeRT
-Exact matches:
-    windows_storage!CEnumThread::s_EnumThreadProc (void)
-Browse module
-Set bu breakpoint
-
-(00007ffd`0c3e5810)   SHELL32!CMountPoint::_EventProc   |  (00007ffd`0c3e58e8)   SHELL32!FileExplorerTelemetry::HardwareEvent&lt;unsigned long &amp; __ptr64&gt;
-Exact matches:
-    SHELL32!CMountPoint::_EventProc (void)
-Browse module
-Set bu breakpoint
-
-(00007ffd`0c3e5810)   SHELL32!CMountPoint::_EventProc   |  (00007ffd`0c3e58e8)   SHELL32!FileExplorerTelemetry::HardwareEvent&lt;unsigned long &amp; __ptr64&gt;
-Exact matches:
-    SHELL32!CMountPoint::_EventProc (void)
-Browse module
-Clear breakpoint 2
-
-(00007ffd`0c7e6440)   SHELL32!s_DoInvokeVerb   |  (00007ffd`0c7e65f0)   SHELL32!s_DoInvokeVerbSync
-Exact matches:
-Browse module
-Clear breakpoint 2
-```
 </pre>
-</div>
-<div created="20200330173440200" draft.of="" draft.title="windbg" modified="20200330174332708" tags="" title="Draft of ''" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>? $spat(&quot;heh&quot;, &quot;shcore!_WrapperThreadProc&quot;) == 1
-
-r $t0 =0 ;.foreach (token { kb } ) { r $t0 = @$t0+1 ; .printf &quot;\&quot;token\&quot; %2d  ${token}\n&quot; , @$t0 }
-
-.foreach ( token { ln @r8} ) { .printf &quot;${token}\n&quot; }
-
-.foreach ( token { ln @r8} ) {  .if ($spat(token, &quot;shcore!_WrapperThreadProc&quot;) == 0) {g}}</pre>
 </div>
 <div created="20200324231508673" modified="20200325030817212" title="explorer data" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>```
