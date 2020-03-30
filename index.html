@@ -165,6 +165,8 @@ Error message and password prompt
 
 <li>$:/config/RelinkOnRename</li>
 
+<li>$:/config/Toolbar/ButtonClass</li>
+
 <li>$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/edit</li>
 
 <li>$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/fold</li>
@@ -249,8 +251,6 @@ Error message and password prompt
 
 <li>CreateProcessWStubTimeline</li>
 
-<li>Draft of 'cpwst:finding_the_worker_spawner'</li>
-
 <li>explorer data</li>
 
 <li>Finding the window procedure responsible</li>
@@ -316,6 +316,9 @@ Error message and password prompt
 </div>
 <div created="20200324225803360" modified="20200324225804255" title="$:/config/RelinkOnRename" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>yes</pre>
+</div>
+<div created="20200330212410706" modified="20200330212411308" title="$:/config/Toolbar/ButtonClass" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>tc-btn-boxed</pre>
 </div>
 <div created="20200329021942579" modified="20200329021945802" title="$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/edit" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>show</pre>
@@ -9929,7 +9932,7 @@ Notes for tomorrow:
 
 &lt;&lt;ximg &quot;img note deleteme.png&quot;&gt;&gt;</pre>
 </div>
-<div created="20200330182306818" modified="20200330183106468" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_worker_spawner" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200330182306818" modified="20200330212138054" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_worker_spawner" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>!! Finding the worker's spawner
 
 Because the call stack for shcore!_WrapperThreadProc starts ON shcore!_WrapperThreadProc[0], I know that I have to search for a worker spawner. A &quot;worker&quot; is a thread that is created to handle a specific job. Think of a dispatcher sending a taxi to a location. The dispatcher &quot;spawns&quot; a taxi and sends it to go pick someone up. To find where the worker thread was spawned I'll place a breakpoint on kernel32!CreateThreadStub. This function is very noisy, it tends to be called 10+ times a second, so to reduce the SNR I'll place a conditional breakpoint that will only cause the debugger to take control when kernel32!CreateThreadStub is called with a pointer to shcore!_WrapperThreadProc. This significantly reduces the SNR (although a few irrelevant entries still pop up) and I'm able to grab the following call stack:
@@ -9977,6 +9980,30 @@ Because the call stack for shcore!_WrapperThreadProc starts ON shcore!_WrapperTh
 24 00000000`0af2f990 00007ffd`0b697bd4 shcore!_WrapperThreadProc+0xf5
 25 00000000`0af2fa70 00007ffd`0cc6ce71 KERNEL32!BaseThreadInitThunk+0x14
 26 00000000`0af2faa0 00000000`00000000 ntdll!RtlUserThreadStart+0x21
+```
+
+Once again, shcore!_WrapperThreadProc shows itself as the originator of this thread -- this raises some important questions:
+
+* Is this thread a temporary worker thread like the previous one? Or, 
+* Is this thread a more long term worker, perhaps in service of handling requests dispatched to a specific win32 window
+** eg could the thread be responsible for one and only one explorer window?
+
+It's important to determine the permanence of this thread as the point of this article is to answer what happens when a program is requested to be started -- if this thread spins up as a result of that then it must be analyzed; if the thread is a longer term worker representing the state of the explorer window then its not of importance.
+
+If we query WinDBG for information about the thread, we'll see the following:
+
+
+```
+3: kd&gt; !thread
+THREAD ffffc68e93a2c080  Cid 16a4.1fa0  Teb: 0000000000af5000 Win32Thread: ffffc68e93550330 RUNNING on processor 3
+Not impersonating
+DeviceMap                 ffff838084ef5790
+Owning Process            ffffc68e92dc5300       Image:         explorer.exe
+Attached Process          N/A            Image:         N/A
+Wait Start TickCount      15089          Ticks: 0
+Context Switch Count      107683         IdealProcessor: 0             
+UserTime                  00:00:02.406
+KernelTime                00:00:05.171
 ```
 
 
@@ -10067,68 +10094,6 @@ KERNEL32!CreateProcessWStub:
 
 {{cpwst:finding_the_worker_spawner}}
 </pre>
-</div>
-<div created="20200330182306818" draft.of="cpwst:finding_the_worker_spawner" draft.title="cpwst:finding_the_worker_spawner" modified="20200330211816711" tags="CreateProcessWStubTimeline" title="Draft of 'cpwst:finding_the_worker_spawner'" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>!! Finding the worker's spawner
-
-Because the call stack for shcore!_WrapperThreadProc starts ON shcore!_WrapperThreadProc[0], I know that I have to search for a worker spawner. A &quot;worker&quot; is a thread that is created to handle a specific job. Think of a dispatcher sending a taxi to a location. The dispatcher &quot;spawns&quot; a taxi and sends it to go pick someone up. To find where the worker thread was spawned I'll place a breakpoint on kernel32!CreateThreadStub. This function is very noisy, it tends to be called 10+ times a second, so to reduce the SNR I'll place a conditional breakpoint that will only cause the debugger to take control when kernel32!CreateThreadStub is called with a pointer to shcore!_WrapperThreadProc. This significantly reduces the SNR (although a few irrelevant entries still pop up) and I'm able to grab the following call stack:
-
-
-```
-3: kd&gt; k
- # Child-SP          RetAddr           Call Site
-00 00000000`0af2e4d8 00007ffd`0be2614b KERNEL32!CreateThreadStub
-01 00000000`0af2e4e0 00007ffd`0be2604f shcore!_CreateThreadWorker+0xef
-02 00000000`0af2e5b0 00007ffd`0c7e6799 shcore!SHCreateThread+0xf
-03 00000000`0af2e5f0 00007ffd`0c4ce73d SHELL32!SHInvokeCommandOnBackgroundThread+0x161
-04 00000000`0af2e660 00007ffd`0c4ce3fe SHELL32!CDefView::_InvokeContextMenuVerbOnSelectionWorker+0x329
-05 00000000`0af2e9f0 00007ffd`0c4bf1ed SHELL32!CDefView::_InvokeContextMenuVerbOnSelection+0x92
-06 00000000`0af2ea20 00007ffc`f32ceda5 SHELL32!CDefView::OnActivateSelection+0x2d
-07 00000000`0af2ea50 00007ffc`f79b88d3 explorerframe!UIItemsView::WndProc+0x59eb5
-08 00000000`0af2eb20 00007ffd`0b3f681d DUI70!DirectUI::HWNDElement::StaticWndProc+0x53
-09 00000000`0af2eb60 00007ffd`0b3f64ee USER32!UserCallWinProcCheckWow+0x2bd
-0a 00000000`0af2ecf0 00007ffc`faec813e USER32!CallWindowProcW+0x8e
-0b 00000000`0af2ed40 00007ffd`0b3f681d DUser!ExtraInfoWndProc+0x8e
-0c 00000000`0af2ed90 00007ffd`0b3f64ee USER32!UserCallWinProcCheckWow+0x2bd
-0d 00000000`0af2ef20 00007ffc`f87dafe9 USER32!CallWindowProcW+0x8e
-0e 00000000`0af2ef70 00007ffc`f87daf37 comctl32!CallNextSubclassProc+0x89
-0f 00000000`0af2efe0 00007ffc`f32747f7 comctl32!DefSubclassProc+0x77
-10 00000000`0af2f030 00007ffc`f3274766 explorerframe!UIItemsView::_UIItemsViewSubclassProc+0x77
-11 00000000`0af2f110 00007ffc`f87dafe9 explorerframe!UIItemsView::s_UIItemsViewSubclassProc+0x26
-12 00000000`0af2f150 00007ffc`f87daf37 comctl32!CallNextSubclassProc+0x89
-13 00000000`0af2f1c0 00007ffc`f3274a6b comctl32!DefSubclassProc+0x77
-14 00000000`0af2f210 00007ffc`f32749e6 explorerframe!CToolTipManager::_PropertyToolTipSubclassProc+0x6b
-15 00000000`0af2f260 00007ffc`f87dafe9 explorerframe!CToolTipManager::s_PropertyToolTipSubclassProc+0x26
-16 00000000`0af2f2a0 00007ffc`f87dacf8 comctl32!CallNextSubclassProc+0x89
-17 00000000`0af2f310 00007ffc`f87dafe9 comctl32!TTSubclassProc+0xb8
-18 00000000`0af2f3c0 00007ffc`f87dae12 comctl32!CallNextSubclassProc+0x89
-19 00000000`0af2f430 00007ffd`0b3f681d comctl32!MasterSubclassProc+0xa2
-1a 00000000`0af2f4d0 00007ffd`0b3f6212 USER32!UserCallWinProcCheckWow+0x2bd
-1b 00000000`0af2f660 00007ffc`f3254ca3 USER32!DispatchMessageWorker+0x1e2
-1c 00000000`0af2f6e0 00007ffc`f3254ba9 explorerframe!CExplorerFrame::FrameMessagePump+0xe3
-1d 00000000`0af2f760 00007ffc`f3254262 explorerframe!BrowserThreadProc+0x85
-1e 00000000`0af2f7e0 00007ffc`f3254212 explorerframe!BrowserNewThreadProc+0x3a
-1f 00000000`0af2f810 00007ffc`f3276362 explorerframe!CExplorerTask::InternalResumeRT+0x12
-20 00000000`0af2f840 00007ffd`09eb99a4 explorerframe!CRunnableTask::Run+0xb2
-21 00000000`0af2f880 00007ffd`09eb95e5 windows_storage!CShellTask::TT_Run+0x3c
-22 00000000`0af2f8b0 00007ffd`09eb94c5 windows_storage!CShellTaskThread::ThreadProc+0xdd
-23 00000000`0af2f960 00007ffd`0be2dce5 windows_storage!CShellTaskThread::s_ThreadProc+0x35
-24 00000000`0af2f990 00007ffd`0b697bd4 shcore!_WrapperThreadProc+0xf5
-25 00000000`0af2fa70 00007ffd`0cc6ce71 KERNEL32!BaseThreadInitThunk+0x14
-26 00000000`0af2faa0 00000000`00000000 ntdll!RtlUserThreadStart+0x21
-```
-
-Once again, shcore!_WrapperThreadProc shows itself as the originator of this thread -- this raises some important questions:
-
-* Is this thread a temporary worker thread like the previous one? Or, 
-* Is this thread a more long term worker, perhaps in service of handling requests dispatched to a specific win32 window
-** eg could the thread be responsible for one and only one explorer window?
-
-It's important to determine the permanence of this thread as the point of this article is to answer what happens when a program is requested to be started -- if this thread spins up as a result of that then it must be analyzed; if the thread is a longer term worker representing the state of the explorer window then its not of importance.
-
-To answer the question 
-
-[0]: RtlUserThreadStart and BaseThreadInitThunk don't count -- they're functions that were called when the thread was first started and are responsible for setting the thread up</pre>
 </div>
 <div created="20200324231508673" modified="20200325030817212" title="explorer data" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>```
