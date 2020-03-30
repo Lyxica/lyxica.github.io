@@ -243,6 +243,8 @@ Error message and password prompt
 
 <li>CreateProcessWStubTimeline</li>
 
+<li>Draft of 'cpwst:finding_the_origin'</li>
+
 <li>explorer data</li>
 
 <li>Finding the window procedure responsible</li>
@@ -9999,6 +10001,30 @@ KERNEL32!CreateProcessWStub:
 ---
 
 {{cpwst:finding_the_origin}}
+
+</pre>
+</div>
+<div created="20200326205846662" draft.of="cpwst:finding_the_origin" draft.title="cpwst:finding_the_origin" modified="20200330163551017" tags="CreateProcessWStubTimeline" title="Draft of 'cpwst:finding_the_origin'" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>First step involved determining what was responsible for calling CreateProcess. To find out, I added the following symbolic breakpoint:
+
+```
+0: kd&gt; bm kernel32!CreateProcess*
+  1: 00007fff`6d30c950 @!&quot;KERNEL32!CreateProcessAsUserWStub&quot;
+  2: 00007fff`6d30be40 @!&quot;KERNEL32!CreateProcessWStub&quot;
+  3: 00007fff`6d325800 @!&quot;KERNEL32!CreateProcessAsUserAStub&quot;
+  4: 00007fff`6d30b660 @!&quot;KERNEL32!CreateProcessAStub&quot;
+  5: 00007fff`6d325870 @!&quot;KERNEL32!CreateProcessInternalAStub&quot;
+  6: 00007fff`6d3258f0 @!&quot;KERNEL32!CreateProcessInternalWStub&quot;
+```
+
+With these breakpoints in place, the VM was allowed to continue execution. Next, kdnet.exe was selected with mouse1 and then VK_ENTER was pressed. This led to a debug breakin on KERNEL32!CreateProcessWStub. Register RCX was examined to confirm the correct CreateProcess request was interrupted.
+
+{{CreateProcessWStub Callstack}}
+
+CreateProcess is the end of the journey for this part of the start up process. What I need to find out next is the beginning of that journey; this begs the following questions:
+
+* Is _WrapperProc only invoked with s_DoInvokeVerb? Or rather, do _WrapperProc and s_DoInvokeVerb go together always, or is _WrapperProc a more general dispatcher?
+* What causes _WrapperProc to be executed at all? 
 
 </pre>
 </div>
