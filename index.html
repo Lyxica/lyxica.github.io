@@ -241,13 +241,15 @@ Error message and password prompt
 
 <li>cpwst:finding_the_subclass</li>
 
+<li>cpwst:finding_the_worker_spawner</li>
+
 <li>cpwst:intro</li>
 
 <li>CreateProcessWStub Callstack</li>
 
 <li>CreateProcessWStubTimeline</li>
 
-<li>Draft of 'cpwst:finding_the_origin'</li>
+<li>Draft of 'cpwst:finding_the_worker_spawner'</li>
 
 <li>explorer data</li>
 
@@ -9882,7 +9884,7 @@ start             end                 module name
 
 With this I'm able to open the correct version of comctl32 in Ghidra. </pre>
 </div>
-<div created="20200326205846662" modified="20200330180811326" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_origin" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200326205846662" modified="20200330182434814" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_origin" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>First step involved determining what was responsible for calling CreateProcess. To find out, I added the following symbolic breakpoint:
 
 ```
@@ -9899,9 +9901,10 @@ With these breakpoints in place, the VM was allowed to continue execution. Next,
 
 {{CreateProcessWStub Callstack}}
 
-CreateProcess is the end of the journey for this part of the start up process. What I need to find out next is the beginning of that journey; this begs the question: What causes _WrapperProc to be executed at all? 
+Here we can see that the originator of the CreateProcess call resides in shcore!_WrapperThreadProc. This procedure calls a series of SHELL32 functions that are related to verb based command processing[0]. The next question is, what called shcore!_WrapperThreadProc? 
 
-</pre>
+
+[0],,(SIDE NOTE: example of a verb is when you press WinKey + R and then type an app into the field. The result is that the the runas verb is sent with the desired app as a parameter.),,</pre>
 </div>
 <div created="20200326221021076" modified="20200329022451451" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_subclass" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>Navigating to comctl32!MasterSubclassProc reveals this code.
@@ -9925,6 +9928,11 @@ Notes for tomorrow:
  Examine OnKey and CLVKeyboardManager.
 
 &lt;&lt;ximg &quot;img note deleteme.png&quot;&gt;&gt;</pre>
+</div>
+<div created="20200330182306818" modified="20200330182356459" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_worker_spawner" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>!! Finding the worker's spawner
+
+Because the procedure is the first real function in the call stack, its apparent that the procedure runs inside a worker thread. To find the code that spawned the _WrapperThreadProc worker, I'll place a breakpoint on</pre>
 </div>
 <div created="20200329195709525" modified="20200329200921134" tags="CreateProcessWStubTimeline" title="cpwst:intro" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>These notes are about my discovery of what happens when a program is launched. 
@@ -9998,7 +10006,7 @@ KERNEL32!CreateProcessWStub:
 ```
 </pre>
 </div>
-<div created="20200326011300237" creator="Lyxica" modified="20200329195845257" modifier="Lyxica" tags="CreateProcessWStubTimeline" title="CreateProcessWStubTimeline" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200326011300237" creator="Lyxica" modified="20200330182405884" modifier="Lyxica" tags="CreateProcessWStubTimeline" title="CreateProcessWStubTimeline" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>{{cpwst:intro}}
 
 ---
@@ -10009,29 +10017,13 @@ KERNEL32!CreateProcessWStub:
 
 {{cpwst:finding_the_origin}}
 
+{{cpwst:finding_the_worker_spawner}}
 </pre>
 </div>
-<div created="20200326205846662" draft.of="cpwst:finding_the_origin" draft.title="cpwst:finding_the_origin" modified="20200330181959958" tags="CreateProcessWStubTimeline" title="Draft of 'cpwst:finding_the_origin'" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>First step involved determining what was responsible for calling CreateProcess. To find out, I added the following symbolic breakpoint:
+<div created="20200330182306818" draft.of="cpwst:finding_the_worker_spawner" draft.title="cpwst:finding_the_worker_spawner" modified="20200330182451563" tags="CreateProcessWStubTimeline" title="Draft of 'cpwst:finding_the_worker_spawner'" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>!! Finding the worker's spawner
 
-```
-0: kd&gt; bm kernel32!CreateProcess*
-  1: 00007fff`6d30c950 @!&quot;KERNEL32!CreateProcessAsUserWStub&quot;
-  2: 00007fff`6d30be40 @!&quot;KERNEL32!CreateProcessWStub&quot;
-  3: 00007fff`6d325800 @!&quot;KERNEL32!CreateProcessAsUserAStub&quot;
-  4: 00007fff`6d30b660 @!&quot;KERNEL32!CreateProcessAStub&quot;
-  5: 00007fff`6d325870 @!&quot;KERNEL32!CreateProcessInternalAStub&quot;
-  6: 00007fff`6d3258f0 @!&quot;KERNEL32!CreateProcessInternalWStub&quot;
-```
-
-With these breakpoints in place, the VM was allowed to continue execution. Next, kdnet.exe was selected with mouse1 and then VK_ENTER was pressed. This led to a debug breakin on KERNEL32!CreateProcessWStub. Register RCX was examined to confirm the correct CreateProcess request was interrupted.
-
-{{CreateProcessWStub Callstack}}
-
-Here we can see that the originator of the CreateProcess call resides in shcore!_WrapperThreadProc. This procedure calls a series of SHELL32 functions that are related to verb based command processing (example of a verb is when you press WinKey + R and then type an app into the field. The result is that the the runas verb is sent with the desired app 
-CreateProcess is the end of the journey for this part of the start up process. What I need to find out next is the beginning of that journey; this begs the question: What causes _WrapperProc to be executed at all? 
-
-</pre>
+Because the procedure is the first real function in the call stack, its apparent that the procedure runs inside a worker thread. To find the code that spawned the _WrapperThreadProc worker, I'll place a breakpoint on</pre>
 </div>
 <div created="20200324231508673" modified="20200325030817212" title="explorer data" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>```
