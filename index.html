@@ -235,6 +235,8 @@ Error message and password prompt
 
 <li>5 tones</li>
 
+<li>cpwst:callstack_compare</li>
+
 <li>cpwst:environmental_description</li>
 
 <li>cpwst:finding_MasterSubclassProc</li>
@@ -247,15 +249,15 @@ Error message and password prompt
 
 <li>cpwst:intro</li>
 
-<li>CreateProcessWStub Callstack</li>
-
 <li>CreateProcessWStubTimeline</li>
+
+<li>cwpst:dump:gyz</li>
+
+<li>Draft of ''</li>
 
 <li>explorer data</li>
 
 <li>Finding the window procedure responsible</li>
-
-<li>Journal</li>
 
 <li>Main</li>
 
@@ -264,10 +266,6 @@ Error message and password prompt
 <li>New Excision</li>
 
 <li>PE Base Address</li>
-
-<li>Sequence of events</li>
-
-<li>Speculated event chain</li>
 
 <li>What happens when you start a program?</li>
 
@@ -314,8 +312,8 @@ Error message and password prompt
 <div created="20200328231505907" modified="20200328231505690" title="$:/config/PageControlButtons/Visibility/$:/core/ui/Buttons/save-wiki" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>hide</pre>
 </div>
-<div created="20200324225803360" modified="20200324225804255" title="$:/config/RelinkOnRename" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>yes</pre>
+<div created="20200324225803360" modified="20200331201819316" title="$:/config/RelinkOnRename" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>no</pre>
 </div>
 <div created="20200330212410706" modified="20200330212411308" title="$:/config/Toolbar/ButtonClass" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>tc-btn-boxed</pre>
@@ -9845,6 +9843,72 @@ Error message and password prompt
 * Tone 4 - highest to lowest, authorative/assertive https://courses.mandarinblueprint.com/products/pronunciation-mastery/categories/598996/posts/1941094
 * Tone 5 - Contrary of 1 or 3 https://courses.mandarinblueprint.com/products/pronunciation-mastery/categories/598996/posts/1941095</pre>
 </div>
+<div created="20200330215427202" modified="20200330215454284" title="cpwst:callstack_compare" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>{{cwpst:dump:gyz}}
+
+vs 
+
+
+```
+00 ffff9400`4bf5b180 fffff99d`0c4e7bb6 win32kfull!xxxWindowEvent+0x5d3
+01 ffff9400`4bf5b2b0 fffff99d`0c4e994b win32kfull!xxxScanSysQueue+0x2346
+02 ffff9400`4bf5bb60 fffff99d`0c4742eb win32kfull!xxxRealInternalGetMessage+0x98b
+03 ffff9400`4bf5bd40 fffff800`1edce118 win32kfull!NtUserRealInternalGetMessage+0x7b
+04 ffff9400`4bf5bdd0 00007ffd`0a5a2c44 nt!KiSystemServiceCopyEnd+0x28
+05 00000000`0af2dea8 00007ffc`faecd079 win32u!NtUserRealInternalGetMessage+0x14
+06 00000000`0af2deb0 00007ffc`faecce62 DUser!CoreSC::xwProcessNL+0x1d9
+07 00000000`0af2df50 00007ffd`0b404fc4 DUser!MphProcessMessage+0xb2
+08 00000000`0af2dfb0 00007ffd`0cc9fdb4 USER32!_ClientGetMessageMPH+0x44
+09 00000000`0af2e050 00007ffd`0a5a10c4 ntdll!KiUserCallbackDispatcherContinue
+0a 00000000`0af2e0c8 00007ffd`0b3fa0f2 win32u!NtUserPeekMessage+0x14
+0b 00000000`0af2e0d0 00007ffd`0b3fa059 USER32!_PeekMessage+0x42
+0c 00000000`0af2e140 00007ffd`0bf746a6 USER32!PeekMessageW+0x149
+0d 00000000`0af2e1b0 00007ffd`0bf75192 combase!CCliModalLoop::MyPeekMessage+0x52 [onecore\com\combase\dcomrem\callctrl.cxx @ 2993] 
+0e 00000000`0af2e220 00007ffd`0bf735aa combase!CCliModalLoop::HandleWakeForMsg+0x122 [onecore\com\combase\dcomrem\callctrl.cxx @ 2616] 
+0f 00000000`0af2e2c0 00007ffd`0bf71c4f combase!CCliModalLoop::BlockFn+0x2aa [onecore\com\combase\dcomrem\callctrl.cxx @ 2316] 
+10 00000000`0af2e380 00007ffd`0bf91ab6 combase!ClassicSTAThreadWaitForHandles+0x9f [onecore\com\combase\dcomrem\classicsta.cpp @ 51] 
+11 00000000`0af2e4a0 00007ffd`0be2619e combase!CoWaitForMultipleHandles+0x76 [onecore\com\combase\dcomrem\sync.cxx @ 124] 
+12 00000000`0af2e4e0 00007ffd`0be2604f shcore!_CreateThreadWorker+0x142
+13 00000000`0af2e5b0 00007ffd`0c7e6799 shcore!SHCreateThread+0xf
+14 00000000`0af2e5f0 00007ffd`0c4ce73d SHELL32!SHInvokeCommandOnBackgroundThread+0x161
+15 00000000`0af2e660 00007ffd`0c4ce3fe SHELL32!CDefView::_InvokeContextMenuVerbOnSelectionWorker+0x329
+16 00000000`0af2e9f0 00007ffd`0c4bf1ed SHELL32!CDefView::_InvokeContextMenuVerbOnSelection+0x92
+17 00000000`0af2ea20 00007ffc`f32ceda5 SHELL32!CDefView::OnActivateSelection+0x2d
+18 00000000`0af2ea50 00007ffc`f79b88d3 explorerframe!UIItemsView::WndProc+0x59eb5
+19 00000000`0af2eb20 00007ffd`0b3f681d DUI70!DirectUI::HWNDElement::StaticWndProc+0x53
+1a 00000000`0af2eb60 00007ffd`0b3f64ee USER32!UserCallWinProcCheckWow+0x2bd
+1b 00000000`0af2ecf0 00007ffc`faec813e USER32!CallWindowProcW+0x8e
+1c 00000000`0af2ed40 00007ffd`0b3f681d DUser!ExtraInfoWndProc+0x8e
+1d 00000000`0af2ed90 00007ffd`0b3f64ee USER32!UserCallWinProcCheckWow+0x2bd
+1e 00000000`0af2ef20 00007ffc`f87dafe9 USER32!CallWindowProcW+0x8e
+1f 00000000`0af2ef70 00007ffc`f87daf37 comctl32!CallNextSubclassProc+0x89
+20 00000000`0af2efe0 00007ffc`f32747f7 comctl32!DefSubclassProc+0x77
+21 00000000`0af2f030 00007ffc`f3274766 explorerframe!UIItemsView::_UIItemsViewSubclassProc+0x77
+22 00000000`0af2f110 00007ffc`f87dafe9 explorerframe!UIItemsView::s_UIItemsViewSubclassProc+0x26
+23 00000000`0af2f150 00007ffc`f87daf37 comctl32!CallNextSubclassProc+0x89
+24 00000000`0af2f1c0 00007ffc`f3274a6b comctl32!DefSubclassProc+0x77
+25 00000000`0af2f210 00007ffc`f32749e6 explorerframe!CToolTipManager::_PropertyToolTipSubclassProc+0x6b
+26 00000000`0af2f260 00007ffc`f87dafe9 explorerframe!CToolTipManager::s_PropertyToolTipSubclassProc+0x26
+27 00000000`0af2f2a0 00007ffc`f87dacf8 comctl32!CallNextSubclassProc+0x89
+28 00000000`0af2f310 00007ffc`f87dafe9 comctl32!TTSubclassProc+0xb8
+29 00000000`0af2f3c0 00007ffc`f87dae12 comctl32!CallNextSubclassProc+0x89
+2a 00000000`0af2f430 00007ffd`0b3f681d comctl32!MasterSubclassProc+0xa2
+2b 00000000`0af2f4d0 00007ffd`0b3f6212 USER32!UserCallWinProcCheckWow+0x2bd
+2c 00000000`0af2f660 00007ffc`f3254ca3 USER32!DispatchMessageWorker+0x1e2
+2d 00000000`0af2f6e0 00007ffc`f3254ba9 explorerframe!CExplorerFrame::FrameMessagePump+0xe3
+2e 00000000`0af2f760 00007ffc`f3254262 explorerframe!BrowserThreadProc+0x85
+2f 00000000`0af2f7e0 00007ffc`f3254212 explorerframe!BrowserNewThreadProc+0x3a
+30 00000000`0af2f810 00007ffc`f3276362 explorerframe!CExplorerTask::InternalResumeRT+0x12
+31 00000000`0af2f840 00007ffd`09eb99a4 explorerframe!CRunnableTask::Run+0xb2
+32 00000000`0af2f880 00007ffd`09eb95e5 windows_storage!CShellTask::TT_Run+0x3c
+33 00000000`0af2f8b0 00007ffd`09eb94c5 windows_storage!CShellTaskThread::ThreadProc+0xdd
+34 00000000`0af2f960 00007ffd`0be2dce5 windows_storage!CShellTaskThread::s_ThreadProc+0x35
+35 00000000`0af2f990 00007ffd`0b697bd4 shcore!_WrapperThreadProc+0xf5
+36 00000000`0af2fa70 00007ffd`0cc6ce71 KERNEL32!BaseThreadInitThunk+0x14
+37 00000000`0af2faa0 00000000`00000000 ntdll!RtlUserThreadStart+0x21
+```
+</pre>
+</div>
 <div created="20200326204823702" creator="Lyxica" modified="20200329201015196" modifier="Lyxica" tags="CreateProcessWStubTimeline" title="cpwst:environmental_description" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>!! Quick explanation of the debugging setup
 
@@ -9932,13 +9996,92 @@ Notes for tomorrow:
 
 &lt;&lt;ximg &quot;img note deleteme.png&quot;&gt;&gt;</pre>
 </div>
-<div created="20200330182306818" modified="20200330212138054" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_worker_spawner" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200330182306818" modified="20200330215444427" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_worker_spawner" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>!! Finding the worker's spawner
 
 Because the call stack for shcore!_WrapperThreadProc starts ON shcore!_WrapperThreadProc[0], I know that I have to search for a worker spawner. A &quot;worker&quot; is a thread that is created to handle a specific job. Think of a dispatcher sending a taxi to a location. The dispatcher &quot;spawns&quot; a taxi and sends it to go pick someone up. To find where the worker thread was spawned I'll place a breakpoint on kernel32!CreateThreadStub. This function is very noisy, it tends to be called 10+ times a second, so to reduce the SNR I'll place a conditional breakpoint that will only cause the debugger to take control when kernel32!CreateThreadStub is called with a pointer to shcore!_WrapperThreadProc. This significantly reduces the SNR (although a few irrelevant entries still pop up) and I'm able to grab the following call stack:
 
 
+{{cwpst:dump:gyz}}
+
+Once again, shcore!_WrapperThreadProc shows itself as the originator of this thread -- this raises some important questions:
+
+* Is this thread a temporary worker thread like the previous one? Or, 
+* Is this thread a more long term worker, perhaps in service of handling requests dispatched to a specific win32 window
+** eg could the thread be responsible for one and only one explorer window?
+
+It's important to determine the permanence of this thread as the point of this article is to answer what happens when a program is requested to be started -- if this thread spins up as a result of that then it must be analyzed; if the thread is a longer term worker representing the state of the explorer window then its not of importance.
+
+If we query WinDBG for information about the thread, we'll see the following:
+
+
 ```
+3: kd&gt; !thread
+THREAD ffffc68e93a2c080  Cid 16a4.1fa0  Teb: 0000000000af5000 Win32Thread: ffffc68e93550330 RUNNING on processor 3
+Not impersonating
+DeviceMap                 ffff838084ef5790
+Owning Process            ffffc68e92dc5300       Image:         explorer.exe
+Attached Process          N/A            Image:         N/A
+Wait Start TickCount      15089          Ticks: 0
+Context Switch Count      107683         IdealProcessor: 0             
+UserTime                  00:00:02.406
+KernelTime                00:00:05.171
+```
+
+Based on the context switch count and the elapsed user/kernel time, it appears that this thread is not being spun up just to answer the call of launching the program. I want to make sure this is the case though, so I'll let the VM resume and then break after various amounts of time. In those breaks I'll check if the thread still exists.
+
+[[Callstack comparison|cpwst:callstack_compare]]
+
+
+[0]: RtlUserThreadStart and BaseThreadInitThunk don't count -- they're functions that were called when the thread was first started and are responsible for setting the thread up</pre>
+</div>
+<div created="20200329195709525" modified="20200329200921134" tags="CreateProcessWStubTimeline" title="cpwst:intro" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>These notes are about my discovery of what happens when a program is launched. 
+
+More specifically, this is a collection of notes that investigates what happens between two events:
+
+* An executable file being double clicked/opened
+* The executable is open
+
+Open in this case means that the process has taken control of itself and it is not being boot strapped by the kernel (think: BaseThreadInitThunk).
+
+The sequence of events can be described as:
+
+* User wants program to run, so she double clicks on it
+* ???
+* Program is now running
+
+These notes will be about exploring and documenting the ??? area
+
+---
+
+To begin, I already know one of the first hidden steps in the sequence of events: CreateProcess. Pretty much all new processes are spawned as a result of CreateProcess -- even processes created by Window's apps. So the sequence of events is this:
+
+* User double clicks an exe file
+* ???
+* CreateProcess is called with a path to the exe file
+* ???
+* Program is now running
+
+I'll start the discovery process by examining CreateProcess and tracing backwards.
+</pre>
+</div>
+<div created="20200326011300237" creator="Lyxica" modified="20200330205537761" modifier="Lyxica" tags="CreateProcessWStubTimeline" title="CreateProcessWStubTimeline" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>{{cpwst:intro}}
+
+---
+
+{{cpwst:environmental_description}}
+
+---
+
+{{cpwst:finding_the_origin}}
+
+{{cpwst:finding_the_worker_spawner}}
+</pre>
+</div>
+<div created="20200330213515135" modified="20200330213515656" tags="cpwst:finding_the_worker_spawner" title="cwpst:dump:gyz" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>```
 3: kd&gt; k
  # Child-SP          RetAddr           Call Site
 00 00000000`0af2e4d8 00007ffd`0be2614b KERNEL32!CreateThreadStub
@@ -9980,120 +10123,10 @@ Because the call stack for shcore!_WrapperThreadProc starts ON shcore!_WrapperTh
 24 00000000`0af2f990 00007ffd`0b697bd4 shcore!_WrapperThreadProc+0xf5
 25 00000000`0af2fa70 00007ffd`0cc6ce71 KERNEL32!BaseThreadInitThunk+0x14
 26 00000000`0af2faa0 00000000`00000000 ntdll!RtlUserThreadStart+0x21
-```
-
-Once again, shcore!_WrapperThreadProc shows itself as the originator of this thread -- this raises some important questions:
-
-* Is this thread a temporary worker thread like the previous one? Or, 
-* Is this thread a more long term worker, perhaps in service of handling requests dispatched to a specific win32 window
-** eg could the thread be responsible for one and only one explorer window?
-
-It's important to determine the permanence of this thread as the point of this article is to answer what happens when a program is requested to be started -- if this thread spins up as a result of that then it must be analyzed; if the thread is a longer term worker representing the state of the explorer window then its not of importance.
-
-If we query WinDBG for information about the thread, we'll see the following:
-
-
-```
-3: kd&gt; !thread
-THREAD ffffc68e93a2c080  Cid 16a4.1fa0  Teb: 0000000000af5000 Win32Thread: ffffc68e93550330 RUNNING on processor 3
-Not impersonating
-DeviceMap                 ffff838084ef5790
-Owning Process            ffffc68e92dc5300       Image:         explorer.exe
-Attached Process          N/A            Image:         N/A
-Wait Start TickCount      15089          Ticks: 0
-Context Switch Count      107683         IdealProcessor: 0             
-UserTime                  00:00:02.406
-KernelTime                00:00:05.171
-```
-
-
-[0]: RtlUserThreadStart and BaseThreadInitThunk don't count -- they're functions that were called when the thread was first started and are responsible for setting the thread up</pre>
+```</pre>
 </div>
-<div created="20200329195709525" modified="20200329200921134" tags="CreateProcessWStubTimeline" title="cpwst:intro" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>These notes are about my discovery of what happens when a program is launched. 
-
-More specifically, this is a collection of notes that investigates what happens between two events:
-
-* An executable file being double clicked/opened
-* The executable is open
-
-Open in this case means that the process has taken control of itself and it is not being boot strapped by the kernel (think: BaseThreadInitThunk).
-
-The sequence of events can be described as:
-
-* User wants program to run, so she double clicks on it
-* ???
-* Program is now running
-
-These notes will be about exploring and documenting the ??? area
-
----
-
-To begin, I already know one of the first hidden steps in the sequence of events: CreateProcess. Pretty much all new processes are spawned as a result of CreateProcess -- even processes created by Window's apps. So the sequence of events is this:
-
-* User double clicks an exe file
-* ???
-* CreateProcess is called with a path to the exe file
-* ???
-* Program is now running
-
-I'll start the discovery process by examining CreateProcess and tracing backwards.
-</pre>
-</div>
-<div created="20200325031833422" modified="20200325214837015" tags="" title="CreateProcessWStub Callstack" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>
-```
-3: kd&gt; r
-rax=0000000000000000 rbx=0000000000000000 rcx=000000000ce60e50
-rdx=000000000ce31d30 rsi=0000000000000000 rdi=0000000007749328
-rip=00007fff6d30be40 rsp=000000000b59e4d8 rbp=000000000b59e5e0
- r8=0000000000000000  r9=0000000000000000 r10=0000000000008000
-r11=000000000b59e3f0 r12=0000000004080414 r13=000000000ce60e50
-r14=0000000007749250 r15=0000000000000000
-iopl=0         nv up ei pl zr na po nc
-cs=0033  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00000246
-KERNEL32!CreateProcessWStub:
-0033:00007fff`6d30be40 4c8bdc          mov     r11,rsp
-3: kd&gt; du @rcx
-00000000`0ce60e50  &quot;C:\KDNet\kdnet.exe&quot;
-3: kd&gt; k
- # Child-SP          RetAddr           Call Site
-00 00000000`0b59e4d8 00007fff`6b16698a KERNEL32!CreateProcessWStub
-01 00000000`0b59e4e0 00007fff`6b167c7b windows_storage!CInvokeCreateProcessVerb::CallCreateProcess+0x126
-02 00000000`0b59e790 00007fff`6b1667cc windows_storage!CInvokeCreateProcessVerb::_PrepareAndCallCreateProcess+0x1d7
-03 00000000`0b59e820 00007fff`6b16656b windows_storage!CInvokeCreateProcessVerb::_TryCreateProcess+0x3c
-04 00000000`0b59e850 00007fff`6b1661cd windows_storage!CInvokeCreateProcessVerb::Launch+0xef
-05 00000000`0b59e8f0 00007fff`6b151d64 windows_storage!CInvokeCreateProcessVerb::Execute+0x5d
-06 00000000`0b59e930 00007fff`6b161121 windows_storage!CBindAndInvokeStaticVerb::InitAndCallExecute+0x178
-07 00000000`0b59e9b0 00007fff`6b1235d9 windows_storage!CBindAndInvokeStaticVerb::TryCreateProcessDdeHandler+0x61
-08 00000000`0b59ea30 00007fff`6b15226d windows_storage!CBindAndInvokeStaticVerb::Execute+0x229
-09 00000000`0b59ed40 00007fff`6b152881 windows_storage!RegDataDrivenCommand::_TryInvokeAssociation+0xb5
-0a 00000000`0b59edb0 00007fff`6bdc8fff windows_storage!RegDataDrivenCommand::_Invoke+0x13d
-0b 00000000`0b59ee20 00007fff`6bdc8eba SHELL32!CRegistryVerbsContextMenu::_Execute+0xcb
-0c 00000000`0b59ee90 00007fff`6bd908f3 SHELL32!CRegistryVerbsContextMenu::InvokeCommand+0xaa
-0d 00000000`0b59f190 00007fff`6bd91b29 SHELL32!HDXA_LetHandlerProcessCommandEx+0x117
-0e 00000000`0b59f2a0 00007fff`6bf5ec6d SHELL32!CDefFolderMenu::InvokeCommand+0x139
-0f 00000000`0b59f600 00007fff`6c216509 SHELL32!SHInvokeCommandOnContextMenu2+0x1f5
-10 00000000`0b59f840 00007fff`6c45dce5 SHELL32!s_DoInvokeVerb+0xc9
-11 00000000`0b59f8b0 00007fff`6d307bd4 shcore!_WrapperThreadProc+0xf5
-12 00000000`0b59f990 00007fff`6da2ce71 KERNEL32!BaseThreadInitThunk+0x14
-13 00000000`0b59f9c0 00000000`00000000 ntdll!RtlUserThreadStart+0x21
-```
-</pre>
-</div>
-<div created="20200326011300237" creator="Lyxica" modified="20200330205537761" modifier="Lyxica" tags="CreateProcessWStubTimeline" title="CreateProcessWStubTimeline" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>{{cpwst:intro}}
-
----
-
-{{cpwst:environmental_description}}
-
----
-
-{{cpwst:finding_the_origin}}
-
-{{cpwst:finding_the_worker_spawner}}
-</pre>
+<div created="20200331225731529" draft.of="" draft.title="test" modified="20200331225734153" tags="" title="Draft of ''" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre></pre>
 </div>
 <div created="20200324231508673" modified="20200325030817212" title="explorer data" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>```
@@ -10110,29 +10143,6 @@ PROCESS ffffab88f9a10300
 </div>
 <div created="20200325162101956" modified="20200325211933807" tags="" title="Finding the window procedure responsible" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre></pre>
-</div>
-<div created="20200325213603920" modified="20200329015333176" tags="[[What happens when you start a program?]]" title="Journal" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>Assuming a message pump is utilized
-It seems that shell32 is mostly responsible for handling the double click. Based on the call stack when placing a breakpoint on CreateProcessWStub
-
-This is what I am attempting to confirm right now: from key down to the start of the process of starting a process, what does that look like?
-
-
----
-
-
-What I want to know is, after processing the message through the kernel, what is the first relevant point of contact in the explorer or shell code that begins handling the process of creating a process. The process may involve:
-* Seeing that a key has been pressed, the current active item in the shell is checked for its type
-* bHaving received the message, it already knows an item has been requested to start
-The first condition is most the most likely situation. Running spy++ on explorer whilst opening putty reveals the following messages of interest:
- 
-
-* WM_CREATE
-* WM_NCCREATE
-* WM_KEYDOWN
-
-As the first situation is most likely, what is probably happening is: WM_KEYDOWN triggers a callback handler that examines what the active item is, if any. For example, if nothing is selected then nothing would happen. If a folder was selected then that folder would be entered. If the item selected is anything else then it will attempt to open it by, presumably, querying the class list in the registry and finding a matching file extension.
-</pre>
 </div>
 <div created="20200325212507426" modified="20200329021611223" tags="" title="Main" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>!! Articles
@@ -10162,59 +10172,14 @@ https://i.imgur.com/9KShfP3.png</pre>
 <div created="20200325031855770" modified="20200325031918714" tags="" title="PE Base Address" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>7ff70e2f0000</pre>
 </div>
-<div created="20200326010858356" modified="20200326011225995" title="Sequence of events" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>* [[User input in explorer (double click, enter) causes one of explorer's window-classes window-procedure to bubble up and call KERNEL32!CreateProcessWStub|CreateProcessWStubTimeline]]
-* ?
-* ...file mapped into memory
-* ?
-* ... thread created ... base init thunk
-* Program started</pre>
-</div>
-<div created="20200325213706340" modified="20200329015333169" tags="[[What happens when you start a program?]]" title="Speculated event chain" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>Pseudo timeline – Most of these points are assumed using educated guesses on the underlying mechanisms responsible for loading and launching a program. The underlying assumptions may be wrong, but the gist is likely correct. This will allow me to both categorize and test assumptions, as I can test if say, the explorer CreateProcess path is correct or not but that is separated from the assumptions on how CreateProcess itself is used.
+<div created="20200325212644422" modified="20200331220000440" title="What happens when you start a program?" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>!! Part 1 
+!!! Explorer detects that the user wants to start a program
+[[The road to CreateProcess is paved with good intentions|CreateProcessWStubTimeline]]
 
-* Double click .exe file
-* Explorer’s Win32 message pump calls subroutine responsible for dblclick’s on files
-* Message pump responds by…
-** Seeing file ends in exe and spawning a process using CreateProcess
-** Examining the file’s extension and searching through the registry for the appropriate handler to call with the file’s path. 
-*** Handler spawns process using CreateProcess
-* Kernel creates a process object and instantiates various support structures. 
-* What occurs during this stage includes:
-# 	Creating virtual address for the process
-# Mapping the program’s file into the VAS
-# 	Mapping external modules (kernel32.dll etc) into the VAS
-# 	Initializing the 1st 
-
-
-* The first line of code inside the processes space is executed.
-* A [any] CPU’s context is changed to the processes 1st/initial thread.
-* The program’s Main() is ran
-
----
-
-
-Assuming a message pump is utilized - Series of events so far:
-
-* ?
-* …
-* ?
-* shcore!_WrapperThreadProc
-** Expected message pump
-* [Trying to find the registered window procedure for the default shell]
-* …
-* SHELL32!s_DoInvokeVerb
-* …
-* KERNEL32!CreateProcessWStub</pre>
-</div>
-<div created="20200325212644422" modified="20200329015333185" title="What happens when you start a program?" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>[[Journal]]
-
-[[Speculated event chain]]
-
-[[CreateProcessWStub Callstack]]
-
-[[Sequence of events]]</pre>
+!! Part 2 
+!!! The Operating System creates the process
+[[Kernel, take the wheel]]</pre>
 </div>
 
 </div>
