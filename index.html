@@ -255,7 +255,11 @@ Error message and password prompt
 
 <li>cwpst:dump:gyz</li>
 
+<li>cwpst:dump:gyzf</li>
+
 <li>Draft of ''</li>
+
+<li>Draft of 'cpwst:finding_the_worker_spawner'</li>
 
 <li>explorer data</li>
 
@@ -10007,7 +10011,7 @@ Notes for tomorrow:
 
 &lt;&lt;ximg &quot;img note deleteme.png&quot;&gt;&gt;</pre>
 </div>
-<div created="20200330182306818" modified="20200401200943907" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_worker_spawner" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200330182306818" modified="20200401202001523" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_worker_spawner" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>!! Finding the worker's spawner
 
 Because the call stack for shcore!_WrapperThreadProc starts ON shcore!_WrapperThreadProc[0], I know that I have to search for a worker spawner. A &quot;worker&quot; is a thread that is created to handle a specific job. Think of a dispatcher sending a taxi to a location. The dispatcher &quot;spawns&quot; a taxi and sends it to go pick someone up. To find where the worker thread was spawned I'll place a breakpoint on kernel32!CreateThreadStub. This function is very noisy, it tends to be called 10+ times a second, so to reduce the SNR I'll place a conditional breakpoint that will only cause the debugger to take control when kernel32!CreateThreadStub is called with a pointer to shcore!_WrapperThreadProc. This significantly reduces the SNR (although a few irrelevant entries still pop up) and I'm able to grab the following call stack:
@@ -10043,36 +10047,10 @@ KernelTime                00:00:05.171
 Based on the context switch count and the elapsed user/kernel time, it appears that this thread is not being spun up just to answer the call of launching the program. Testing this theory, I resume the VM and wait one minute before breaking in. Querying WinDBG for information about the thread, I find the thread still exists and it's sitting in a WAIT state:
 
 ```
-0: kd&gt; !thread ffffa105d35d8080 16
-nt!KiSwapContext+0x76
-nt!KiSwapThread+0x3f2
-nt!KiCommitThreadWait+0x144
-nt!KeWaitForMultipleObjects+0x287
-nt!ObWaitForMultipleObjects+0x2a9
-win32kfull!xxxMsgWaitForMultipleObjectsEx+0xde
-win32kfull!NtUserMsgWaitForMultipleObjectsEx+0x3c1
-nt!KiSystemServiceCopyEnd+0x28 (TrapFrame @ ffff8a0c`2b956e40)
-win32u!NtUserMsgWaitForMultipleObjectsEx+0x14
-USER32!RealMsgWaitForMultipleObjectsEx+0x1d
-DUser!CoreSC::WaitMessage+0xeb
-DUser!MphWaitMessageEx+0x56
-USER32!_ClientWaitMessageExMPH+0x21
-ntdll!KiUserCallbackDispatcherContinue (TrapFrame @ 00000000`09faf2a8)
-win32u!NtUserWaitMessage+0x14
-explorerframe!CExplorerFrame::FrameMessagePump+0x153
-explorerframe!BrowserThreadProc+0x85
-explorerframe!BrowserNewThreadProc+0x3a
-explorerframe!CExplorerTask::InternalResumeRT+0x12
-explorerframe!CRunnableTask::Run+0xb2
-windows_storage!CShellTask::TT_Run+0x3c
-windows_storage!CShellTaskThread::ThreadProc+0xdd
-windows_storage!CShellTaskThread::s_ThreadProc+0x35
-shcore!_WrapperThreadProc+0xf5
-KERNEL32!BaseThreadInitThunk+0x14
-ntdll!RtlUserThreadStart+0x21
+{{cwpst:dump:gyzf}}
 ```
 
-
+Examining the last common ancestor of the two callstacks, ''explorerframe!CExplorerFrame::FrameMessagePump+0x153'' &quot;test?&quot;
 
 [0]: RtlUserThreadStart and BaseThreadInitThunk don't count -- they're functions that were called when the thread was first started and are responsible for setting the thread up</pre>
 </div>
@@ -10165,10 +10143,82 @@ KERNEL32!BaseThreadInitThunk+0x14
 ntdll!RtlUserThreadStart+0x21
 ```</pre>
 </div>
+<div created="20200401201722025" modified="20200401201722683" tags="cpwst:finding_the_worker_spawner" title="cwpst:dump:gyzf" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>0: kd&gt; !thread ffffa105d35d8080 16
+nt!KiSwapContext+0x76
+nt!KiSwapThread+0x3f2
+nt!KiCommitThreadWait+0x144
+nt!KeWaitForMultipleObjects+0x287
+nt!ObWaitForMultipleObjects+0x2a9
+win32kfull!xxxMsgWaitForMultipleObjectsEx+0xde
+win32kfull!NtUserMsgWaitForMultipleObjectsEx+0x3c1
+nt!KiSystemServiceCopyEnd+0x28 (TrapFrame @ ffff8a0c`2b956e40)
+win32u!NtUserMsgWaitForMultipleObjectsEx+0x14
+USER32!RealMsgWaitForMultipleObjectsEx+0x1d
+DUser!CoreSC::WaitMessage+0xeb
+DUser!MphWaitMessageEx+0x56
+USER32!_ClientWaitMessageExMPH+0x21
+ntdll!KiUserCallbackDispatcherContinue (TrapFrame @ 00000000`09faf2a8)
+win32u!NtUserWaitMessage+0x14
+explorerframe!CExplorerFrame::FrameMessagePump+0x153
+explorerframe!BrowserThreadProc+0x85
+explorerframe!BrowserNewThreadProc+0x3a
+explorerframe!CExplorerTask::InternalResumeRT+0x12
+explorerframe!CRunnableTask::Run+0xb2
+windows_storage!CShellTask::TT_Run+0x3c
+windows_storage!CShellTaskThread::ThreadProc+0xdd
+windows_storage!CShellTaskThread::s_ThreadProc+0x35
+shcore!_WrapperThreadProc+0xf5
+KERNEL32!BaseThreadInitThunk+0x14
+ntdll!RtlUserThreadStart+0x21</pre>
+</div>
 <div created="20200401190922956" draft.of="" draft.title="$:/courses" modified="20200401191033075" tags="" title="Draft of ''" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>cryptography
 graph theory
 </pre>
+</div>
+<div created="20200330182306818" draft.of="cpwst:finding_the_worker_spawner" draft.title="cpwst:finding_the_worker_spawner" modified="20200401202004930" tags="CreateProcessWStubTimeline" title="Draft of 'cpwst:finding_the_worker_spawner'" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>!! Finding the worker's spawner
+
+Because the call stack for shcore!_WrapperThreadProc starts ON shcore!_WrapperThreadProc[0], I know that I have to search for a worker spawner. A &quot;worker&quot; is a thread that is created to handle a specific job. Think of a dispatcher sending a taxi to a location. The dispatcher &quot;spawns&quot; a taxi and sends it to go pick someone up. To find where the worker thread was spawned I'll place a breakpoint on kernel32!CreateThreadStub. This function is very noisy, it tends to be called 10+ times a second, so to reduce the SNR I'll place a conditional breakpoint that will only cause the debugger to take control when kernel32!CreateThreadStub is called with a pointer to shcore!_WrapperThreadProc. This significantly reduces the SNR (although a few irrelevant entries still pop up) and I'm able to grab the following call stack:
+
+
+{{cwpst:dump:gyz}}
+
+Once again, shcore!_WrapperThreadProc shows itself as the originator of this thread -- this raises some important questions:
+
+* Is this thread a temporary worker thread like the previous one? Or, 
+* Is this thread a more long term worker, perhaps in service of handling some kind of specific requests?
+
+It's important to determine the permanence of this thread as the point of this article is to answer what happens when a program is requested to be started -- if this thread spins up as a result of that specific request then it will be necessary to trace the creation of this worker thread.  If, on the other hand, this worker thread is spun up during, say, explorers initial boot sequence during OS initialization then it's not necessary to trace the threads originator. 
+
+To answer this question I'll perform a quick experiment: If I resume the VM will the thread die after the process launch request has been fulfilled? Or will it sit and wait for more work?
+
+A quick query to WinDBG for information about the thread hints towards the later:
+
+
+```
+3: kd&gt; !thread
+THREAD ffffc68e93a2c080  Cid 16a4.1fa0  Teb: 0000000000af5000 Win32Thread: ffffc68e93550330 RUNNING on processor 3
+Not impersonating
+DeviceMap                 ffff838084ef5790
+Owning Process            ffffc68e92dc5300       Image:         explorer.exe
+Attached Process          N/A            Image:         N/A
+Wait Start TickCount      15089          Ticks: 0
+Context Switch Count      107683         IdealProcessor: 0             
+UserTime                  00:00:02.406
+KernelTime                00:00:05.171
+```
+
+Based on the context switch count and the elapsed user/kernel time, it appears that this thread is not being spun up just to answer the call of launching the program. Testing this theory, I resume the VM and wait one minute before breaking in. Querying WinDBG for information about the thread, I find the thread still exists and it's sitting in a WAIT state:
+
+```
+{{cwpst:dump:gyzf}}
+```
+
+Examining the last common ancestor of the two callstacks, ''explorerframe!CExplorerFrame::FrameMessagePump+0x153'' &quot;test?&quot;
+
+[0]: RtlUserThreadStart and BaseThreadInitThunk don't count -- they're functions that were called when the thread was first started and are responsible for setting the thread up</pre>
 </div>
 <div created="20200324231508673" modified="20200325030817212" title="explorer data" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>```
