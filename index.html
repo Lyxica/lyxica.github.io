@@ -10009,7 +10009,7 @@ Notes for tomorrow:
 
 &lt;&lt;ximg &quot;img note deleteme.png&quot;&gt;&gt;</pre>
 </div>
-<div created="20200330182306818" modified="20200401194842866" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_worker_spawner" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200330182306818" modified="20200401195719289" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_worker_spawner" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>!! Finding the worker's spawner
 
 Because the call stack for shcore!_WrapperThreadProc starts ON shcore!_WrapperThreadProc[0], I know that I have to search for a worker spawner. A &quot;worker&quot; is a thread that is created to handle a specific job. Think of a dispatcher sending a taxi to a location. The dispatcher &quot;spawns&quot; a taxi and sends it to go pick someone up. To find where the worker thread was spawned I'll place a breakpoint on kernel32!CreateThreadStub. This function is very noisy, it tends to be called 10+ times a second, so to reduce the SNR I'll place a conditional breakpoint that will only cause the debugger to take control when kernel32!CreateThreadStub is called with a pointer to shcore!_WrapperThreadProc. This significantly reduces the SNR (although a few irrelevant entries still pop up) and I'm able to grab the following call stack:
@@ -10020,12 +10020,13 @@ Because the call stack for shcore!_WrapperThreadProc starts ON shcore!_WrapperTh
 Once again, shcore!_WrapperThreadProc shows itself as the originator of this thread -- this raises some important questions:
 
 * Is this thread a temporary worker thread like the previous one? Or, 
-* Is this thread a more long term worker, perhaps in service of handling requests dispatched to a specific win32 window
-** eg could the thread be responsible for one and only one explorer window?
+* Is this thread a more long term worker, perhaps in service of handling some kind of specific requests?
 
-It's important to determine the permanence of this thread as the point of this article is to answer what happens when a program is requested to be started -- if this thread spins up as a result of that then it must be analyzed; if the thread is a longer term worker representing the state of the explorer window then its not of importance.
+It's important to determine the permanence of this thread as the point of this article is to answer what happens when a program is requested to be started -- if this thread spins up as a result of that specific request then it will be necessary to trace the creation of this worker thread.  If, on the other hand, this worker thread is spun up during, say, explorers initial boot sequence during OS initialization then it's not necessary to trace the threads originator. 
 
-If we query WinDBG for information about the thread, we'll see the following:
+To answer this question I'll perform a quick experiment: If I resume the VM will the thread die after the process launch request has been fulfilled? Or will it sit and wait for more work?
+
+A quick query to WinDBG for information about the thread hints towards the later:
 
 
 ```
@@ -10041,11 +10042,8 @@ UserTime                  00:00:02.406
 KernelTime                00:00:05.171
 ```
 
-Based on the context switch count and the elapsed user/kernel time, it appears that this thread is not being spun up just to answer the call of launching the program. I want to make sure this is the case though, so I'll let the VM resume and then break after various amounts of time. In those breaks I'll check if the thread still exists.
+Based on the context switch count and the elapsed user/kernel time, it appears that this thread is not being spun up just to answer the call of launching the program. Testing this theory, I resume the VM and wait 30 seconds before breaking in. 
 
-[[Callstack comparison|cpwst:callstack_compare]]
-
-After closing the explorer window and waiting 5 - 10 seconds I broke in and checked for the existence of the thread. The thread was still alive, but spun down into a waiting state. The thread responsible for 
 
 
 [0]: RtlUserThreadStart and BaseThreadInitThunk don't count -- they're functions that were called when the thread was first started and are responsible for setting the thread up</pre>
@@ -10144,7 +10142,7 @@ ntdll!RtlUserThreadStart+0x21
 graph theory
 </pre>
 </div>
-<div created="20200330182306818" draft.of="cpwst:finding_the_worker_spawner" draft.title="cpwst:finding_the_worker_spawner" modified="20200401195505164" tags="CreateProcessWStubTimeline" title="Draft of 'cpwst:finding_the_worker_spawner'" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200330182306818" draft.of="cpwst:finding_the_worker_spawner" draft.title="cpwst:finding_the_worker_spawner" modified="20200401195722129" tags="CreateProcessWStubTimeline" title="Draft of 'cpwst:finding_the_worker_spawner'" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>!! Finding the worker's spawner
 
 Because the call stack for shcore!_WrapperThreadProc starts ON shcore!_WrapperThreadProc[0], I know that I have to search for a worker spawner. A &quot;worker&quot; is a thread that is created to handle a specific job. Think of a dispatcher sending a taxi to a location. The dispatcher &quot;spawns&quot; a taxi and sends it to go pick someone up. To find where the worker thread was spawned I'll place a breakpoint on kernel32!CreateThreadStub. This function is very noisy, it tends to be called 10+ times a second, so to reduce the SNR I'll place a conditional breakpoint that will only cause the debugger to take control when kernel32!CreateThreadStub is called with a pointer to shcore!_WrapperThreadProc. This significantly reduces the SNR (although a few irrelevant entries still pop up) and I'm able to grab the following call stack:
@@ -10157,9 +10155,11 @@ Once again, shcore!_WrapperThreadProc shows itself as the originator of this thr
 * Is this thread a temporary worker thread like the previous one? Or, 
 * Is this thread a more long term worker, perhaps in service of handling some kind of specific requests?
 
-It's important to determine the permanence of this thread as the point of this article is to answer what happens when a program is requested to be started -- if this thread spins up as a result of that specific request then it will be necessary to trace the creation of this worker thread.  If, on the other hand, this worker thread is spun up during, say, explorers initial bootsequence during OS 
+It's important to determine the permanence of this thread as the point of this article is to answer what happens when a program is requested to be started -- if this thread spins up as a result of that specific request then it will be necessary to trace the creation of this worker thread.  If, on the other hand, this worker thread is spun up during, say, explorers initial boot sequence during OS initialization then it's not necessary to trace the threads originator. 
 
-If we query WinDBG for information about the thread, we'll see the following:
+To answer this question I'll perform a quick experiment: If I resume the VM will the thread die after the process launch request has been fulfilled? Or will it sit and wait for more work?
+
+A quick query to WinDBG for information about the thread hints towards the later:
 
 
 ```
@@ -10175,11 +10175,8 @@ UserTime                  00:00:02.406
 KernelTime                00:00:05.171
 ```
 
-Based on the context switch count and the elapsed user/kernel time, it appears that this thread is not being spun up just to answer the call of launching the program. I want to make sure this is the case though, so I'll let the VM resume and then break after various amounts of time. In those breaks I'll check if the thread still exists.
+Based on the context switch count and the elapsed user/kernel time, it appears that this thread is not being spun up just to answer the call of launching the program. Testing this theory, I resume the VM and wait 30 seconds before breaking in. 
 
-[[Callstack comparison|cpwst:callstack_compare]]
-
-After closing the explorer window and waiting 5 - 10 seconds I broke in and checked for the existence of the thread. The thread was still alive, but spun down into a waiting state. The thread responsible for 
 
 
 [0]: RtlUserThreadStart and BaseThreadInitThunk don't count -- they're functions that were called when the thread was first started and are responsible for setting the thread up</pre>
