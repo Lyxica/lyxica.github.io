@@ -10144,7 +10144,7 @@ ntdll!RtlUserThreadStart+0x21
 graph theory
 </pre>
 </div>
-<div created="20200330182306818" draft.of="cpwst:finding_the_worker_spawner" draft.title="cpwst:finding_the_worker_spawner" modified="20200401194934737" tags="CreateProcessWStubTimeline" title="Draft of 'cpwst:finding_the_worker_spawner'" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200330182306818" draft.of="cpwst:finding_the_worker_spawner" draft.title="cpwst:finding_the_worker_spawner" modified="20200401195505164" tags="CreateProcessWStubTimeline" title="Draft of 'cpwst:finding_the_worker_spawner'" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>!! Finding the worker's spawner
 
 Because the call stack for shcore!_WrapperThreadProc starts ON shcore!_WrapperThreadProc[0], I know that I have to search for a worker spawner. A &quot;worker&quot; is a thread that is created to handle a specific job. Think of a dispatcher sending a taxi to a location. The dispatcher &quot;spawns&quot; a taxi and sends it to go pick someone up. To find where the worker thread was spawned I'll place a breakpoint on kernel32!CreateThreadStub. This function is very noisy, it tends to be called 10+ times a second, so to reduce the SNR I'll place a conditional breakpoint that will only cause the debugger to take control when kernel32!CreateThreadStub is called with a pointer to shcore!_WrapperThreadProc. This significantly reduces the SNR (although a few irrelevant entries still pop up) and I'm able to grab the following call stack:
@@ -10155,10 +10155,9 @@ Because the call stack for shcore!_WrapperThreadProc starts ON shcore!_WrapperTh
 Once again, shcore!_WrapperThreadProc shows itself as the originator of this thread -- this raises some important questions:
 
 * Is this thread a temporary worker thread like the previous one? Or, 
-* Is this thread a more long term worker, perhaps in service of handling requests dispatched to a specific win32 window
-** eg could the thread be responsible for one and only one explorer window?
+* Is this thread a more long term worker, perhaps in service of handling some kind of specific requests?
 
-It's important to determine the permanence of this thread as the point of this article is to answer what happens when a program is requested to be started -- if this thread spins up as a result of that then it must be analyzed; if the thread is a longer term worker representing the state of the explorer window then its not of importance.
+It's important to determine the permanence of this thread as the point of this article is to answer what happens when a program is requested to be started -- if this thread spins up as a result of that specific request then it will be necessary to trace the creation of this worker thread.  If, on the other hand, this worker thread is spun up during, say, explorers initial bootsequence during OS 
 
 If we query WinDBG for information about the thread, we'll see the following:
 
