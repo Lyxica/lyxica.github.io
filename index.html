@@ -10142,7 +10142,7 @@ ntdll!RtlUserThreadStart+0x21
 graph theory
 </pre>
 </div>
-<div created="20200330182306818" draft.of="cpwst:finding_the_worker_spawner" draft.title="cpwst:finding_the_worker_spawner" modified="20200401195722129" tags="CreateProcessWStubTimeline" title="Draft of 'cpwst:finding_the_worker_spawner'" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200330182306818" draft.of="cpwst:finding_the_worker_spawner" draft.title="cpwst:finding_the_worker_spawner" modified="20200401200442182" tags="CreateProcessWStubTimeline" title="Draft of 'cpwst:finding_the_worker_spawner'" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>!! Finding the worker's spawner
 
 Because the call stack for shcore!_WrapperThreadProc starts ON shcore!_WrapperThreadProc[0], I know that I have to search for a worker spawner. A &quot;worker&quot; is a thread that is created to handle a specific job. Think of a dispatcher sending a taxi to a location. The dispatcher &quot;spawns&quot; a taxi and sends it to go pick someone up. To find where the worker thread was spawned I'll place a breakpoint on kernel32!CreateThreadStub. This function is very noisy, it tends to be called 10+ times a second, so to reduce the SNR I'll place a conditional breakpoint that will only cause the debugger to take control when kernel32!CreateThreadStub is called with a pointer to shcore!_WrapperThreadProc. This significantly reduces the SNR (although a few irrelevant entries still pop up) and I'm able to grab the following call stack:
@@ -10175,7 +10175,7 @@ UserTime                  00:00:02.406
 KernelTime                00:00:05.171
 ```
 
-Based on the context switch count and the elapsed user/kernel time, it appears that this thread is not being spun up just to answer the call of launching the program. Testing this theory, I resume the VM and wait 30 seconds before breaking in. 
+Based on the context switch count and the elapsed user/kernel time, it appears that this thread is not being spun up just to answer the call of launching the program. Testing this theory, I resume the VM and wait one minute before breaking in. Querying WinDBG for information about the thread, I find the thread still exists and it's sitting in a WAIT state. 
 
 
 
