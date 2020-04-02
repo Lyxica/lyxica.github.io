@@ -10184,10 +10184,10 @@ Notes for tomorrow:
 
 &lt;&lt;ximg &quot;img note deleteme.png&quot;&gt;&gt;</pre>
 </div>
-<div created="20200330182306818" modified="20200402020333384" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_worker_spawner" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200330182306818" modified="20200402021151736" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_worker_spawner" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>!! Finding the worker's spawner
 
-Because the call stack for shcore!_WrapperThreadProc starts ON shcore!_WrapperThreadProc[0], I know that I have to search for a worker spawner. A &quot;worker&quot; is a thread that is created to handle a specific job. Think of a dispatcher sending a taxi to a location. The dispatcher &quot;spawns&quot; a taxi and sends it to go pick someone up. To find where the worker thread was spawned I'll place a breakpoint on kernel32!CreateThreadStub. This function is very noisy, it tends to be called 10+ times a second, so to reduce the SNR I'll place a conditional breakpoint that will only cause the debugger to take control when kernel32!CreateThreadStub is called with a pointer to shcore!_WrapperThreadProc. This significantly reduces the SNR (although a few irrelevant entries still pop up) and I'm able to grab the following call stack:
+Because the call stack for shcore!_WrapperThreadProc starts ON shcore!_WrapperThreadProc[0], I know that I have to search for a worker spawner. A &quot;worker&quot; is a thread that is created to handle a specific job. Think of a dispatcher sending a taxi to a location. The dispatcher &quot;spawns&quot; a taxi and sends it to go pick someone up. To find where the worker thread was spawned I'll place a breakpoint on kernel32!CreateThreadStub. This function is very noisy, it tends to be called 10+ times a second, so to reduce the SNR I'll place a conditional breakpoint that will only cause the debugger to take control when kernel32!CreateThreadStub is called with a pointer to shcore!_WrapperThreadProc[tooltip text of the bp here]. This significantly reduces the SNR (although a few irrelevant entries still pop up) and I'm able to grab the following call stack:
 
 &lt;$details summary=&quot;Callstack&quot;&gt;
 
