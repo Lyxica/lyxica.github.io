@@ -199,6 +199,8 @@ Error message and password prompt
 
 <li>$:/language/DefaultNewTiddlerTitle</li>
 
+<li>$:/macros/banners</li>
+
 <li>$:/macros/file</li>
 
 <li>$:/macros/pdf</li>
@@ -9570,6 +9572,116 @@ Error message and password prompt
 <div created="20200329195856057" modified="20200329195855801" title="$:/language/DefaultNewTiddlerTitle" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre></pre>
 </div>
+<div created="20200402004559500" modified="20200402004959536" tags="$:/tags/Macro" title="$:/macros/banners" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>\define .concat(1,2,3,4,5) $1$$2$$3$$4$$5$
+
+\define .def(_) &lt;dfn class=&quot;doc-def&quot;&gt;$_$&lt;/dfn&gt;
+\define .em(_) &lt;em class=&quot;doc-em&quot;&gt;$_$&lt;/em&gt;
+\define .strong(_) &lt;strong class=&quot;doc-strong&quot;&gt;$_$&lt;/strong&gt;
+\define .place(_) &lt;code class=&quot;doc-place&quot;&gt;$_$&lt;/code&gt;
+\define .word(_) &quot;$_$&quot;
+
+\define .preamble(_) :.doc-preamble $_$
+\define .note(_)
+@@.doc-note
+;Note
+: $_$
+@@
+\end
+
+\define .tid(_) &lt;code class=&quot;doc-tiddler&quot;&gt;$_$&lt;/code&gt;
+\define .tag(_) &lt;code class=&quot;doc-tag&quot;&gt;$_$&lt;/code&gt;
+\define .field(_) &lt;code class=&quot;doc-field&quot;&gt;$_$&lt;/code&gt;
+\define .value(_) &lt;code class=&quot;doc-value&quot;&gt;$_$&lt;/code&gt;
+\define .op(_) &lt;code class=&quot;doc-operator&quot;&gt;$_$&lt;/code&gt;
+\define .var(_) &lt;code class=&quot;doc-var&quot;&gt;$_$&lt;/code&gt;
+\define .wid(_) &lt;code class=&quot;doc-widget&quot;&gt;$$_$&lt;/code&gt;
+\define .attr(_) &lt;code class=&quot;doc-attr&quot;&gt;$_$&lt;/code&gt;
+\define .param(_) &lt;code class=&quot;doc-param&quot;&gt;$_$&lt;/code&gt;
+
+\define .mtitle(_) $_$ Macro
+\define .otitle(_) $_$ Operator
+\define .vtitle(_) $_$ Variable
+
+\define .link(_,to) &lt;$link to=&quot;$to$&quot;&gt;$_$&lt;/$link&gt;
+\define .clink(_,to) &lt;span class=&quot;doc-clink&quot;&gt;&lt;&lt;.link &quot;&quot;&quot;$_$&quot;&quot;&quot; &quot;$to$&quot;&gt;&gt;&lt;/span&gt;
+\define .dlink(_,to) &lt;$macrocall $name=&quot;.link&quot; _=&lt;&lt;.def &quot;$_$&quot;&gt;&gt; to=&quot;$to$&quot;&gt;/&gt;
+\define .dlink-ex(_,to) &lt;a href=&quot;$to$&quot; class=&quot;tc-tiddlylink-external&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferrer&quot;&gt;&lt;&lt;.def &quot;$_$&quot;&gt;&gt;&lt;/a&gt;
+\define .flink(to) &lt;$macrocall $name=&quot;.link&quot; _=&lt;&lt;.field {{$to$!!caption}}&gt;&gt; to=&quot;$to$&quot;/&gt;
+\define .mlink(_,to) &lt;$macrocall $name=&quot;.link&quot; _=&lt;&lt;.var &quot;$_$&quot;&gt;&gt; to=&lt;&lt;.mtitle &quot;$_$&quot;&gt;&gt;/&gt;
+\define .mlink2(_,to) &lt;$macrocall $name=&quot;.link&quot; _=&lt;&lt;.var &quot;$_$&quot;&gt;&gt; to=&quot;$to$&quot;/&gt;
+\define .olink(_) &lt;$macrocall $name=&quot;.link&quot; _=&lt;&lt;.op &quot;$_$&quot;&gt;&gt; to=&lt;&lt;.otitle &quot;$_$&quot;&gt;&gt;/&gt;
+\define .olink2(_,to) &lt;$macrocall $name=&quot;.link&quot; _=&lt;&lt;.op &quot;$_$&quot;&gt;&gt; to=&lt;&lt;.otitle &quot;$to$&quot;&gt;&gt;/&gt;
+\define .vlink(_,to) &lt;$macrocall $name=&quot;.link&quot; _=&lt;&lt;.var &quot;$_$&quot;&gt;&gt; to=&lt;&lt;.vtitle &quot;$_$&quot;&gt;&gt;/&gt;
+\define .vlink2(_,to) &lt;$macrocall $name=&quot;.link&quot; _=&lt;&lt;.var &quot;$_$&quot;&gt;&gt; to=&quot;$to$&quot;/&gt;
+\define .wlink(to) &lt;$macrocall $name=&quot;.link&quot; _=&lt;&lt;.wid {{$to$!!caption}}&gt;&gt; to=&quot;$to$&quot;/&gt;
+\define .wlink2(_,to) &lt;$macrocall $name=&quot;.link&quot; _=&quot;$_$&quot; to=&quot;$to$&quot;/&gt;
+
+\define .key(_) &lt;span class=&quot;doc-key&quot;&gt;$_$&lt;/span&gt;
+\define .combokey(_) &lt;$macrocall $name=&quot;.if&quot; cond=&quot;$_$&quot; then=&lt;&lt;.key '$_$'&gt;&gt;/&gt;
+\define .keycombo(1,2,3,4) &lt;&lt;.combokey &quot;$1$&quot;&gt;&gt;&lt;&lt;.if &quot;$2$&quot; +&gt;&gt;&lt;&lt;.combokey &quot;$2$&quot;&gt;&gt;&lt;&lt;.if &quot;$3$&quot; +&gt;&gt;&lt;&lt;.combokey &quot;$3$&quot;&gt;&gt;&lt;&lt;.if &quot;$4$&quot; +&gt;&gt;&lt;&lt;.combokey &quot;$4$&quot;&gt;&gt;
+
+\define .tab(_) &lt;span class=&quot;doc-tab&quot;&gt;{{$_$!!caption}}&lt;/span&gt;
+\define .sidebar-tab(_) &lt;&lt;.tab &quot;$:/core/ui/SideBar/$_$&quot;&gt;&gt;
+\define .more-tab(_) &lt;&lt;.tab &quot;$:/core/ui/MoreSideBar/$_$&quot;&gt;&gt;
+\define .info-tab(_) &lt;&lt;.tab &quot;$:/core/ui/TiddlerInfo/$_$&quot;&gt;&gt;
+\define .controlpanel-tab(_) &lt;&lt;.tab &quot;$:/core/ui/ControlPanel/$_$&quot;&gt;&gt;
+\define .advancedsearch-tab(_) &lt;&lt;.tab &quot;$:/core/ui/AdvancedSearch/$_$&quot;&gt;&gt;
+\define .toc-tab() &lt;&lt;.tab &quot;TableOfContents&quot;&gt;&gt;
+\define .example-tab(_) &lt;span class=&quot;doc-tab&quot;&gt;$_$&lt;/span&gt;
+
+\define .button(_) &lt;span class=&quot;doc-button&quot;&gt;{{$:/core/ui/Buttons/$_$!!caption}}&lt;/span&gt;
+
+\define .tip(_) &lt;div class=&quot;doc-icon-block&quot;&gt;&lt;div class=&quot;doc-block-icon&quot;&gt;{{$:/core/images/tip}}&lt;/div&gt; $_$&lt;/div&gt;
+\define .warning(_) &lt;div class=&quot;doc-icon-block&quot;&gt;&lt;div class=&quot;doc-block-icon&quot;&gt;{{$:/core/images/warning}}&lt;/div&gt; $_$&lt;/div&gt;
+
+\define .state-prefix() $:/state/editions/tw5.com/
+
+\define .lorem()
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\end
+
+\define .toc-lorem()
+This is an example tiddler. See [[Table-of-Contents Macros (Examples)]].
+
+&lt;&lt;.lorem&gt;&gt;
+\end
+
+\define .example(n,eg,egvar:NO-SUCH-VAR)
+&lt;div class=&quot;doc-example&quot;&gt;
+&lt;$reveal default=&quot;$egvar$&quot; type=&quot;match&quot; text=&quot;NO-SUCH-VAR&quot;&gt;
+	&lt;$macrocall $name=&quot;copy-to-clipboard-above-right&quot; src=&quot;&quot;&quot;$eg$&quot;&quot;&quot;/&gt;
+	&lt;$codeblock code=&quot;&quot;&quot;$eg$&quot;&quot;&quot;/&gt;
+&lt;/$reveal&gt;
+&lt;$reveal default=&quot;$egvar$&quot; type=&quot;nomatch&quot; text=&quot;NO-SUCH-VAR&quot;&gt;
+	&lt;!-- allow an example to contain &quot;&quot;&quot; --&gt;
+	&lt;$macrocall $name=&quot;copy-to-clipboard-above-right&quot; src=&lt;&lt;$egvar$&gt;&gt;/&gt;
+	&lt;$codeblock code=&lt;&lt;$egvar$&gt;&gt;/&gt;
+&lt;/$reveal&gt;
+&lt;$list filter=&quot;[title&lt;.state-prefix&gt;addsuffix{!!title}addsuffix[/]addsuffix[$n$]]&quot; variable=&quot;.state&quot;&gt;
+&lt;$reveal state=&lt;&lt;.state&gt;&gt; type=&quot;nomatch&quot; text=&quot;show&quot;&gt;
+	&lt;dl&gt;
+	&lt;dd&gt;&lt;$button set=&lt;&lt;.state&gt;&gt; setTo=&quot;show&quot;&gt;Try it&lt;/$button&gt;&lt;/dd&gt;
+	&lt;/dl&gt;
+&lt;/$reveal&gt;
+&lt;$reveal state=&lt;&lt;.state&gt;&gt; type=&quot;match&quot; text=&quot;show&quot;&gt;
+	&lt;dl&gt;
+	&lt;dd&gt;&lt;$button set=&lt;&lt;.state&gt;&gt; setTo=&quot;&quot;&gt;Hide&lt;/$button&gt;&lt;/dd&gt;
+	&lt;/dl&gt;
+	&lt;blockquote class=&quot;doc-example-result&quot;&gt;
+	&lt;$reveal default=&quot;$egvar$&quot; type=&quot;match&quot; text=&quot;NO-SUCH-VAR&quot;&gt;
+		$eg$
+	&lt;/$reveal&gt;
+	&lt;$reveal default=&quot;$egvar$&quot; type=&quot;nomatch&quot; text=&quot;NO-SUCH-VAR&quot;&gt;
+		&lt;&lt;$egvar$&gt;&gt;
+	&lt;/$reveal&gt;
+	&lt;/blockquote&gt;
+&lt;/$reveal&gt;
+&lt;/$list&gt;
+\end
+
+&lt;pre&gt;&lt;$view field=&quot;text&quot;/&gt;&lt;/pre&gt;</pre>
+</div>
 <div created="20200329013229706" modified="20200329013655533" tags="$:/tags/Macro" title="$:/macros/file" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>\define file(text, fn)
     [[$text$|https://lyxica.github.io/$fn$]]
@@ -9948,12 +10060,17 @@ Error message and password prompt
 * Tone 4 - highest to lowest, authorative/assertive https://courses.mandarinblueprint.com/products/pronunciation-mastery/categories/598996/posts/1941094
 * Tone 5 - Contrary of 1 or 3 https://courses.mandarinblueprint.com/products/pronunciation-mastery/categories/598996/posts/1941095</pre>
 </div>
-<div created="20200401225503318" modified="20200401225724469" tags="" title="cpwst:bigger_intro" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200401225503318" modified="20200402004841701" tags="" title="cpwst:bigger_intro" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>blah blah thousands of lines 
 
 hundreds of dll files
 
-navigating the code of the windows operating system (or any operating system) is a very complicated process, involving the navigation of thousands of various systems underneath the hood. one of the most critical aspects of examining something like 'how does a program get started' involves undering a clear target of what should and shouldnt be analyzed. blah blah some things cant be explored because they stray too far from the topic even if they might be critical to the process blah blah.</pre>
+navigating the code of the windows operating system (or any operating system) is a very complicated process, involving the navigation of thousands of various systems underneath the hood. one of the most critical aspects of examining something like 'how does a program get started' involves undering a clear target of what should and shouldnt be analyzed. blah blah some things cant be explored because they stray too far from the topic even if they might be critical to the process blah blah.
+
+&lt;&lt;.tip &quot;&quot;&quot;test!!!!&quot;&quot;&quot;&gt;&gt;
+
+&lt;&lt;.tip &quot;&quot;&quot;&lt;$macrocall $name=&quot;.from-version&quot; version=&quot;5.1.18&quot;/&gt; &lt;$macrocall $name=&quot;.attr&quot; _=&quot;stateTitle&quot;/&gt;, &lt;$macrocall $name=&quot;.attr&quot; _=&quot;stateField&quot;/&gt; and &lt;$macrocall $name=&quot;.attr&quot; _=&quot;stateIndex&quot;/&gt; attributes allow specifying Tiddler states ''directly'', without interpreting them as [[TextReferences|TextReference]].
+This is useful for edge-cases where titles may contain characters that are used to denote Tiddler fields or indices (`!!`, `##`)&quot;&quot;&quot;&gt;&gt;</pre>
 </div>
 <div created="20200330215427202" modified="20200330215454284" title="cpwst:callstack_compare" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>{{cwpst:dump:gyz}}
