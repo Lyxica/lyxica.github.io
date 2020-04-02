@@ -163,6 +163,8 @@ Error message and password prompt
 
 <li>$:/config/PageControlButtons/Visibility/$:/core/ui/Buttons/save-wiki</li>
 
+<li>$:/config/PageControlButtons/Visibility/$:/plugins/telmiger/ReaderMode/ui/Buttons/drag</li>
+
 <li>$:/config/Plugins/Disabled/$:/plugins/tiddlywiki/internals</li>
 
 <li>$:/config/RelinkOnRename</li>
@@ -210,6 +212,10 @@ Error message and password prompt
 <li>$:/palette</li>
 
 <li>$:/plugins/telmiger/details</li>
+
+<li>$:/plugins/telmiger/ReaderMode</li>
+
+<li>$:/plugins/telmiger/ReaderMode/story.css</li>
 
 <li>$:/plugins/tiddlywiki/highlight</li>
 
@@ -328,6 +334,9 @@ Error message and password prompt
 <pre>show</pre>
 </div>
 <div created="20200328231505907" modified="20200328231505690" title="$:/config/PageControlButtons/Visibility/$:/core/ui/Buttons/save-wiki" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>hide</pre>
+</div>
+<div created="20200402023436577" modified="20200402023437032" title="$:/config/PageControlButtons/Visibility/$:/plugins/telmiger/ReaderMode/ui/Buttons/drag" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>hide</pre>
 </div>
 <div created="20200402022104134" modified="20200402022104589" title="$:/config/Plugins/Disabled/$:/plugins/tiddlywiki/internals" type="text/vnd.tiddlywiki" revision="0" bag="default">
@@ -9666,6 +9675,256 @@ Error message and password prompt
         }
     }
 }</pre>
+</div>
+<div author="Thomas Elmiger" core-version="&gt;=5.1.17" created="20181215221709312" description="ReaderMode – a nice, clean reading experience" list="readme license support" modified="20200402023402764" name="ReaderMode" plugin-type="plugin" source="https://tid.li/tw5/plugins.html" title="$:/plugins/telmiger/ReaderMode" type="application/json" version="0.5.14" revision="0" bag="default">
+<pre>{
+    &quot;tiddlers&quot;: {
+        &quot;$:/plugins/telmiger/ReaderMode/support&quot;: {
+            &quot;created&quot;: &quot;20181215220633595&quot;,
+            &quot;text&quot;: &quot;{{$:/plugins/telmiger/support}}&quot;,
+            &quot;title&quot;: &quot;$:/plugins/telmiger/ReaderMode/support&quot;,
+            &quot;tags&quot;: &quot;&quot;,
+            &quot;modifier&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;modified&quot;: &quot;20181215220839709&quot;,
+            &quot;creator&quot;: &quot;Thomas Elmiger&quot;
+        },
+        &quot;$:/language/Buttons/ActivateReaderMode/Caption&quot;: {
+            &quot;created&quot;: &quot;20181215164958513&quot;,
+            &quot;creator&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;text&quot;: &quot;Reader mode&quot;,
+            &quot;title&quot;: &quot;$:/language/Buttons/ActivateReaderMode/Caption&quot;,
+            &quot;tags&quot;: &quot;&quot;,
+            &quot;modified&quot;: &quot;20181215200024390&quot;,
+            &quot;modifier&quot;: &quot;Thomas Elmiger&quot;
+        },
+        &quot;$:/language/Buttons/ActivateReaderMode/Hint&quot;: {
+            &quot;created&quot;: &quot;20181215165252705&quot;,
+            &quot;creator&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;text&quot;: &quot;Activate reader mode&quot;,
+            &quot;title&quot;: &quot;$:/language/Buttons/ActivateReaderMode/Hint&quot;,
+            &quot;tags&quot;: &quot;&quot;,
+            &quot;modified&quot;: &quot;20181217212618266&quot;,
+            &quot;modifier&quot;: &quot;Thomas Elmiger&quot;
+        },
+        &quot;$:/language/Buttons/ReaderMode/Caption&quot;: {
+            &quot;created&quot;: &quot;20181215165515464&quot;,
+            &quot;creator&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;text&quot;: &quot;Toggle reader mode&quot;,
+            &quot;title&quot;: &quot;$:/language/Buttons/ReaderMode/Caption&quot;,
+            &quot;tags&quot;: &quot;&quot;,
+            &quot;modified&quot;: &quot;20181215194601904&quot;,
+            &quot;modifier&quot;: &quot;Thomas Elmiger&quot;
+        },
+        &quot;$:/language/Buttons/ReaderMode/Hint&quot;: {
+            &quot;created&quot;: &quot;20181215165354070&quot;,
+            &quot;creator&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;text&quot;: &quot;Switch off reader mode&quot;,
+            &quot;title&quot;: &quot;$:/language/Buttons/ReaderMode/Hint&quot;,
+            &quot;tags&quot;: &quot;&quot;,
+            &quot;modified&quot;: &quot;20181215194545091&quot;,
+            &quot;modifier&quot;: &quot;Thomas Elmiger&quot;
+        },
+        &quot;$:/plugins/telmiger/ReaderMode/icon&quot;: {
+            &quot;created&quot;: &quot;20181215220238671&quot;,
+            &quot;text&quot;: &quot;{{$:/plugins/telmiger/ReaderMode/images/reader-button}}&quot;,
+            &quot;title&quot;: &quot;$:/plugins/telmiger/ReaderMode/icon&quot;,
+            &quot;tags&quot;: &quot;&quot;,
+            &quot;modified&quot;: &quot;20181215220350311&quot;
+        },
+        &quot;$:/plugins/telmiger/ReaderMode/images/reader-button&quot;: {
+            &quot;created&quot;: &quot;20181215155845743&quot;,
+            &quot;creator&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;text&quot;: &quot;&lt;svg class=\&quot;tc-image-reader-mode-button tc-image-button\&quot; width=\&quot;22pt\&quot; height=\&quot;22pt\&quot; viewBox=\&quot;0 0 128 128\&quot;&gt;\n&lt;path d=\&quot;M8 0a8 8 0 0 0-8 8v112a8 8 0 0 0 8 8h112a8 8 0 0 0 8-8V8a8 8 0 0 0-8-8H8zm26 16a8 8 0 0 0-8 8v80a8 8 0 0 0 8 8h60a8 8 0 0 0 8-8V24a8 8 0 0 0-8-8H24z\&quot; fill-rule=\&quot;evenodd\&quot;/&gt;\n&lt;/svg&gt;&quot;,
+            &quot;title&quot;: &quot;$:/plugins/telmiger/ReaderMode/images/reader-button&quot;,
+            &quot;tags&quot;: &quot;$:/tags/Image&quot;,
+            &quot;modifier&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;modified&quot;: &quot;20181215205908724&quot;
+        },
+        &quot;$:/plugins/telmiger/ReaderMode/license&quot;: {
+            &quot;created&quot;: &quot;20181215220419188&quot;,
+            &quot;text&quot;: &quot;`Reader Mode is published under the MIT License.`\n\n!!! Reader Mode\nThe content of $:/plugins/telmiger/ReaderMode is&lt;br&gt;\nCopyright (c), Thomas Elmiger, https://thomas-elmiger.ch\n\n!!! The MIT License (MIT)\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \&quot;Software\&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \&quot;AS IS\&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.&quot;,
+            &quot;title&quot;: &quot;$:/plugins/telmiger/ReaderMode/license&quot;,
+            &quot;tags&quot;: &quot;&quot;,
+            &quot;modifier&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;modified&quot;: &quot;20181215220555310&quot;,
+            &quot;creator&quot;: &quot;Thomas Elmiger&quot;
+        },
+        &quot;$:/plugins/telmiger/ReaderMode/readme&quot;: {
+            &quot;created&quot;: &quot;20181215214533889&quot;,
+            &quot;creator&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;text&quot;: &quot;!! Reader Mode\n\n''Display the story river as a flow of content, without any meta info or functions. A nice, clean document for reading.''\n\nTo support the impression of one single frame, the background of the story is set to the same colour as the tiddler background.\n\nThis plugin provides two buttons:\n\n* The ''Reader mode button'' {{$:/plugins/telmiger/ReaderMode/ui/Buttons/toggle}} to hide elements of your choice (see configuration below) that usually separate tiddlers in the story: \n** tiddler frame, border and shadow\n** title and buttons (tiddler controls)\n** subtitle (date and author/modifier)\n** tags\n* The ''Drag mode button'' {{$:/plugins/telmiger/ReaderMode/ui/Buttons/drag}} to enable and disable dragging of elements within/from the story: \n** drag an element within the story to positions nearby \n** drag from story to sidebar or from sidebar to story to bring elements to distant positions\n** elements are always moved (not duplicated)\n\n!!! Button configuration\n\nWhere to show the Drag Mode button: &lt;br&gt;\n&lt;$checkbox tiddler=\&quot;$:/plugins/telmiger/ReaderMode/ui/Buttons/drag\&quot; tag=\&quot;$:/tags/TopLeftBar\&quot;&gt; Top left bar&lt;/$checkbox&gt;&lt;br&gt;\n&lt;$checkbox tiddler=\&quot;$:/plugins/telmiger/ReaderMode/ui/Buttons/drag\&quot; tag=\&quot;$:/tags/TopRightBar\&quot;&gt; Top right bar&lt;/$checkbox&gt;&lt;br&gt;\n&lt;$checkbox tiddler=\&quot;$:/plugins/telmiger/ReaderMode/ui/Buttons/drag\&quot; tag=\&quot;$:/tags/PageControls\&quot;&gt; Page controls&lt;/$checkbox&gt;\n\nWhere to show the Reader Mode button: &lt;br&gt;\n&lt;$checkbox tiddler=\&quot;$:/plugins/telmiger/ReaderMode/ui/Buttons/toggle\&quot; tag=\&quot;$:/tags/TopLeftBar\&quot;&gt; Top left bar&lt;/$checkbox&gt;&lt;br&gt;\n&lt;$checkbox tiddler=\&quot;$:/plugins/telmiger/ReaderMode/ui/Buttons/toggle\&quot; tag=\&quot;$:/tags/TopRightBar\&quot;&gt; Top right bar&lt;/$checkbox&gt;&lt;br&gt;\n&lt;$checkbox tiddler=\&quot;$:/plugins/telmiger/ReaderMode/ui/Buttons/toggle\&quot; tag=\&quot;$:/tags/PageControls\&quot;&gt; Page controls&lt;/$checkbox&gt;\n\n\n!!! Story configuration\n\nBy default, the button {{$:/plugins/telmiger/ReaderMode/ui/Buttons/toggle}} hides/shows tiddler titles and subtitles (author and timestamp) via CSS. This way they are still present in the HTML code. Tiddler controls are displayed much smaller.\n\nAdditionally you can exclude elements from being rendered at all in the next section.\n\n!!!! Exclude from rendering\n\n&lt;$list filter=\&quot;[all[shadows+tiddlers]tag[$:/tags/ViewTemplate]!title[$:/core/ui/ViewTemplate/body]!list[$:/plugins/telmiger/ReaderMode/blocked]]\&quot;&gt;\n&lt;$checkbox tiddler=\&quot;$:/temp/ReaderMode/dummy\&quot; field=&lt;&lt;currentTiddler&gt;&gt; checked=\&quot;YES\&quot; unchecked=\&quot;NO\&quot; default=\&quot;NO\&quot; actions=\&quot;\&quot;\&quot;&lt;$action-listops $tiddler=\&quot;$:/plugins/telmiger/ReaderMode/blocked\&quot; $subfilter=&lt;&lt;currentTiddler&gt;&gt; /&gt;&lt;$action-deletetiddler $tiddler=\&quot;$:/temp/ReaderMode/dummy\&quot;/&gt;\&quot;\&quot;\&quot;&gt; &lt;$text text={{!!title}}/&gt;&lt;/$checkbox&gt;&lt;br&gt;\n&lt;/$list&gt;\n\n---\n\n&lt;$list filter=\&quot;[all[shadows+tiddlers]list[$:/plugins/telmiger/ReaderMode/blocked]]\&quot;&gt;\n&lt;$wikify name=\&quot;unblock\&quot; text=\&quot;-&lt;&lt;currentTiddler&gt;&gt;\&quot;&gt;\n&lt;$checkbox  tiddler=\&quot;$:/temp/ReaderMode/dummy\&quot; field=&lt;&lt;currentTiddler&gt;&gt; checked=\&quot;YES\&quot; unchecked=\&quot;NO\&quot; default=\&quot;YES\&quot; actions=\&quot;\&quot;\&quot;&lt;$action-listops $tiddler=\&quot;$:/plugins/telmiger/ReaderMode/blocked\&quot; $subfilter=&lt;&lt;unblock&gt;&gt; /&gt;&lt;$action-deletetiddler $tiddler=\&quot;$:/temp/ReaderMode/dummy\&quot;/&gt;\&quot;\&quot;\&quot;&gt; &lt;$text text={{!!title}}/&gt;&lt;/$checkbox&gt;&lt;br&gt;\n&lt;/$wikify&gt;\n&lt;/$list&gt;\n\nExcluding elements from rendering is possible using a modified [[view template|$:/core/ui/ViewTemplate]] and a [[list of blocked elements|$:/plugins/telmiger/ReaderMode/blocked]].&quot;,
+            &quot;title&quot;: &quot;$:/plugins/telmiger/ReaderMode/readme&quot;,
+            &quot;tags&quot;: &quot;&quot;,
+            &quot;modifier&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;modified&quot;: &quot;20190202094330750&quot;
+        },
+        &quot;$:/plugins/telmiger/ReaderMode/story.css&quot;: {
+            &quot;text&quot;: &quot;/*\n** Reader Mode\n** (c) Thomas Elmiger\n** \&quot;\&quot;\&quot; \n*/\n\n\nbody .tc-story-river {\n   background-color: &lt;&lt;colour tiddler-background&gt;&gt;;\n}\n\nbody .tc-tiddler-view-frame,\nbody .tc-tiddler-frame .tc-reveal.tc-tiddler-body {\n   margin-top: 0;\n   margin-bottom: 0;\n   padding-top: 0;\n   padding-bottom: 0;\n   border: 0;\n   box-shadow: none;\n   min-height: 1em;\n}\n\nbody .tc-reveal.tc-tiddler-body:first-child {\n    margin-top: 2rem;\n}\n\nbody .tc-tiddler-view-frame .tc-tiddler-body &gt; section:first-child,\nbody .tc-tiddler-view-frame .tc-tiddler-body &gt; header:first-child,\nbody .tc-tiddler-view-frame .tc-tiddler-body &gt; h1:first-child,\nbody .tc-tiddler-view-frame .tc-tiddler-body &gt; h2:first-child {\n    margin-top: 4rem;\n}\n\n\n/* hide tiddler title */\n\nbody .tc-tiddler-view-frame .tc-title,\nbody .tc-tiddler-view-frame .tc-subtitle {\n   display: none;\n}\n\nbody .tc-tiddler-view-frame .tc-tiddler-controls {\n   font-size: 1rem;\n   position: absolute;\n   right: 2rem;\n   margin-top: 2.5rem;\n}\n\n\n/* topbar button */\n\n.tc-topbar button.reader-mode {\n   background-color: white;\n}\n\n.tc-topbar button.reader-mode svg {\n   fill: black;\n}\n\n\n/* End \&quot;\&quot;\&quot; */&quot;,
+            &quot;title&quot;: &quot;$:/plugins/telmiger/ReaderMode/story.css&quot;,
+            &quot;tags&quot;: &quot;$:/tags/Stylesheet&quot;,
+            &quot;modifier&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;modified&quot;: &quot;20190128214101432&quot;,
+            &quot;creator&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;created&quot;: &quot;20181215151220476&quot;
+        },
+        &quot;$:/plugins/telmiger/ReaderMode/ui/Buttons/toggle&quot;: {
+            &quot;created&quot;: &quot;20181215155225793&quot;,
+            &quot;creator&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;text&quot;: &quot;&lt;$set name=\&quot;qualstate\&quot; value=\&quot;$:/state/ReaderMode\&quot;&gt;\n&lt;$reveal type=\&quot;nomatch\&quot; state=&lt;&lt;qualstate&gt;&gt; text=\&quot;active\&quot;&gt;\n&lt;$button set=&lt;&lt;qualstate&gt;&gt; setTo=\&quot;active\&quot; tooltip={{$:/language/Buttons/ActivateReaderMode/Hint}} aria-label={{$:/language/Buttons/ActivateReaderMode/Caption}} class=\&quot;tc-btn-invisible reader-mode\&quot;&gt;\n&lt;$action-listops $tiddler=\&quot;$:/plugins/telmiger/ReaderMode/story.css\&quot; $tags=\&quot;$:/tags/Stylesheet -$:/tagremoved/Stylesheet\&quot;/&gt;\n&lt;$list filter=\&quot;[&lt;tv-config-toolbar-icons&gt;prefix[yes]]\&quot;&gt;\n{{$:/plugins/telmiger/ReaderMode/images/reader-button}}\n&lt;/$list&gt;\n&lt;$list filter=\&quot;[&lt;tv-config-toolbar-text&gt;prefix[yes]]\&quot;&gt;\n&lt;span class=\&quot;tc-btn-text\&quot;&gt;&lt;$text text={{$:/language/Buttons/ActivateReaderMode/Caption}}/&gt;&lt;/span&gt;\n&lt;/$list&gt;\n&lt;/$button&gt;\n&lt;/$reveal&gt;\n&lt;$reveal type=\&quot;match\&quot; state=&lt;&lt;qualstate&gt;&gt; text=\&quot;active\&quot;&gt;\n&lt;$button set=&lt;&lt;qualstate&gt;&gt; setTo=\&quot;inactive\&quot; tooltip={{$:/language/Buttons/ReaderMode/Hint}} aria-label={{$:/language/Buttons/ReaderMode/Caption}} class=\&quot;tc-btn-invisible reader-mode tc-selected\&quot;&gt;\n&lt;$action-listops $tiddler=\&quot;$:/plugins/telmiger/ReaderMode/story.css\&quot; $tags=\&quot;$:/tagremoved/Stylesheet -$:/tags/Stylesheet\&quot;/&gt;\n&lt;$list filter=\&quot;[&lt;tv-config-toolbar-icons&gt;prefix[yes]]\&quot;&gt;\n{{$:/plugins/telmiger/ReaderMode/images/reader-button}}\n&lt;/$list&gt;\n&lt;$list filter=\&quot;[&lt;tv-config-toolbar-text&gt;prefix[yes]]\&quot;&gt;\n&lt;span class=\&quot;tc-btn-text\&quot;&gt;&lt;$text text={{$:/language/Buttons/ReaderMode/Caption}}/&gt;&lt;/span&gt;\n&lt;/$list&gt;\n&lt;/$button&gt;\n&lt;/$reveal&gt;\n&lt;/$set&gt;&quot;,
+            &quot;title&quot;: &quot;$:/plugins/telmiger/ReaderMode/ui/Buttons/toggle&quot;,
+            &quot;tags&quot;: &quot;$:/tags/PageControls&quot;,
+            &quot;modifier&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;modified&quot;: &quot;20190202100227843&quot;,
+            &quot;description&quot;: &quot;{{$:/language/Buttons/ActivateReaderMode/Hint}}&quot;,
+            &quot;caption&quot;: &quot;{{$:/plugins/telmiger/ReaderMode/images/reader-button}} {{$:/language/Buttons/ActivateReaderMode/Caption}}&quot;
+        },
+        &quot;$:/plugins/telmiger/support&quot;: {
+            &quot;created&quot;: &quot;20181103150753927&quot;,
+            &quot;text&quot;: &quot;!! Support the Author\n\n''Hi!'' I’m Thomas, the author of [[tid.li/tw5/plugins.html|https://tid.li/tw5/plugins.html]]. Feedback is always welcome, as well as funding for maintenance, support and new projects :)\n\n---\n\n!!! One Time Support\n\nIf using my plugins just makes you happy, consider a one time payment via ~PayPal to reward the effort:\n\nhttps://www.paypal.me/telmiger\n\n---\n\n!!! Permanent Support\n\nIf my tools make you more productive or save you time in your job or your everyday life, you can support me as a Patron: \n\nhttps://www.patreon.com/telmiger\n\n---\n\n!!! Thank You\n\nSubstantial parts of my availabe time go to the deveopment of useful plugins for [[TiddlyWiki|https://tiddlywiki.com/]]. – Many others do the same and I would like to thank them all, especially [[Jeremy Ruston|https://tiddlywiki.com/#JeremyRuston]] and all the active members of the community!\n\n//Hereby I promise to share future revenues (if any) with other developers who’s works I use or who inspired me.//\n\nIf you like my work, I would be very happy to hear from you.\n\n''Thank you very much for your support!''&lt;br&gt;\n//Thomas//\n\nhttps://thomas-elmiger.ch&quot;,
+            &quot;title&quot;: &quot;$:/plugins/telmiger/support&quot;,
+            &quot;tags&quot;: &quot;&quot;,
+            &quot;modifier&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;modified&quot;: &quot;20181104091650389&quot;,
+            &quot;creator&quot;: &quot;Thomas Elmiger&quot;
+        },
+        &quot;$:/core/ui/ViewTemplate&quot;: {
+            &quot;created&quot;: &quot;20190114200812402&quot;,
+            &quot;creator&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;text&quot;: &quot;\\define drop-actions()\n&lt;$action-listops $tiddler=\&quot;$:/StoryList\&quot; $subfilter=\&quot;+[insertbefore:currentTiddler&lt;actionTiddler&gt;]\&quot;/&gt;\n\\end\n\\define drop-below-actions()\n&lt;$action-listops $tiddler=\&quot;$:/StoryList\&quot; $subfilter=\&quot;[&lt;actionTiddler&gt;] +[putafter&lt;currentTiddler&gt;]\&quot;/&gt;\n\\end\n\\define frame-classes()\ntc-tiddler-frame tc-tiddler-view-frame $(missingTiddlerClass)$ $(shadowTiddlerClass)$ $(systemTiddlerClass)$ $(tiddlerTagClasses)$ $(userClass)$\n\\end\n\\define folded-state()\n$:/state/folded/$(currentTiddler)$\n\\end\n&lt;$vars storyTiddler=&lt;&lt;currentTiddler&gt;&gt; tiddlerInfoState=&lt;&lt;qualify \&quot;$:/state/popup/tiddler-info\&quot;&gt;&gt; userClass={{!!class}}&gt;&lt;$tiddler tiddler=&lt;&lt;currentTiddler&gt;&gt;&gt;&lt;div data-tiddler-title=&lt;&lt;currentTiddler&gt;&gt; data-tags={{!!tags}} class=&lt;&lt;frame-classes&gt;&gt;&gt;&lt;$set name=\&quot;qualstate\&quot; value=\&quot;$:/state/ReaderMode-Drag\&quot;&gt;\n&lt;$reveal type=\&quot;match\&quot; state=&lt;&lt;qualstate&gt;&gt; text=\&quot;active\&quot;&gt;\n&lt;div style=\&quot;position: relative;\&quot;&gt;&lt;$droppable actions=&lt;&lt;drop-actions&gt;&gt;&gt;&lt;div class=\&quot;tc-droppable-placeholder\&quot;&gt;\n&amp;nbsp;\n&lt;/div&gt;\n&lt;div class=\&quot;my-story-drag-handle\&quot;&gt;&lt;$draggable tiddler=&lt;&lt;currentTiddler&gt;&gt;&gt;&lt;$set name=\&quot;includeFilter\&quot; filter=\&quot;[[$:/state/ReaderMode]get[text]removeprefix[active]]\&quot; value=\&quot;[all[shadows+tiddlers]tag[$:/tags/ViewTemplate]!list[$:/plugins/telmiger/ReaderMode/blocked]!has[draft.of]]\&quot; emptyValue=\&quot;[all[shadows+tiddlers]tag[$:/tags/ViewTemplate]!has[draft.of]]\&quot;&gt;&lt;$list filter=&lt;&lt;includeFilter&gt;&gt; variable=\&quot;listItem\&quot;&gt;\n&lt;div&gt;&lt;$transclude tiddler=&lt;&lt;listItem&gt;&gt;/&gt;&lt;/div&gt;&lt;/$list&gt;&lt;/$set&gt;&lt;/$draggable&gt;&lt;/div&gt;&lt;/$droppable&gt;&lt;/div&gt;&lt;/$reveal&gt;\n&lt;$reveal type=\&quot;nomatch\&quot; state=&lt;&lt;qualstate&gt;&gt; text=\&quot;active\&quot;&gt;\n&lt;$set name=\&quot;includeFilter\&quot; filter=\&quot;[[$:/state/ReaderMode]get[text]removeprefix[active]]\&quot; value=\&quot;[all[shadows+tiddlers]tag[$:/tags/ViewTemplate]!list[$:/plugins/telmiger/ReaderMode/blocked]!has[draft.of]]\&quot; emptyValue=\&quot;[all[shadows+tiddlers]tag[$:/tags/ViewTemplate]!has[draft.of]]\&quot;&gt;&lt;$list filter=&lt;&lt;includeFilter&gt;&gt; variable=\&quot;listItem\&quot;&gt;&lt;$transclude tiddler=&lt;&lt;listItem&gt;&gt;/&gt;&lt;/$list&gt;\n&lt;/$set&gt;&lt;/$reveal&gt;&lt;/$set&gt;\n&lt;/div&gt;&lt;/$tiddler&gt;&lt;/$vars&gt;&quot;,
+            &quot;title&quot;: &quot;$:/core/ui/ViewTemplate&quot;,
+            &quot;tags&quot;: &quot;&quot;,
+            &quot;modifier&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;modified&quot;: &quot;20190121064658252&quot;
+        },
+        &quot;$:/plugins/telmiger/ReaderMode/blocked&quot;: {
+            &quot;created&quot;: &quot;20190120220119635&quot;,
+            &quot;creator&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;title&quot;: &quot;$:/plugins/telmiger/ReaderMode/blocked&quot;,
+            &quot;list&quot;: &quot;$:/core/ui/ViewTemplate/title $:/core/ui/ViewTemplate/subtitle&quot;,
+            &quot;modified&quot;: &quot;20190121065430957&quot;,
+            &quot;modifier&quot;: &quot;Thomas Elmiger&quot;
+        },
+        &quot;$:/plugins/telmiger/ReaderMode/ui/Buttons/drag&quot;: {
+            &quot;created&quot;: &quot;20190116192223885&quot;,
+            &quot;creator&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;text&quot;: &quot;&lt;$set name=\&quot;qualstate\&quot; value=\&quot;$:/state/ReaderMode-Drag\&quot;&gt;\n&lt;$reveal type=\&quot;nomatch\&quot; state=&lt;&lt;qualstate&gt;&gt; text=\&quot;active\&quot;&gt;\n&lt;$button set=&lt;&lt;qualstate&gt;&gt; setTo=\&quot;active\&quot; tooltip={{$:/language/Buttons/ActivateDragMode/Hint}} aria-label={{$:/language/Buttons/ActivateDragMode/Caption}} class=\&quot;tc-btn-invisible reader-mode\&quot;&gt;\n&lt;$list filter=\&quot;[&lt;tv-config-toolbar-icons&gt;prefix[yes]]\&quot;&gt;\n{{$:/plugins/telmiger/ReaderMode/images/drag-button}}\n&lt;/$list&gt;\n&lt;$list filter=\&quot;[&lt;tv-config-toolbar-text&gt;prefix[yes]]\&quot;&gt;\n&lt;span class=\&quot;tc-btn-text\&quot;&gt;&lt;$text text={{$:/language/Buttons/ActivateDragMode/Caption}}/&gt;&lt;/span&gt;\n&lt;/$list&gt;\n&lt;/$button&gt;\n&lt;/$reveal&gt;\n&lt;$reveal type=\&quot;match\&quot; state=&lt;&lt;qualstate&gt;&gt; text=\&quot;active\&quot;&gt;\n&lt;$button set=&lt;&lt;qualstate&gt;&gt; setTo=\&quot;inactive\&quot; tooltip={{$:/language/Buttons/DragMode/Hint}} aria-label={{$:/language/Buttons/DragMode/Caption}} class=\&quot;tc-btn-invisible reader-mode tc-selected\&quot;&gt;\n&lt;$list filter=\&quot;[&lt;tv-config-toolbar-icons&gt;prefix[yes]]\&quot;&gt;\n{{$:/plugins/telmiger/ReaderMode/images/drag-button}}\n&lt;/$list&gt;\n&lt;$list filter=\&quot;[&lt;tv-config-toolbar-text&gt;prefix[yes]]\&quot;&gt;\n&lt;span class=\&quot;tc-btn-text\&quot;&gt;&lt;$text text={{$:/language/Buttons/DragMode/Caption}}/&gt;&lt;/span&gt;\n&lt;/$list&gt;\n&lt;/$button&gt;\n&lt;/$reveal&gt;\n&lt;/$set&gt;&quot;,
+            &quot;title&quot;: &quot;$:/plugins/telmiger/ReaderMode/ui/Buttons/drag&quot;,
+            &quot;tags&quot;: &quot;$:/tags/TopRightBar $:/tags/PageControls&quot;,
+            &quot;modifier&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;modified&quot;: &quot;20190202100313384&quot;,
+            &quot;description&quot;: &quot;{{$:/language/Buttons/ActivateDragMode/Hint}}&quot;,
+            &quot;caption&quot;: &quot;{{$:/plugins/telmiger/DragMode/images/reader-button}} {{$:/language/Buttons/ActivateReaderMode/Caption}}&quot;
+        },
+        &quot;$:/plugins/telmiger/ReaderMode/images/drag-button&quot;: {
+            &quot;text&quot;: &quot;&lt;svg class=\&quot;tc-image-reader-mode-button tc-image-button\&quot; width=\&quot;22pt\&quot; height=\&quot;22pt\&quot; viewBox=\&quot;0 0 22 22\&quot;&gt;\n&lt;path d=\&quot;M15.3 4c.4.4.4 1.2 0 1.6-.5.5-1.3.5-1.7 0l-1.4-1.3v5.5h5.5l-1.3-1.3c-.5-.5-.5-1.3 0-1.7.4-.5 1.2-.5 1.7 0l3.4 3.4c.4.4.4 1.2 0 1.7L18 15.3c-.5.4-1.3.4-1.7 0-.5-.5-.5-1.3 0-1.7l1.3-1.4h-5.5v5.5l1.3-1.3c.5-.5 1.3-.5 1.7 0 .5.4.5 1.2 0 1.7l-3.4 3.4c-.4.4-1.2.4-1.7 0L6.7 18c-.4-.5-.4-1.3 0-1.7.5-.5 1.3-.5 1.7 0l1.4 1.3v-5.5H4.3l1.3 1.3c.5.5.5 1.3 0 1.7-.4.5-1.2.5-1.7 0L.5 11.8c-.4-.4-.4-1.2 0-1.7L4 6.7c.5-.4 1.3-.4 1.7 0 .5.5.5 1.3 0 1.7L4.3 9.8h5.5V4.3L8.5 5.6c-.5.5-1.3.5-1.7 0-.5-.4-.5-1.2 0-1.7L10.2.5c.4-.4 1.2-.4 1.7 0L15.3 4z\&quot;/&gt;\n&lt;/svg&gt;\n&quot;,
+            &quot;title&quot;: &quot;$:/plugins/telmiger/ReaderMode/images/drag-button&quot;,
+            &quot;tags&quot;: &quot;$:/tags/Image&quot;,
+            &quot;modifier&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;modified&quot;: &quot;20190116200342893&quot;,
+            &quot;creator&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;created&quot;: &quot;20190116200203022&quot;
+        },
+        &quot;$:/language/Buttons/ActivateDragMode/Caption&quot;: {
+            &quot;text&quot;: &quot;Drag mode&quot;,
+            &quot;title&quot;: &quot;$:/language/Buttons/ActivateDragMode/Caption&quot;,
+            &quot;tags&quot;: &quot;&quot;,
+            &quot;modifier&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;modified&quot;: &quot;20190116201209884&quot;,
+            &quot;creator&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;created&quot;: &quot;20190116201151553&quot;
+        },
+        &quot;$:/language/Buttons/ActivateDragMode/Hint&quot;: {
+            &quot;text&quot;: &quot;Activate drag mode&quot;,
+            &quot;title&quot;: &quot;$:/language/Buttons/ActivateDragMode/Hint&quot;,
+            &quot;tags&quot;: &quot;&quot;,
+            &quot;modifier&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;modified&quot;: &quot;20190116201135153&quot;,
+            &quot;creator&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;created&quot;: &quot;20190116201118706&quot;
+        },
+        &quot;$:/language/Buttons/DragMode/Caption&quot;: {
+            &quot;text&quot;: &quot;Toggle drag mode&quot;,
+            &quot;title&quot;: &quot;$:/language/Buttons/DragMode/Caption&quot;,
+            &quot;tags&quot;: &quot;&quot;,
+            &quot;modifier&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;modified&quot;: &quot;20190116201107805&quot;,
+            &quot;creator&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;created&quot;: &quot;20190116201038233&quot;
+        },
+        &quot;$:/language/Buttons/DragMode/Hint&quot;: {
+            &quot;text&quot;: &quot;Switch off drag mode&quot;,
+            &quot;title&quot;: &quot;$:/language/Buttons/DragMode/Hint&quot;,
+            &quot;tags&quot;: &quot;&quot;,
+            &quot;modifier&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;modified&quot;: &quot;20190116201029632&quot;,
+            &quot;creator&quot;: &quot;Thomas Elmiger&quot;,
+            &quot;created&quot;: &quot;20190116200942999&quot;
+        }
+    }
+}</pre>
+</div>
+<div created="20181215151220476" creator="Thomas Elmiger" modified="20200402023443874" modifier="Thomas Elmiger" tags="$:/tags/Stylesheet" title="$:/plugins/telmiger/ReaderMode/story.css" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>/*
+** Reader Mode
+** (c) Thomas Elmiger
+** &quot;&quot;&quot; 
+*/
+
+
+body .tc-story-river {
+   background-color: &lt;&lt;colour tiddler-background&gt;&gt;;
+}
+
+body .tc-tiddler-view-frame,
+body .tc-tiddler-frame .tc-reveal.tc-tiddler-body {
+   margin-top: 0;
+   margin-bottom: 0;
+   padding-top: 0;
+   padding-bottom: 0;
+   border: 0;
+   box-shadow: none;
+   min-height: 1em;
+}
+
+body .tc-reveal.tc-tiddler-body:first-child {
+    margin-top: 2rem;
+}
+
+body .tc-tiddler-view-frame .tc-tiddler-body &gt; section:first-child,
+body .tc-tiddler-view-frame .tc-tiddler-body &gt; header:first-child,
+body .tc-tiddler-view-frame .tc-tiddler-body &gt; h1:first-child,
+body .tc-tiddler-view-frame .tc-tiddler-body &gt; h2:first-child {
+    margin-top: 4rem;
+}
+
+
+/* hide tiddler title */
+
+body .tc-tiddler-view-frame .tc-title,
+body .tc-tiddler-view-frame .tc-subtitle {
+   display: none;
+}
+
+body .tc-tiddler-view-frame .tc-tiddler-controls {
+   font-size: 1rem;
+   position: absolute;
+   right: 2rem;
+   margin-top: 2.5rem;
+}
+
+
+/* topbar button */
+
+.tc-topbar button.reader-mode {
+   background-color: white;
+}
+
+.tc-topbar button.reader-mode svg {
+   fill: black;
+}
+
+
+/* End &quot;&quot;&quot; */</pre>
 </div>
 <div author="JoaoBolila" core-version="&gt;=5.0.0" dependents="" description="Highlight.js: syntax highlighting" list="readme usage howto license" plugin-type="plugin" title="$:/plugins/tiddlywiki/highlight" type="application/json" version="5.1.21" revision="0" bag="default">
 <pre>{
