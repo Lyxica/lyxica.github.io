@@ -245,6 +245,8 @@ Error message and password prompt
 
 <li>cpwst:callstack_compare</li>
 
+<li>cpwst:CreateProcessWStub_Callstack</li>
+
 <li>cpwst:environmental_description</li>
 
 <li>cpwst:finding_MasterSubclassProc</li>
@@ -267,7 +269,7 @@ Error message and password prompt
 
 <li>Draft of ''</li>
 
-<li>Draft of 'cpwst:finding_the_origin'</li>
+<li>Draft of '$:/plugins/tiddlywiki/internals/readme'</li>
 
 <li>explorer data</li>
 
@@ -10097,6 +10099,45 @@ vs
 ```
 </pre>
 </div>
+<div created="20200402021556822" modified="20200402021646438" tags="[[ cpwst:finding_the_origin]]" title="cpwst:CreateProcessWStub_Callstack" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>```
+3: kd&gt; r
+rax=0000000000000000 rbx=0000000000000000 rcx=000000000ce60e50
+rdx=000000000ce31d30 rsi=0000000000000000 rdi=0000000007749328
+rip=00007fff6d30be40 rsp=000000000b59e4d8 rbp=000000000b59e5e0
+ r8=0000000000000000  r9=0000000000000000 r10=0000000000008000
+r11=000000000b59e3f0 r12=0000000004080414 r13=000000000ce60e50
+r14=0000000007749250 r15=0000000000000000
+iopl=0         nv up ei pl zr na po nc
+cs=0033  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00000246
+KERNEL32!CreateProcessWStub:
+0033:00007fff`6d30be40 4c8bdc          mov     r11,rsp
+3: kd&gt; du @rcx
+00000000`0ce60e50  &quot;C:\KDNet\kdnet.exe&quot;
+3: kd&gt; k
+ # Child-SP          RetAddr           Call Site
+00 00000000`0b59e4d8 00007fff`6b16698a KERNEL32!CreateProcessWStub
+01 00000000`0b59e4e0 00007fff`6b167c7b windows_storage!CInvokeCreateProcessVerb::CallCreateProcess+0x126
+02 00000000`0b59e790 00007fff`6b1667cc windows_storage!CInvokeCreateProcessVerb::_PrepareAndCallCreateProcess+0x1d7
+03 00000000`0b59e820 00007fff`6b16656b windows_storage!CInvokeCreateProcessVerb::_TryCreateProcess+0x3c
+04 00000000`0b59e850 00007fff`6b1661cd windows_storage!CInvokeCreateProcessVerb::Launch+0xef
+05 00000000`0b59e8f0 00007fff`6b151d64 windows_storage!CInvokeCreateProcessVerb::Execute+0x5d
+06 00000000`0b59e930 00007fff`6b161121 windows_storage!CBindAndInvokeStaticVerb::InitAndCallExecute+0x178
+07 00000000`0b59e9b0 00007fff`6b1235d9 windows_storage!CBindAndInvokeStaticVerb::TryCreateProcessDdeHandler+0x61
+08 00000000`0b59ea30 00007fff`6b15226d windows_storage!CBindAndInvokeStaticVerb::Execute+0x229
+09 00000000`0b59ed40 00007fff`6b152881 windows_storage!RegDataDrivenCommand::_TryInvokeAssociation+0xb5
+0a 00000000`0b59edb0 00007fff`6bdc8fff windows_storage!RegDataDrivenCommand::_Invoke+0x13d
+0b 00000000`0b59ee20 00007fff`6bdc8eba SHELL32!CRegistryVerbsContextMenu::_Execute+0xcb
+0c 00000000`0b59ee90 00007fff`6bd908f3 SHELL32!CRegistryVerbsContextMenu::InvokeCommand+0xaa
+0d 00000000`0b59f190 00007fff`6bd91b29 SHELL32!HDXA_LetHandlerProcessCommandEx+0x117
+0e 00000000`0b59f2a0 00007fff`6bf5ec6d SHELL32!CDefFolderMenu::InvokeCommand+0x139
+0f 00000000`0b59f600 00007fff`6c216509 SHELL32!SHInvokeCommandOnContextMenu2+0x1f5
+10 00000000`0b59f840 00007fff`6c45dce5 SHELL32!s_DoInvokeVerb+0xc9
+11 00000000`0b59f8b0 00007fff`6d307bd4 shcore!_WrapperThreadProc+0xf5
+12 00000000`0b59f990 00007fff`6da2ce71 KERNEL32!BaseThreadInitThunk+0x14
+13 00000000`0b59f9c0 00000000`00000000 ntdll!RtlUserThreadStart+0x21
+```</pre>
+</div>
 <div created="20200326204823702" creator="Lyxica" modified="20200329201015196" modifier="Lyxica" tags="CreateProcessWStubTimeline" title="cpwst:environmental_description" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>!! Quick explanation of the debugging setup
 
@@ -10139,8 +10180,10 @@ start             end                 module name
 
 With this I'm able to open the correct version of comctl32 in Ghidra. </pre>
 </div>
-<div created="20200326205846662" modified="20200330182434814" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_origin" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>First step involved determining what was responsible for calling CreateProcess. To find out, I added the following symbolic breakpoint:
+<div created="20200326205846662" modified="20200402021821630" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_origin" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>!! [[Finding the origin|cpwst:finding_the_origin]]
+
+First step involved determining what was responsible for calling CreateProcess. To find out, I added the following symbolic breakpoint:
 
 ```
 0: kd&gt; bm kernel32!CreateProcess*
@@ -10154,7 +10197,7 @@ With this I'm able to open the correct version of comctl32 in Ghidra. </pre>
 
 With these breakpoints in place, the VM was allowed to continue execution. Next, kdnet.exe was selected with mouse1 and then VK_ENTER was pressed. This led to a debug breakin on KERNEL32!CreateProcessWStub. Register RCX was examined to confirm the correct CreateProcess request was interrupted.
 
-{{CreateProcessWStub Callstack}}
+{{cpwst:CreateProcessWStub_Callstack}}
 
 Here we can see that the originator of the CreateProcess call resides in shcore!_WrapperThreadProc. This procedure calls a series of SHELL32 functions that are related to verb based command processing[0]. The next question is, what called shcore!_WrapperThreadProc? 
 
@@ -10184,8 +10227,8 @@ Notes for tomorrow:
 
 &lt;&lt;ximg &quot;img note deleteme.png&quot;&gt;&gt;</pre>
 </div>
-<div created="20200330182306818" modified="20200402021151736" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_worker_spawner" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>!! Finding the worker's spawner
+<div created="20200330182306818" modified="20200402021840590" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_worker_spawner" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>!! [[Finding the worker's spawner|cpwst:finding_the_worker_spawner]]
 
 Because the call stack for shcore!_WrapperThreadProc starts ON shcore!_WrapperThreadProc[0], I know that I have to search for a worker spawner. A &quot;worker&quot; is a thread that is created to handle a specific job. Think of a dispatcher sending a taxi to a location. The dispatcher &quot;spawns&quot; a taxi and sends it to go pick someone up. To find where the worker thread was spawned I'll place a breakpoint on kernel32!CreateThreadStub. This function is very noisy, it tends to be called 10+ times a second, so to reduce the SNR I'll place a conditional breakpoint that will only cause the debugger to take control when kernel32!CreateThreadStub is called with a pointer to shcore!_WrapperThreadProc[tooltip text of the bp here]. This significantly reduces the SNR (although a few irrelevant entries still pop up) and I'm able to grab the following call stack:
 
@@ -10363,27 +10406,16 @@ ntdll!RtlUserThreadStart+0x21
 graph theory
 </pre>
 </div>
-<div created="20200326205846662" draft.of="cpwst:finding_the_origin" draft.title="cpwst:finding_the_origin" modified="20200402020627551" tags="CreateProcessWStubTimeline" title="Draft of 'cpwst:finding_the_origin'" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>First step involved determining what was responsible for calling CreateProcess. To find out, I added the following symbolic breakpoint:
+<div created="20200402021952648" draft.of="$:/plugins/tiddlywiki/internals/readme" draft.title="$:/plugins/tiddlywiki/internals/readme" modified="20200402021952648" title="Draft of '$:/plugins/tiddlywiki/internals/readme'" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>This plugin adds features to help explore the internals of TiddlyWiki:
 
-```
-0: kd&gt; bm kernel32!CreateProcess*
-  1: 00007fff`6d30c950 @!&quot;KERNEL32!CreateProcessAsUserWStub&quot;
-  2: 00007fff`6d30be40 @!&quot;KERNEL32!CreateProcessWStub&quot;
-  3: 00007fff`6d325800 @!&quot;KERNEL32!CreateProcessAsUserAStub&quot;
-  4: 00007fff`6d30b660 @!&quot;KERNEL32!CreateProcessAStub&quot;
-  5: 00007fff`6d325870 @!&quot;KERNEL32!CreateProcessInternalAStub&quot;
-  6: 00007fff`6d3258f0 @!&quot;KERNEL32!CreateProcessInternalWStub&quot;
-```
+* New preview panes showing:
+** the parse tree
+** the widget tree
+** the raw HTML output
 
-With these breakpoints in place, the VM was allowed to continue execution. Next, kdnet.exe was selected with mouse1 and then VK_ENTER was pressed. This led to a debug breakin on KERNEL32!CreateProcessWStub. Register RCX was examined to confirm the correct CreateProcess request was interrupted.
-
-{{CreateProcessWStub Callstack}}
-
-Here we can see that the originator of the CreateProcess call resides in shcore!_WrapperThreadProc. This procedure calls a series of SHELL32 functions that are related to verb based command processing[0]. The next question is, what called shcore!_WrapperThreadProc? 
-
-
-[0],,(SIDE NOTE: example of a verb is when you press WinKey + R and then type an app into the field. The result is that the the runas verb is sent with the desired app as a parameter.),,</pre>
+The first two include a dropdown for choosing block vs. inline parsing mode.
+</pre>
 </div>
 <div created="20200324231508673" modified="20200325030817212" title="explorer data" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>```
