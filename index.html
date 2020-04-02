@@ -165,6 +165,8 @@ Error message and password prompt
 
 <li>$:/config/PageControlButtons/Visibility/$:/plugins/telmiger/ReaderMode/ui/Buttons/drag</li>
 
+<li>$:/config/Plugins/Disabled/$:/plugins/telmiger/ReaderMode</li>
+
 <li>$:/config/Plugins/Disabled/$:/plugins/tiddlywiki/internals</li>
 
 <li>$:/config/RelinkOnRename</li>
@@ -340,6 +342,9 @@ Error message and password prompt
 </div>
 <div created="20200402023436577" modified="20200402023630936" title="$:/config/PageControlButtons/Visibility/$:/plugins/telmiger/ReaderMode/ui/Buttons/drag" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>hide</pre>
+</div>
+<div created="20200402024114813" modified="20200402024115268" title="$:/config/Plugins/Disabled/$:/plugins/telmiger/ReaderMode" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>yes</pre>
 </div>
 <div created="20200402022104134" modified="20200402022104589" title="$:/config/Plugins/Disabled/$:/plugins/tiddlywiki/internals" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>yes</pre>
@@ -10497,7 +10502,7 @@ Notes for tomorrow:
 
 &lt;&lt;ximg &quot;img note deleteme.png&quot;&gt;&gt;</pre>
 </div>
-<div created="20200330182306818" modified="20200402023947791" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_worker_spawner" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200330182306818" modified="20200402024503836" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_worker_spawner" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>!! [[Finding the worker's spawner|cpwst:finding_the_worker_spawner]]
 
 Because the call stack for shcore!_WrapperThreadProc starts ON shcore!_WrapperThreadProc[0], I know that I have to search for a worker spawner. A &quot;worker&quot; is a thread that is created to handle a specific job. Think of a dispatcher sending a taxi to a location. The dispatcher &quot;spawns&quot; a taxi and sends it to go pick someone up. To find where the worker thread was spawned I'll place a breakpoint on kernel32!CreateThreadStub. This function is very noisy, it tends to be called 10+ times a second, so to reduce the SNR I'll place a conditional breakpoint that will only cause the debugger to take control when kernel32!CreateThreadStub is called with a pointer to shcore!_WrapperThreadProc[tooltip text of the bp here]. This significantly reduces the SNR (although a few irrelevant entries still pop up) and I'm able to grab the following call stack:
@@ -10544,9 +10549,12 @@ Next, I want to find out if this thread will spin up again when I launch KDNet.e
 
 。。。
 
-From this, the following details are roughly known:
+From this, the following details about the FrameMessagePump thread are roughly known:
 
-* 
+* It's is spawned by BrowserThreadProc, and it is persistent
+* It spawns a new worker thread to execute the s_DoInvokeVerb procedure which terminates after completion
+* It's responsible for dispatching mostly mouse and keyboard messages
+* It only 
 
 ---
 
