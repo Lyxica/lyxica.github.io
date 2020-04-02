@@ -10705,7 +10705,7 @@ Notes for tomorrow:
 
 &lt;&lt;ximg &quot;img note deleteme.png&quot;&gt;&gt;</pre>
 </div>
-<div created="20200330182306818" modified="20200402192458255" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_worker_spawner" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200330182306818" modified="20200402192708628" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_worker_spawner" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>!! [[Finding the worker's spawner|cpwst:finding_the_worker_spawner]]
 
 Because the call stack for shcore!_WrapperThreadProc starts ON shcore!_WrapperThreadProc[0], I know that I have to search for a worker spawner. A &quot;worker&quot; is a thread that is created to handle a specific job. Think of a dispatcher sending a taxi to a location. The dispatcher &quot;spawns&quot; a taxi and sends it to go pick someone up. To find where the worker thread was spawned I'll place a breakpoint on kernel32!CreateThreadStub. This function is very noisy, it tends to be called 10+ times a second, so to reduce the SNR I'll place a conditional breakpoint that will only cause the debugger to take control when kernel32!CreateThreadStub is called with a pointer to shcore!_WrapperThreadProc[tooltip text of the bp here]. This significantly reduces the SNR (although a few irrelevant entries still pop up) and I'm able to grab the following call stack:
@@ -10752,7 +10752,7 @@ Right: Thread callstack after allowing the thread to continue running for one mi
 
 From this diff we can see that the last common ancestor of both thread states is ''explorerframe!CExplorerFrame::FrameMessagePump''. This could be observed in the first call stack, but I didn't notice until I looked at the diff! As such, this thread is actually a message pumper for some explorer window.
 
-With this in mind, my next curiosity is will it be triggered again when I launch kdnet again? what kind of messages are going through this message pump thread? Launching kdnet, WinDBG immediately gains control and a quick !thread reveals that the same thread is creating the worker thread to handle the request. So, what kind of messages does it handle? To examine this I create a breakpoint on the DispatchMessage call inside the message pump. I setup this breakpoint to only trigger from the thread before (the message pump thread). Finally, the breakpoint was also configured to print out the ID of the message being passed to DispatchMessage and then to continue. This allowed me to quickly collect a list of IDs that passed through the dispatch call. Once I resumed the VM, I did the following things:
+With this in mind, my next curiosity is will it be triggered again when I launch kdnet again? what kind of messages are going through this message pump thread? Launching kdnet, WinDBG immediately gains control and a quick !thread reveals that the same thread is creating the worker thread to handle the request. So, what kind of messages does it handle? To examine this I create a breakpoint[1] on the DispatchMessage call inside the message pump. I setup this breakpoint to only trigger from the thread before (the message pump thread). Finally, the breakpoint was also configured to print out the ID of the message being passed to DispatchMessage and then to continue. This allowed me to quickly collect a list of IDs that passed through the dispatch call. Once I resumed the VM, I did the following things:
 
 * I opened kdnet.exe multiple times
 * I sat around and waited, doing noting
@@ -10772,27 +10772,24 @@ From these actions I was able to observe the following behaviour:
 ** These details in combination indicate that the message pump thread is likely a member of a worker pool that is assigned to windows as they open
 * Opening a program through the start menu didn't trigger the breakpoint
 * Typing on the desktop also did not trigger the breakpoint
-。。。
-
-bp on
-
-```
-bp /p ffffa105d70f0300 /t ffffa105d35d8080 00007ffc`72d64c9d &quot;.printf \&quot;%x\\n\&quot;, poi(@rcx+8); g&quot;
-
-```
-
-。。。
 
 From this, the following details about the FrameMessagePump thread are roughly known:
 
-* It's is spawned by BrowserThreadProc, and it is persistent
+* It's is spawned by BrowserThreadProc, and it persists through its window being closed
 * It spawns a new worker thread to execute the s_DoInvokeVerb procedure which terminates after completion
 * It's responsible for dispatching mostly mouse and keyboard messages
 * It's a member of a worker pool - presumably a pool of workers, each responsible for their own explorer window
 
 ---
 
-[0]: RtlUserThreadStart and BaseThreadInitThunk don't count -- they're functions that were called when the thread was first started and are responsible for setting the thread up</pre>
+[0]: RtlUserThreadStart and BaseThreadInitThunk don't count -- they're functions that were called when the thread was first started and are responsible for setting the thread up
+
+[1]:
+
+```
+bp /p ffffa105d70f0300 /t ffffa105d35d8080 00007ffc`72d64c9d &quot;.printf \&quot;%x\\n\&quot;, poi(@rcx+8); g&quot;
+
+```</pre>
 </div>
 <div created="20200329195709525" modified="20200329200921134" tags="CreateProcessWStubTimeline" title="cpwst:intro" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>These notes are about my discovery of what happens when a program is launched. 
