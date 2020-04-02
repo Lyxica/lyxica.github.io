@@ -1,0 +1,58 @@
+﻿--- 
++++ 
+@@ -1,39 +1,26 @@
+-KERNEL32!CreateThreadStub
+-shcore!_CreateThreadWorker+0xef
+-shcore!SHCreateThread+0xf
+-SHELL32!SHInvokeCommandOnBackgroundThread+0x161
+-SHELL32!CDefView::_InvokeContextMenuVerbOnSelectionWorker+0x329
+-SHELL32!CDefView::_InvokeContextMenuVerbOnSelection+0x92
+-SHELL32!CDefView::OnActivateSelection+0x2d
+-explorerframe!UIItemsView::WndProc+0x59eb5
+-DUI70!DirectUI::HWNDElement::StaticWndProc+0x53
+-USER32!UserCallWinProcCheckWow+0x2bd
+-USER32!CallWindowProcW+0x8e
+-DUser!ExtraInfoWndProc+0x8e
+-USER32!UserCallWinProcCheckWow+0x2bd
+-USER32!CallWindowProcW+0x8e
+-comctl32!CallNextSubclassProc+0x89
+-comctl32!DefSubclassProc+0x77
+-explorerframe!UIItemsView::_UIItemsViewSubclassProc+0x77
+-explorerframe!UIItemsView::s_UIItemsViewSubclassProc+0x26
+-comctl32!CallNextSubclassProc+0x89
+-comctl32!DefSubclassProc+0x77
+-explorerframe!CToolTipManager::_PropertyToolTipSubclassProc+0x6b
+-explorerframe!CToolTipManager::s_PropertyToolTipSubclassProc+0x26
+-comctl32!CallNextSubclassProc+0x89
+-comctl32!TTSubclassProc+0xb8
+-comctl32!CallNextSubclassProc+0x89
+-comctl32!MasterSubclassProc+0xa2
+-USER32!UserCallWinProcCheckWow+0x2bd
+-USER32!DispatchMessageWorker+0x1e2
+-explorerframe!CExplorerFrame::FrameMessagePump+0xe3
++nt!KiSwapContext+0x76
++nt!KiSwapThread+0x3f2
++nt!KiCommitThreadWait+0x144
++nt!KeWaitForMultipleObjects+0x287
++nt!ObWaitForMultipleObjects+0x2a9
++win32kfull!xxxMsgWaitForMultipleObjectsEx+0xde
++win32kfull!NtUserMsgWaitForMultipleObjectsEx+0x3c1
++nt!KiSystemServiceCopyEnd+0x28 (TrapFrame @ fffff400`4ab4de40)
++win32u!NtUserMsgWaitForMultipleObjectsEx+0x14
++USER32!RealMsgWaitForMultipleObjectsEx+0x1d
++DUser!CoreSC::WaitMessage+0xeb
++DUser!MphWaitMessageEx+0x56
++USER32!_ClientWaitMessageExMPH+0x21
++ntdll!KiUserCallbackDispatcherContinue (TrapFrame @ 00000000`0a00f5e8)
++win32u!NtUserWaitMessage+0x14
++explorerframe!CExplorerFrame::FrameMessagePump+0x153
+ explorerframe!BrowserThreadProc+0x85
+ explorerframe!BrowserNewThreadProc+0x3a
+ explorerframe!CExplorerTask::InternalResumeRT+0x12
+ explorerframe!CRunnableTask::Run+0xb2
+ windows_storage!CShellTask::TT_Run+0x3c
+ windows_storage!CShellTaskThread::ThreadProc+0xdd
+ windows_storage!CShellTaskThread::s_ThreadProc+0x35
+ shcore!_WrapperThreadProc+0xf5
+ KERNEL32!BaseThreadInitThunk+0x14
+ ntdll!RtlUserThreadStart+0x21
