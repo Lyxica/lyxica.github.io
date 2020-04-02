@@ -211,6 +211,8 @@ Error message and password prompt
 
 <li>$:/plugins/tiddlywiki/internals</li>
 
+<li>$:/plugins/TWaddle/SideEditor</li>
+
 <li>$:/SiteSubtitle</li>
 
 <li>$:/SiteTitle</li>
@@ -9695,6 +9697,94 @@ Error message and password prompt
             &quot;title&quot;: &quot;$:/plugins/tiddlywiki/internals/styles&quot;,
             &quot;tags&quot;: &quot;$:/tags/Stylesheet&quot;,
             &quot;text&quot;: &quot;\\rules only filteredtranscludeinline transcludeinline macrodef macrocallinline macrocallblock\n&quot;
+        }
+    }
+}</pre>
+</div>
+<div author="Mat von TWaddle" created="20170123001652994" creator="Mat" description="SideEditor - a live editor next to your tiddler" list="readme" modified="20200402003424567" modifier="Mat" plugin-type="plugin" title="$:/plugins/TWaddle/SideEditor" type="application/json" version="1.0.7" revision="0" bag="default">
+<pre>{
+    &quot;tiddlers&quot;: {
+        &quot;$:/plugins/TWaddle/SideEditor/Stylesheet&quot;: {
+            &quot;created&quot;: &quot;20160514162106379&quot;,
+            &quot;creator&quot;: &quot;Mat&quot;,
+            &quot;text&quot;: &quot;&lt;pre&gt;\n#outerLimit  {\n   position:fixed; z-index:2001;\n   top:calc({{$:/plugins/TWaddle/SideEditor/Metrics!!top}}vh + 30px); \n   right:0px; bottom:0; overflow:hidden;\n   width:{{$:/plugins/TWaddle/SideEditor/Metrics!!left}}vw;\n   padding-left:20px; /* prevent mistakenly hovering sidebar */\n   -webkit-transition: background-color .5s linear;\n   -moz-transition: background-color .5s linear;\n   -o-transition: background-color .5s linear;\n   transition: background-color .5s linear;\n   background-color: transparent;\n}\n/* gray area to indicate where SE blocks clicking */   \n#outerLimit:hover {   background: rgba(244,244,244,.5);\n}\n/* area to right of sidebarlists belonging to SE  */\n#outerLimit:before {\n   opacity:0;\n   display:block; content: ' ';\n   position:fixed; top:0; right:0; \n   left:calc({{$:/themes/tiddlywiki/vanilla/metrics/storyright}} + &lt;&lt;tc-sidebar-lists-width&gt;&gt; - 10px);\n   height:calc({{$:/plugins/TWaddle/SideEditor/Metrics!!top}}vh + 30px);\n}\n/* Flip zone along sidebarlists right side to flip focus back to SE */\n#flipVertical { \n   position:fixed; z-index:3001;\n   top:calc({{$:/plugins/TWaddle/SideEditor/Metrics!!top}}vh + 30px); \n   left:calc({{$:/themes/tiddlywiki/vanilla/metrics/storyright}} + &lt;&lt;tc-sidebar-lists-width&gt;&gt;);\n   bottom: 0;\n   width: 20px;\n   transition: background-color 0.5s ease; /* used for hover to indicate it blocks typing*/\n   -webkit-transition: background-color 500ms ease .5s;\n   -moz-transition: background-color 500ms ease .5s;\n   -o-transition: background-color 500ms ease .5s;\n   transition: background-color 500ms ease .5s;\n   background-color: transparent; opacity:1;\n}\n#flipVertical:hover {border:1px solid lightgray; background:lightgray; opacity:.5;}\n#flipVertical:hover ~ #outerLimit {background: rgba(244,244,244,.5); }\n\n/* Zone along top edge of SE to flip focus back to SE */\n#flipHorizontal {\n   position:fixed; z-index:3001;\n   bottom:calc(100vh - {{$:/plugins/TWaddle/SideEditor/Metrics!!top}}vh - 30px); \n   left:calc({{$:/themes/tiddlywiki/vanilla/metrics/storyright}} + &lt;&lt;tc-sidebar-lists-width&gt;&gt; - 10px);\n   right:0;\n   height:20px;\n}\n#flipHorizontal:hover ~ #outerLimit {background: rgba(244,244,244,.5); }\n\n#btnAndTitle svg {\n   width:2em; height:1.2em; margin-top:-4px; \n   fill:lightgray; background:white; padding:2px 5px;\n}\n#btnAndTitle a {\n   height:1.1em; background:white;\n   padding: 2px 15px; margin-left:-8px;\n}\n.sideeditor {\n   resize:horizontal; overflow-y:auto;\n   width:calc(100vw  - 42px -\n     {{$:/themes/tiddlywiki/vanilla/metrics/storyright}}); \n   max-width:calc({{$:/plugins/TWaddle/SideEditor/Metrics!!left}}vw - 40px);\n   min-width:calc({{$:/plugins/TWaddle/SideEditor/Metrics!!left}}vw - 40px); /* Edge needs this for smaller screens */\n   max-height:calc(-70px + 100vh - \n     {{$:/plugins/TWaddle/SideEditor/Metrics!!top}}vmin); \n   border:1px solid gray; padding-left:5px; \n}\n#se-slider-top {\n   position:fixed; z-index:4000; top:53vmin; \n   transform:rotate(90deg); width:100vmin; right:-49vmin;\n}\n#se-slider-left {\n   position:fixed; z-index:4000; bottom:0vmin;\n   transform:rotate(180deg); width:100%; /* MS can't handle vmax here */\n}\n\n/************************ Range Slider styling ***********************/\n/*** CRED: https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/ ***/\n\n/** Applying base styles *******************/\n\n.se-sliders input[type=range] { -webkit-appearance: none; width: 100%; /* for Firefox. */ }\n.se-sliders input[type=range]::-webkit-slider-thumb {  -webkit-appearance: none; }\n.se-sliders input[type=range]:focus { outline: none; }\n\n/** Styling the Thumb ***********************/\n\n/* Special styling for WebKit/Blink */\n.se-sliders input[type=range]::-webkit-slider-thumb {\n  -webkit-appearance: none;\n  box-shadow: inset 4px 0px 0px silver, 0px 0px 0px #000000;\n  border: 0px;  border-radius: 0px;\n  height: 20px; width: 6px;\n  background: transparent;\n  cursor: pointer;\n  margin-top: 14px; /* \&quot;moves\&quot; thumb from track */\n}\n\n/* All the same stuff for Firefox */\n.se-sliders input[type=range]::-moz-range-thumb {\n  box-shadow: inset 4px 0px 0px gray, 0px 0px 0px #000000;\n  border: 0px;  border-radius: 0px;\n  height: 20px; width: 16px;\n  background: transparent;\n  cursor: pointer;\n}\n\n/* All the same stuff for IE */\n.se-sliders input[type=range]::-ms-thumb {\n  box-shadow: inset 4px 0px 0px gray, 0px 0px 0px #000000;\n  border: 0px solid blue;  border-radius: 0px;\n  /* height: 20px; width: 16px; */ \n  background: transparent;\n  cursor: pointer;\n}\n\n/** Styling the Track *************************/\n\n.se-sliders input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 1px; margin-top:-10px; background-color:transparent;}\n.se-sliders input[type=range]::-moz-range-track { height: 0px; }\n.se-sliders input[type=range]::-ms-track{ height: 1px; margin-top:-10px; }\n\n&lt;/pre&gt;&quot;,
+            &quot;type&quot;: &quot;text/vnd.tiddlywiki&quot;,
+            &quot;top&quot;: &quot;17&quot;,
+            &quot;title&quot;: &quot;$:/plugins/TWaddle/SideEditor/Stylesheet&quot;,
+            &quot;tags&quot;: &quot;$:/tags/Stylesheet&quot;,
+            &quot;peek&quot;: &quot;1px&quot;,
+            &quot;modifier&quot;: &quot;Mat&quot;,
+            &quot;modified&quot;: &quot;20161228204100092&quot;,
+            &quot;left&quot;: &quot;46&quot;
+        },
+        &quot;$:/plugins/TWaddle/SideEditor/Metrics&quot;: {
+            &quot;created&quot;: &quot;20160514163926446&quot;,
+            &quot;creator&quot;: &quot;Mat&quot;,
+            &quot;text&quot;: &quot;&quot;,
+            &quot;top&quot;: &quot;10&quot;,
+            &quot;title&quot;: &quot;$:/plugins/TWaddle/SideEditor/Metrics&quot;,
+            &quot;tags&quot;: &quot;&quot;,
+            &quot;peek&quot;: &quot;0&quot;,
+            &quot;modifier&quot;: &quot;Mat&quot;,
+            &quot;modified&quot;: &quot;20161228202759548&quot;,
+            &quot;left&quot;: &quot;44&quot;
+        },
+        &quot;$:/plugins/TWaddle/SideEditor/Main&quot;: {
+            &quot;created&quot;: &quot;20160421132415018&quot;,
+            &quot;creator&quot;: &quot;Mat&quot;,
+            &quot;text&quot;: &quot;\\define tc-sidebar-header-padding() 14px\n\n\\define tc-sidebar-header-margin-top() {{$:/themes/tiddlywiki/vanilla/metrics/storytop}}\n\n\\define est-dist-above-sidebar-lists() 4.7cm\n\n\\define tc-sidebar-scrollable-padding-top() 71px\n\n\\define tc-sidebar-lists-width() 400px\n\n\\define se-slider(field)\n&lt;div id=\&quot;se-slider-$field$\&quot;&gt;\n   &lt;$edit-text  tag=\&quot;input\&quot; type=\&quot;range\&quot; field=\&quot;$field$\&quot;\n       tiddler=\&quot;$:/plugins/TWaddle/SideEditor/Metrics\&quot; /&gt;\n&lt;/div&gt;\n\\end\n\n\\define sideeditor(tid)\n&lt;div class=\&quot;se-sliders\&quot;&gt;&lt;&lt;se-slider \&quot;left\&quot;&gt;&gt;&lt;&lt;se-slider \&quot;top\&quot;&gt;&gt;&lt;/div&gt;\n&lt;div id=\&quot;flipVertical\&quot;&gt;&lt;/div&gt;&lt;div id=\&quot;flipHorizontal\&quot;&gt;&lt;/div&gt;\n&lt;div id=\&quot;outerLimit\&quot;&gt;\n   &lt;div id=\&quot;btnAndTitle\&quot;&gt;\n      {{$:/plugins/TWaddle/SideEditor/Button}}&lt;$link to=\&quot;\&quot;\&quot;$tid$\&quot;\&quot;\&quot;&gt;\n      &lt;$view tiddler=\&quot;\&quot;\&quot;$tid$\&quot;\&quot;\&quot; field=\&quot;title\&quot; format=\&quot;text\&quot;/&gt;&lt;/$link&gt;\n   &lt;/div&gt;\n   &lt;$edit-text tiddler=\&quot;\&quot;\&quot;$tid$\&quot;\&quot;\&quot; field=\&quot;text\&quot; \n           tag=\&quot;textarea\&quot; class=\&quot;sideeditor\&quot; /&gt;\n   &lt;$list filter=\&quot;[{$:/state/sideeditor}!prefix[no]]\&quot;&gt;\n      &lt;style&gt;\n      {{$:/plugins/TWaddle/SideEditor/StylesheetActive}}\n      &lt;/style&gt;\n   &lt;/$list&gt;\n&lt;/div&gt;\n\\end\n&quot;,
+            &quot;title&quot;: &quot;$:/plugins/TWaddle/SideEditor/Main&quot;,
+            &quot;tags&quot;: &quot;$:/tags/Macro&quot;,
+            &quot;summary&quot;: &quot;&quot;,
+            &quot;modifier&quot;: &quot;Mat&quot;,
+            &quot;modified&quot;: &quot;20161228204210457&quot;
+        },
+        &quot;$:/plugins/TWaddle/SideEditor/Button&quot;: {
+            &quot;created&quot;: &quot;20150601114223435&quot;,
+            &quot;creator&quot;: &quot;Mat&quot;,
+            &quot;text&quot;: &quot;&lt;$reveal state=\&quot;$:/state/sideeditor\&quot; type=\&quot;nomatch\&quot; text=\&quot;no\&quot; default=\&quot;no\&quot;&gt;\n&lt;$button set=\&quot;$:/state/sideeditor\&quot; setTo=\&quot;no\&quot; class=\&quot;tc-btn-invisible\&quot;&gt;{{$:/core/images/chevron-left}}&lt;/$button&gt;\n&lt;/$reveal&gt;\n&lt;$reveal state=\&quot;$:/state/sideeditor\&quot; type=\&quot;match\&quot; text=\&quot;no\&quot; default=\&quot;no\&quot;&gt;\n&lt;$button set=\&quot;$:/state/sideeditor\&quot; setTo=&lt;&lt;currentTiddler&gt;&gt;  class=\&quot;tc-btn-invisible\&quot;&gt;{{$:/core/images/chevron-right}}&lt;/$button&gt;\n&lt;/$reveal&gt;&quot;,
+            &quot;title&quot;: &quot;$:/plugins/TWaddle/SideEditor/Button&quot;,
+            &quot;tags&quot;: &quot;$:/tags/ViewToolbar&quot;,
+            &quot;modifier&quot;: &quot;Mat&quot;,
+            &quot;modified&quot;: &quot;20161228204204521&quot;,
+            &quot;description&quot;: &quot;toggle ~SideEditor - an editor floating next to the story river.&quot;,
+            &quot;caption&quot;: &quot;{{$:/core/images/chevron-right}} ~SideEditor&quot;
+        },
+        &quot;$:/plugins/TWaddle/SideEditor/Revealer&quot;: {
+            &quot;created&quot;: &quot;20150601115921432&quot;,
+            &quot;creator&quot;: &quot;Mat&quot;,
+            &quot;text&quot;: &quot;&lt;div&gt;\n\n&lt;$reveal state=\&quot;$:/state/sideeditor\&quot; type=\&quot;nomatch\&quot; text=\&quot;no\&quot; default=\&quot;no\&quot;&gt;\n\n&lt;$macrocall $name=\&quot;sideeditor\&quot; tid={{$:/state/sideeditor}}/&gt;\n\n&lt;/$reveal&gt;\n\n&lt;/div&gt;&quot;,
+            &quot;title&quot;: &quot;$:/plugins/TWaddle/SideEditor/Revealer&quot;,
+            &quot;tags&quot;: &quot;$:/tags/PageTemplate&quot;,
+            &quot;modifier&quot;: &quot;Mat&quot;,
+            &quot;modified&quot;: &quot;20161228204221610&quot;
+        },
+        &quot;$:/plugins/TWaddle/SideEditor/StylesheetActive&quot;: {
+            &quot;created&quot;: &quot;20160514142353426&quot;,
+            &quot;creator&quot;: &quot;Mat&quot;,
+            &quot;text&quot;: &quot; /*\n * In-macro styles, i.e called from within the SideEditor macro, when that is active\n * Do NOT tag it $:/tags/Stylesheet as that would make it permanently active\n * Do NOT enclose in pre\n */\n\n/* General info: Default nesting order for elements in TW sidebar is:\n *  scrollable &gt; header &gt; lists \n */\n\n/* Access SE immediately left of sidebar */\n.xtc-sidebar-scrollable {\n   margin-left:0; padding-left:0px;\n}\n.tc-sidebar-scrollable:hover {\n   z-index:3000;\n}\n/* sidebar area grayed out above and below to indicate it's blocking SE */\n.tc-sidebar-scrollable:hover:after,\n .tc-sidebar-scrollable:hover:before {\n    position: absolute;\n    z-index: -600; /* behind tc-sidebar-lists */\n    content: ' ';\n    background: &lt;&lt;colour page-background&gt;&gt;;\n    width: &lt;&lt;tc-sidebar-lists-width&gt;&gt;;\n    margin-left:-.7em;\n}\n.tc-sidebar-scrollable:hover:after {\n    border-right:1px solid lightgray;\n    opacity:.5;\n    bottom: 3vh;\n    height: calc(100% - &lt;&lt;tc-sidebar-scrollable-padding-top&gt;&gt; - 20px);\n}\n.tc-sidebar-scrollable:hover:before {\n    opacity:.7;\n    top: 0;\n    height: &lt;&lt;tc-sidebar-scrollable-padding-top&gt;&gt;;\n}\n\n.tc-sidebar-scrollable .tc-sidebar-header {\n   position:absolute;\n   max-height:calc(100vh - &lt;&lt;tc-sidebar-scrollable-padding--top&gt;&gt;);\n   top:&lt;&lt;tc-sidebar-scrollable-padding-top&gt;&gt;;\n   overflow:hidden;\n   padding:0px 0px 0 10px;\n   margin-left:-10px;\n}\n.tc-sidebar-scrollable:hover .tc-sidebar-header { \n   z-index:-500;\n   background:&lt;&lt;colour page-background&gt;&gt;;\n}\n.tc-sidebar-lists {\n    width:&lt;&lt;tc-sidebar-lists-width&gt;&gt;;\n    padding:10px; margin-left:-10px;\n    padding-top:7px; margin-top:-10px;\n    max-height:calc(100vh - &lt;&lt;tc-sidebar-header-margin-top&gt;&gt; - &lt;&lt;est-dist-above-sidebar-lists&gt;&gt;);\n    overflow:hidden;\n}\n.tc-sidebar-scrollable:hover .tc-sidebar-lists {\n    z-index:-500;\n    height:100%;\n    background:&lt;&lt;colour page-background&gt;&gt;;\n    border-bottom:2px solid silver;\n    padding-top:7px; margin-top:-10px;\n    overflow-y:auto;\n    border-right:10px solid &lt;&lt;colour page-background&gt;&gt;; /*prev. flip when scroll*/\n}\n\n/* Search popup slightly repositioned */\n.tc-block-dropdown.tc-search-drop-down {\n   margin-left: 0px;\n}&quot;,
+            &quot;type&quot;: &quot;text/vnd.tiddlywiki&quot;,
+            &quot;title&quot;: &quot;$:/plugins/TWaddle/SideEditor/StylesheetActive&quot;,
+            &quot;peek&quot;: &quot;1px&quot;,
+            &quot;modifier&quot;: &quot;Mat&quot;,
+            &quot;modified&quot;: &quot;20161228204234356&quot;
+        },
+        &quot;$:/plugins/TWaddle/SideEditor/icon&quot;: {
+            &quot;created&quot;: &quot;20160421222805854&quot;,
+            &quot;creator&quot;: &quot;Mat&quot;,
+            &quot;text&quot;: &quot;iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuNWWFMmUAAABISURBVDhP1ZAxDgAgCMR4Oj9H1EnDXRjOwSZl0oZg7h7MxJgrgJAFkjlqu4EKXYC5373eACENQDsBZuuITM0GiI8CzPvDadgAbYISbVw2M04AAAAASUVORK5CYII=&quot;,
+            &quot;type&quot;: &quot;image/png&quot;,
+            &quot;title&quot;: &quot;$:/plugins/TWaddle/SideEditor/icon&quot;,
+            &quot;modifier&quot;: &quot;Mat&quot;,
+            &quot;modified&quot;: &quot;20161228204243025&quot;
+        },
+        &quot;$:/plugins/TWaddle/SideEditor/readme&quot;: {
+            &quot;created&quot;: &quot;20150807204704723&quot;,
+            &quot;creator&quot;: &quot;Mat&quot;,
+            &quot;text&quot;: &quot;''~SideEditor'' is a plugin that floats a tiddlers editor by the story river side.\n\nThe purpose is a ''\&quot;live\&quot; view of the effects from your editing'' and to be able to scroll and reference stuff from other tiddlers while you edit. It is intended for full size screens.\n\n''Usage''\n\n*''Toggle'' it via the tiddler tool button &lt;span class=\&quot;mybutton\&quot;&gt;{{$:/core/images/chevron-right}}&lt;/span&gt;\n*''Move'' the ~SideEditor via the two gray handles.\n*''Re-size'' width via the lower right corner. Height is automatic from typing.\n*''Flipping'' between //Sidebar// and //~SideEditor// uses CSS hovering.\n\n''For updates'', see http://sideeditor.tiddlyspot.com/\n\n&lt;br&gt;''Mat &lt;:-) von'' [[TWaddle|http://twaddle.tiddlyspot.com/]]&quot;,
+            &quot;title&quot;: &quot;$:/plugins/TWaddle/SideEditor/readme&quot;,
+            &quot;modifier&quot;: &quot;Mat&quot;,
+            &quot;modified&quot;: &quot;20161228204251696&quot;
         }
     }
 }</pre>
