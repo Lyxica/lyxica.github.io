@@ -179,9 +179,23 @@ Error message and password prompt
 
 <li>$:/core</li>
 
+<li>$:/core/macros/diff</li>
+
 <li>$:/courses</li>
 
 <li>$:/DefaultTiddlers</li>
+
+<li>$:/editions/tw5.com/doc-macros</li>
+
+<li>$:/editions/tw5.com/operator-macros</li>
+
+<li>$:/editions/tw5.com/style-guide-macros</li>
+
+<li>$:/editions/tw5.com/variable-macros</li>
+
+<li>$:/editions/tw5.com/version-macros</li>
+
+<li>$:/editions/tw5.com/wikitext-macros</li>
 
 <li>$:/GitHub/Filename</li>
 
@@ -198,8 +212,6 @@ Error message and password prompt
 <li>$:/isEncrypted</li>
 
 <li>$:/language/DefaultNewTiddlerTitle</li>
-
-<li>$:/macros/banners</li>
 
 <li>$:/macros/file</li>
 
@@ -9538,6 +9550,42 @@ Error message and password prompt
     }
 }</pre>
 </div>
+<div created="20200402005303094" modified="20200402005303094" tags="$:/tags/Macro" title="$:/core/macros/diff" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>\define compareTiddlerText(sourceTiddlerTitle,sourceSubTiddlerTitle,destTiddlerTitle,destSubTiddlerTitle)
+&lt;$set name=&quot;source&quot; tiddler=&lt;&lt;__sourceTiddlerTitle__&gt;&gt; subtiddler=&lt;&lt;__sourceSubTiddlerTitle__&gt;&gt;&gt;
+&lt;$set name=&quot;dest&quot; tiddler=&lt;&lt;__destTiddlerTitle__&gt;&gt; subtiddler=&lt;&lt;__destSubTiddlerTitle__&gt;&gt;&gt;
+&lt;$diff-text source=&lt;&lt;source&gt;&gt; dest=&lt;&lt;dest&gt;&gt;/&gt;
+&lt;/$set&gt;
+&lt;/$set&gt;
+\end
+
+\define compareTiddlers(sourceTiddlerTitle,sourceSubTiddlerTitle,destTiddlerTitle,destSubTiddlerTitle,exclude)
+&lt;table class=&quot;tc-diff-tiddlers&quot;&gt;
+&lt;tbody&gt;
+&lt;$set name=&quot;sourceFields&quot; filter=&quot;[&lt;__sourceTiddlerTitle__&gt;fields[]sort[]]&quot;&gt;
+&lt;$set name=&quot;destFields&quot; filter=&quot;[&lt;__destSubTiddlerTitle__&gt;subtiddlerfields&lt;__destTiddlerTitle__&gt;sort[]]&quot;&gt;
+&lt;$list filter=&quot;[enlist&lt;sourceFields&gt;] [enlist&lt;destFields&gt;] -[enlist&lt;__exclude__&gt;] +[sort[]]&quot; variable=&quot;fieldName&quot;&gt;
+&lt;tr&gt;
+&lt;th&gt;
+&lt;$text text=&lt;&lt;fieldName&gt;&gt;/&gt; 
+&lt;/th&gt;
+&lt;td&gt;
+&lt;$set name=&quot;source&quot; tiddler=&lt;&lt;__sourceTiddlerTitle__&gt;&gt; subtiddler=&lt;&lt;__sourceSubTiddlerTitle__&gt;&gt; field=&lt;&lt;fieldName&gt;&gt;&gt;
+&lt;$set name=&quot;dest&quot; tiddler=&lt;&lt;__destTiddlerTitle__&gt;&gt; subtiddler=&lt;&lt;__destSubTiddlerTitle__&gt;&gt; field=&lt;&lt;fieldName&gt;&gt;&gt;
+&lt;$diff-text source=&lt;&lt;source&gt;&gt; dest=&lt;&lt;dest&gt;&gt;&gt;
+&lt;/$diff-text&gt;
+&lt;/$set&gt;
+&lt;/$set&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/$list&gt;
+&lt;/$set&gt;
+&lt;/$set&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+\end
+</pre>
+</div>
 <div created="20200401190922956" modified="20200401194358104" tags="" title="$:/courses" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>* cryptography
 * graph theory
@@ -9548,31 +9596,7 @@ Error message and password prompt
 <div created="20200325212435987" modified="20200328231600681" tags="" title="$:/DefaultTiddlers" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>[[Main]]</pre>
 </div>
-<div created="20200328190726611" modified="20200328202416937" title="$:/GitHub/Filename" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre></pre>
-</div>
-<div created="20200328190725962" modified="20200328190725427" title="$:/GitHub/Path" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>/</pre>
-</div>
-<div created="20200328190629269" modified="20200328202415299" title="$:/GitHub/Repo" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre></pre>
-</div>
-<div created="20200328190514139" modified="20200328202414105" title="$:/GitHub/Username" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre></pre>
-</div>
-<div created="20200325210652297" modified="20200326023954326" title="$:/Import!!popup-image.png" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>no</pre>
-</div>
-<div created="20200326021458381" modified="20200326021458842" title="$:/Import!!popup-Untitled" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre>yes</pre>
-</div>
-<div title="$:/isEncrypted" revision="0" bag="default">
-<pre>no</pre>
-</div>
-<div created="20200329195856057" modified="20200329195855801" title="$:/language/DefaultNewTiddlerTitle" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre></pre>
-</div>
-<div created="20200402004559500" modified="20200402004959536" tags="$:/tags/Macro" title="$:/macros/banners" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20150117152607000" modified="20200402005239431" tags="$:/tags/Macro" title="$:/editions/tw5.com/doc-macros" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>\define .concat(1,2,3,4,5) $1$$2$$3$$4$$5$
 
 \define .def(_) &lt;dfn class=&quot;doc-def&quot;&gt;$_$&lt;/dfn&gt;
@@ -9681,6 +9705,163 @@ This is an example tiddler. See [[Table-of-Contents Macros (Examples)]].
 \end
 
 &lt;pre&gt;&lt;$view field=&quot;text&quot;/&gt;&lt;/pre&gt;</pre>
+</div>
+<div created="20150117152607000" modified="20200402005242863" tags="$:/tags/Macro" title="$:/editions/tw5.com/operator-macros" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>\define .operator-examples(op,text:&quot;Examples&quot;) &lt;$link to=&quot;$op$ Operator (Examples)&quot;&gt;$text$&lt;/$link&gt;
+
+\define .operator-example(n,eg,ie)
+&lt;div class=&quot;doc-example&quot;&gt;
+`$eg$`
+&lt;$macrocall $name=&quot;.if&quot; cond=&quot;&quot;&quot;$ie$&quot;&quot;&quot; then=&quot;&quot;&quot;&lt;dd&gt;&amp;rarr; $ie$&lt;/dd&gt;&quot;&quot;&quot;/&gt;
+&lt;$list filter=&quot;[title&lt;.state-prefix&gt;addsuffix{!!title}addsuffix[/]addsuffix[$n$]]&quot; variable=&quot;.state&quot;&gt;
+&lt;$reveal state=&lt;&lt;.state&gt;&gt; type=&quot;nomatch&quot; text=&quot;show&quot;&gt;
+	&lt;dl&gt;
+	&lt;dd&gt;&lt;$button set=&lt;&lt;.state&gt;&gt; setTo=&quot;show&quot;&gt;Try it&lt;/$button&gt;&lt;/dd&gt;
+	&lt;/dl&gt;
+&lt;/$reveal&gt;
+&lt;$reveal state=&lt;&lt;.state&gt;&gt; type=&quot;match&quot; text=&quot;show&quot;&gt;
+	&lt;dl&gt;
+	&lt;dd&gt;&lt;$button set=&lt;&lt;.state&gt;&gt; setTo=&quot;&quot;&gt;Hide&lt;/$button&gt;&lt;/dd&gt;
+	&lt;/dl&gt;
+	&lt;blockquote class=&quot;doc-example-result&quot;&gt;
+	&lt;ul&gt;&lt;$list filter=&quot;&quot;&quot;$eg$&quot;&quot;&quot; emptyMessage=&quot;(empty)&quot;&gt;
+	&lt;li&gt;&lt;$link&gt;&lt;$view field=&quot;title&quot;/&gt;&lt;/$link&gt;&lt;/li&gt;
+	&lt;/$list&gt;&lt;/ul&gt;
+	&lt;/blockquote&gt;
+&lt;/$reveal&gt;
+&lt;/$list&gt;
+\end
+
+\define .inline-operator-example(eg)
+&lt;code&gt;&lt;$text text=&lt;&lt;__eg__&gt;&gt;/&gt;&lt;/code&gt; evaluates to &lt;$list filter=&lt;&lt;__eg__&gt;&gt; emptyMessage=&quot;(empty)&quot;&gt; &lt;code&gt;&lt;$text text=&lt;&lt;currentTiddler&gt;&gt;/&gt;&lt;/code&gt; &lt;/$list&gt;
+\end
+
+\define .this-is-operator-example() This example tiddler is used to illustrate some of the [[Filter Operators]].
+\define .using-days-of-week() These examples make use of the [[Days of the Week]] tiddler.
+\define .s-matching-is-case-sensitive() In looking for matches for &lt;&lt;.place S&gt;&gt;, capital and lowercase letters are treated as different.
+
+\define .node-only-operator()
+
+&lt;$macrocall $name=&quot;.note&quot; _=&quot;This operator is &lt;&lt;.em not&gt;&gt; available when ~TiddlyWiki is running in a web browser.&quot;/&gt;
+
+\end
+</pre>
+</div>
+<div created="20200402005246269" modified="20200402005246269" tags="$:/tags/Macro" title="$:/editions/tw5.com/style-guide-macros" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>\define style-guide(good,bad)
+&lt;table&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;th&gt;Good&lt;/th&gt;
+&lt;td&gt;``$good$``&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;th&gt;Bad&lt;/th&gt;
+&lt;td&gt;``$bad$``&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+\end
+</pre>
+</div>
+<div created="20150228114241000" modified="20200402005249330" tags="$:/tags/Macro" title="$:/editions/tw5.com/variable-macros" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>\define .variable-examples(v,text:&quot;Examples&quot;) &lt;$link to=&quot;$v$ Variable (Examples)&quot;&gt;$text$&lt;/$link&gt;
+\define .macro-examples(m,text:&quot;Examples&quot;) &lt;$link to=&quot;$m$ Macro (Examples)&quot;&gt;$text$&lt;/$link&gt;
+\define .widget-examples(w,text:&quot;Examples&quot;) &lt;$link to=&quot;$w$ Widget (Examples)&quot;&gt;$text$&lt;/$link&gt;
+
+\define .js-macro-link(_) [[$_$|https://tiddlywiki.com/dev/index.html#JavaScript%20Macros]]
+
+\define .this-is-static-link-variable() &lt;&lt;.tip &quot;This variable has no useful effect when ~TiddlyWiki is running in a browser, as the `href` attribute is ignored there -- links between tiddlers are performed by JavaScript instead. The variable comes into play when one is using the [[Node.js configuration|TiddlyWiki on Node.js]] to [[generate a static version|RenderTiddlersCommand]] of a wiki.&quot;&gt;&gt;
+
+\define .this-is-toolbar-config-variable(configTiddler)
+
+It can be set to &lt;&lt;.value yes&gt;&gt; or &lt;&lt;.value no&gt;&gt; prior to transcluding such a button.
+
+The standard page template sets it to the value found in [[$configTiddler$]], with the result that this becomes the default for the whole page. The user can adjust this default by using a tickbox on the &lt;&lt;.controlpanel-tab Settings&gt;&gt; tab of the [[Control Panel|$:/ControlPanel]].
+\end
+</pre>
+</div>
+<div created="20161008085627406" modified="20200402005253314" tags="$:/tags/Macro" title="$:/editions/tw5.com/version-macros" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>\define .from-version(version)
+&lt;span class=&quot;doc-from-version&quot;&gt;{{$:/core/images/warning}} New in: $version$&lt;/span&gt;
+\end
+
+\define .deprecated-since(version, superseeded:&quot;TODO-Link&quot;)
+&lt;$button to=&quot;Deprecated - What does it mean&quot; class=&quot;doc-deprecated-version tc-btn-invisible&quot;&gt;{{$:/core/images/warning}} Deprecated since: $version$ &lt;/$button&gt; use [[$superseeded$]] instead!
+\end
+
+&lt;pre&gt;&lt;$view field=&quot;text&quot;/&gt;&lt;/pre&gt;</pre>
+</div>
+<div created="20150117184156000" modified="20200402005257616" tags="$:/tags/Macro" title="$:/editions/tw5.com/wikitext-macros" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>\define wikitext-example(src)
+&lt;div class=&quot;doc-example&quot;&gt;
+
+&lt;$macrocall $name=&quot;copy-to-clipboard-above-right&quot; src=&lt;&lt;__src__&gt;&gt;/&gt;
+
+```
+$src$
+```
+
+That renders as:
+
+$src$
+
+... and the underlying HTML is:
+
+$$$text/vnd.tiddlywiki&gt;text/html
+$src$
+$$$
+&lt;/div&gt;
+\end
+
+\define wikitext-example-without-html(src)
+&lt;div class=&quot;doc-example&quot;&gt;
+
+&lt;$macrocall $name=&quot;copy-to-clipboard-above-right&quot; src=&lt;&lt;__src__&gt;&gt;/&gt;
+
+```
+$src$
+```
+
+That renders as:
+
+$src$
+&lt;/div&gt;
+\end
+
+\define tw-code(tiddler)
+&lt;$codeblock language={{$tiddler$!!type}} code={{$tiddler$}}/&gt;
+\end
+
+\define tw-code-link(tiddler)
+[[$tiddler$]]:
+
+&lt;&lt;tw-code $tiddler$&gt;&gt;
+\end</pre>
+</div>
+<div created="20200328190726611" modified="20200328202416937" title="$:/GitHub/Filename" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre></pre>
+</div>
+<div created="20200328190725962" modified="20200328190725427" title="$:/GitHub/Path" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>/</pre>
+</div>
+<div created="20200328190629269" modified="20200328202415299" title="$:/GitHub/Repo" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre></pre>
+</div>
+<div created="20200328190514139" modified="20200328202414105" title="$:/GitHub/Username" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre></pre>
+</div>
+<div created="20200325210652297" modified="20200326023954326" title="$:/Import!!popup-image.png" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>no</pre>
+</div>
+<div created="20200326021458381" modified="20200326021458842" title="$:/Import!!popup-Untitled" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>yes</pre>
+</div>
+<div title="$:/isEncrypted" revision="0" bag="default">
+<pre>no</pre>
+</div>
+<div created="20200329195856057" modified="20200329195855801" title="$:/language/DefaultNewTiddlerTitle" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre></pre>
 </div>
 <div created="20200329013229706" modified="20200329013655533" tags="$:/tags/Macro" title="$:/macros/file" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>\define file(text, fn)
@@ -10060,7 +10241,7 @@ This is an example tiddler. See [[Table-of-Contents Macros (Examples)]].
 * Tone 4 - highest to lowest, authorative/assertive https://courses.mandarinblueprint.com/products/pronunciation-mastery/categories/598996/posts/1941094
 * Tone 5 - Contrary of 1 or 3 https://courses.mandarinblueprint.com/products/pronunciation-mastery/categories/598996/posts/1941095</pre>
 </div>
-<div created="20200401225503318" modified="20200402004841701" tags="" title="cpwst:bigger_intro" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200401225503318" modified="20200402005334689" tags="" title="cpwst:bigger_intro" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>blah blah thousands of lines 
 
 hundreds of dll files
