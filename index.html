@@ -257,6 +257,8 @@ Error message and password prompt
 
 <li>cpwst:intro</li>
 
+<li>cpwst:intro_seq</li>
+
 <li>CreateProcessWStubTimeline</li>
 
 <li>cwpst:dump:gyz</li>
@@ -10180,12 +10182,15 @@ Notes for tomorrow:
 
 &lt;&lt;ximg &quot;img note deleteme.png&quot;&gt;&gt;</pre>
 </div>
-<div created="20200330182306818" modified="20200402014901520" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_worker_spawner" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200330182306818" modified="20200402020333384" tags="CreateProcessWStubTimeline" title="cpwst:finding_the_worker_spawner" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>!! Finding the worker's spawner
 
 Because the call stack for shcore!_WrapperThreadProc starts ON shcore!_WrapperThreadProc[0], I know that I have to search for a worker spawner. A &quot;worker&quot; is a thread that is created to handle a specific job. Think of a dispatcher sending a taxi to a location. The dispatcher &quot;spawns&quot; a taxi and sends it to go pick someone up. To find where the worker thread was spawned I'll place a breakpoint on kernel32!CreateThreadStub. This function is very noisy, it tends to be called 10+ times a second, so to reduce the SNR I'll place a conditional breakpoint that will only cause the debugger to take control when kernel32!CreateThreadStub is called with a pointer to shcore!_WrapperThreadProc. This significantly reduces the SNR (although a few irrelevant entries still pop up) and I'm able to grab the following call stack:
 
+&lt;$details summary=&quot;Callstack&quot;&gt;
+
 {{cwpst:dump:gyz}}
+&lt;/$details&gt;
 
 Once again, shcore!_WrapperThreadProc shows itself as the originator of this thread -- this raises some important questions:
 
@@ -10198,6 +10203,7 @@ To answer this question I'll perform a quick experiment: If I resume the VM will
 
 A quick query to WinDBG for information about the thread hints towards the later:
 
+&lt;$details summary=&quot;Thread info&quot;&gt;
 
 ```
 3: kd&gt; !thread
@@ -10211,10 +10217,10 @@ Context Switch Count      107683         IdealProcessor: 0
 UserTime                  00:00:02.406
 KernelTime                00:00:05.171
 ```
-
+&lt;/$details&gt;
 Based on the context switch count and the elapsed user/kernel time, it appears that this thread is not being spun up just to answer the call of launching the program. Testing this theory, I resume the VM and wait one minute before breaking in. Querying WinDBG for information about the thread, I find the thread still exists and it's sitting in a WAIT state:
 
-&lt;$details summary=&quot;Callstack&quot; open=&quot;yes&quot;&gt;
+&lt;$details summary=&quot;Callstack&quot;&gt;
 
 {{cwpst:dump:gyzf}}
 &lt;/$details&gt;
@@ -10254,7 +10260,7 @@ To begin, I already know one of the first hidden steps in the sequence of events
 I'll start the discovery process by examining CreateProcess and tracing backwards.
 </pre>
 </div>
-<div created="20200326011300237" creator="Lyxica" modified="20200401225456952" modifier="Lyxica" tags="CreateProcessWStubTimeline" title="CreateProcessWStubTimeline" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200402020116370" modified="20200402020116841" tags="" title="cpwst:intro_seq" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>{{cpwst:intro}}
 
 ---
@@ -10265,7 +10271,10 @@ I'll start the discovery process by examining CreateProcess and tracing backward
 
 {{cpwst:environmental_description}}
 
----
+---</pre>
+</div>
+<div created="20200326011300237" creator="Lyxica" modified="20200402020121217" modifier="Lyxica" tags="CreateProcessWStubTimeline" title="CreateProcessWStubTimeline" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>[[cpwst:intro_seq]]
 
 {{cpwst:finding_the_origin}}
 
