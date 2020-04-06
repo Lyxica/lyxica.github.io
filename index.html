@@ -151,6 +151,8 @@ Error message and password prompt
 
 <li>$:/config/Navigation/UpdateAddressBar</li>
 
+<li>$:/config/NewJournal/Tags</li>
+
 <li>$:/config/PageControlButtons/Visibility/$:/core/ui/Buttons/home</li>
 
 <li>$:/config/PageControlButtons/Visibility/$:/core/ui/Buttons/import</li>
@@ -210,6 +212,8 @@ Error message and password prompt
 <li>$:/macros/pdf</li>
 
 <li>$:/macros/ximg</li>
+
+<li>$:/notes/postmessagew_4ca</li>
 
 <li>$:/palette</li>
 
@@ -281,8 +285,6 @@ Error message and password prompt
 
 <li>cwpst:dump:gyzf</li>
 
-<li>Draft of ' 1'</li>
-
 <li>Draft of ''</li>
 
 <li>explorer data</li>
@@ -325,6 +327,9 @@ Error message and password prompt
 </div>
 <div created="20200326221125197" modified="20200326221123864" title="$:/config/Navigation/UpdateAddressBar" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>permaview</pre>
+</div>
+<div created="20200406012026488" modified="20200406012030619" title="$:/config/NewJournal/Tags" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>$:/notes/a</pre>
 </div>
 <div created="20200329020325122" modified="20200329020326172" title="$:/config/PageControlButtons/Visibility/$:/core/ui/Buttons/home" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>show</pre>
@@ -9619,6 +9624,72 @@ Error message and password prompt
     &lt;/a&gt;
 \end</pre>
 </div>
+<div created="20200406011957769" modified="20200406012114541" tags="$:/notes" title="$:/notes/postmessagew_4ca" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<pre>
+```
+1: kd&gt; g
+rax=00000000001e092c rbx=0000000000000000 rcx=00000000001e092c
+rdx=00000000000004ca rsi=00000000426be080 rdi=000000001a74e8c8
+rip=00007ffc89d33650 rsp=000000001a74e788 rbp=0000000000000003
+ r8=0000000000000000  r9=0000000000000000 r10=00000fff8e5b9c8c
+r11=0044401000011044 r12=0000000000040000 r13=000000003294a5c8
+r14=0000000019161ac0 r15=0000000000000000
+iopl=0         nv up ei pl nz na pe nc
+cs=0033  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00000202
+USER32!PostMessageW:
+0033:00007ffc`89d33650 48895c2410      mov     qword ptr [rsp+10h],rbx ss:002b:00000000`1a74e798=000000001a74ec50
+1: kd&gt; k
+ # Child-SP          RetAddr           Call Site
+00 00000000`1a74e788 00007ffc`72eb520b USER32!PostMessageW
+01 00000000`1a74e790 00007ffc`72eb4f0a explorerframe!CItemActionsManager::_ItemActivate+0x97 = PostMessageW(uVar1,0x4ca,param_1,0);
+02 00000000`1a74e7c0 00007ffc`72e82f37 explorerframe!CItemActionsManager::HandleInputEvent+0x1ca
+03 00000000`1a74e7f0 00007ffc`5ed97a9e explorerframe!UIItemsView::OnInput+0x377
+04 00000000`1a74e860 00007ffc`6024daad DUI70!DirectUI::Element::_DisplayNodeCallback+0x4de
+05 00000000`1a74ebf0 00007ffc`6024d9c8 DUser!GPCB::xwInvokeBubble+0x59
+06 00000000`1a74ec20 00007ffc`60246d56 DUser!GPCB::xwInvokeFull+0x1c8
+07 00000000`1a74ed00 00007ffc`602476f6 DUser!BaseMsgQ::xwProcessNL+0xa6
+08 00000000`1a74ed80 00007ffc`6024860d DUser!DeferredMsgQueueLock::~DeferredMsgQueueLock+0xb6
+09 00000000`1a74edb0 00007ffc`60248123 DUser!HWndContainer::xdHandleMessage+0x49d
+0a 00000000`1a74eef0 00007ffc`89d2681d DUser!ExtraInfoWndProc+0x73
+0b 00000000`1a74ef40 00007ffc`89d264ee USER32!UserCallWinProcCheckWow+0x2bd
+0c 00000000`1a74f0d0 00007ffc`77bcafe9 USER32!CallWindowProcW+0x8e
+0d 00000000`1a74f120 00007ffc`77bcaf37 comctl32!CallNextSubclassProc+0x89
+0e 00000000`1a74f190 00007ffc`72d847f7 comctl32!DefSubclassProc+0x77
+0f 00000000`1a74f1e0 00007ffc`72d84766 explorerframe!UIItemsView::_UIItemsViewSubclassProc+0x77
+10 00000000`1a74f2c0 00007ffc`77bcafe9 explorerframe!UIItemsView::s_UIItemsViewSubclassProc+0x26
+11 00000000`1a74f300 00007ffc`77bcaf37 comctl32!CallNextSubclassProc+0x89
+12 00000000`1a74f370 00007ffc`72d84a6b comctl32!DefSubclassProc+0x77
+13 00000000`1a74f3c0 00007ffc`72d849e6 explorerframe!CToolTipManager::_PropertyToolTipSubclassProc+0x6b
+14 00000000`1a74f410 00007ffc`77bcafe9 explorerframe!CToolTipManager::s_PropertyToolTipSubclassProc+0x26
+15 00000000`1a74f450 00007ffc`77bcacf8 comctl32!CallNextSubclassProc+0x89
+16 00000000`1a74f4c0 00007ffc`77bcafe9 comctl32!TTSubclassProc+0xb8
+17 00000000`1a74f570 00007ffc`77bcae12 comctl32!CallNextSubclassProc+0x89
+18 00000000`1a74f5e0 00007ffc`89d2681d comctl32!MasterSubclassProc+0xa2
+19 00000000`1a74f680 00007ffc`89d26212 USER32!UserCallWinProcCheckWow+0x2bd
+1a 00000000`1a74f810 00007ffc`72e83e3d USER32!DispatchMessageWorker+0x1e2
+1b 00000000`1a74f890 00007ffc`72de95f8 explorerframe!UIItemsView::TranslateAcceleratorIO+0x371
+1c 00000000`1a74f910 00007ffc`8a03479e explorerframe!CItemsView::TranslateAcceleratorIO+0x248c8
+1d 00000000`1a74f940 00007ffc`896440b7 shlwapi!IUnknown_TranslateAcceleratorIO+0x4e
+1e 00000000`1a74f980 00007ffc`72e6684f SHELL32!CDefView::TranslateAcceleratorW+0x97
+1f 00000000`1a74f9b0 00007ffc`72e66699 explorerframe!CShellBrowser::_MayTranslateAcceleratorNoMenuband+0x11b
+20 00000000`1a74f9e0 00007ffc`72e18fdd explorerframe!CShellBrowser::_MayTranslateAccelerator+0xdd
+21 00000000`1a74fa10 00007ffc`72e2e9e3 explorerframe!CBrowserHost::TranslateAcceleratorIO+0x1d
+22 00000000`1a74fa40 00007ffc`72e274e3 explorerframe!CInputObjectContainer::TranslateAcceleratorIO+0x63
+23 00000000`1a74fa70 00007ffc`72ded62a explorerframe!CExplorerFrame::TranslateAcceleratorIO+0x33
+24 00000000`1a74faa0 00007ffc`72d64ba9 explorerframe!CExplorerFrame::FrameMessagePump+0x88a6a
+25 00000000`1a74fb20 00007ffc`72d64262 explorerframe!BrowserThreadProc+0x85
+26 00000000`1a74fba0 00007ffc`72d64212 explorerframe!BrowserNewThreadProc+0x3a
+27 00000000`1a74fbd0 00007ffc`72d86362 explorerframe!CExplorerTask::InternalResumeRT+0x12
+28 00000000`1a74fc00 00007ffc`885399a4 explorerframe!CRunnableTask::Run+0xb2
+29 00000000`1a74fc40 00007ffc`885395e5 windows_storage!CShellTask::TT_Run+0x3c
+2a 00000000`1a74fc70 00007ffc`885394c5 windows_storage!CShellTaskThread::ThreadProc+0xdd
+2b 00000000`1a74fd20 00007ffc`8a59dce5 windows_storage!CShellTaskThread::s_ThreadProc+0x35
+2c 00000000`1a74fd50 00007ffc`89567bd4 shcore!_WrapperThreadProc+0xf5
+2d 00000000`1a74fe30 00007ffc`8b38ce71 KERNEL32!BaseThreadInitThunk+0x14
+2e 00000000`1a74fe60 00000000`00000000 ntdll!RtlUserThreadStart+0x21
+```
+</pre>
+</div>
 <div created="20200329020242235" creator="Lyxica" modified="20200329020312545" modifier="Lyxica" title="$:/palette" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>$:/palettes/Vanilla</pre>
 </div>
@@ -10138,7 +10209,7 @@ body .tc-tiddler-view-frame .tc-tiddler-controls {
 <div created="20160514163926446" creator="Mat" left="44" modified="20200402023703283" modifier="Mat" peek="0" tags="" title="$:/plugins/TWaddle/SideEditor/Metrics" top="4" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre></pre>
 </div>
-<div created="20200329015500387" modified="20200403040804256" title="$:/SiteSubtitle" type="text/vnd.tiddlywiki" revision="0" bag="default">
+<div created="20200329015500387" modified="20200406012044352" title="$:/SiteSubtitle" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>hello@lyxi.ca</pre>
 </div>
 <div created="20200329015513407" creator="Lyxica" modified="20200329015530860" modifier="Lyxica" title="$:/SiteTitle" type="text/vnd.tiddlywiki" revision="0" bag="default">
@@ -10919,9 +10990,6 @@ shcore!_WrapperThreadProc+0xf5
 KERNEL32!BaseThreadInitThunk+0x14
 ntdll!RtlUserThreadStart+0x21
 ```</pre>
-</div>
-<div created="20200406011957769" draft.of=" 1" draft.title=" 1" modified="20200406011958190" tags="" title="Draft of ' 1'" type="text/vnd.tiddlywiki" revision="0" bag="default">
-<pre></pre>
 </div>
 <div created="20200401190922956" draft.of="" draft.title="$:/courses" modified="20200401191033075" tags="" title="Draft of ''" type="text/vnd.tiddlywiki" revision="0" bag="default">
 <pre>cryptography
